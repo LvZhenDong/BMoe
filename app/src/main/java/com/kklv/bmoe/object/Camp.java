@@ -2,7 +2,7 @@ package com.kklv.bmoe.object;
 
 /**
  * 代表一个阵营(即一部动画)
- * 包含了该阵营总参与人数、晋级人数、复活人数、淘汰人数
+ * 包含了该阵营总参与人数、晋级人数、复活人数、淘汰人数、存活数
  *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
@@ -16,6 +16,7 @@ public class Camp {
     private int total;
     private int suc;
     private int wait;
+    private int alive;
     private int fail;
 
     /**
@@ -74,5 +75,16 @@ public class Camp {
             fail = 0;
         }
         this.fail = fail;
+    }
+
+    public int getAlive() {
+        return alive;
+    }
+
+    public void setAlive(int alive) {
+        if (alive < 0) {
+            alive = 0;
+        }
+        this.alive = alive;
     }
 }

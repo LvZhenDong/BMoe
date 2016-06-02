@@ -15,18 +15,21 @@ public class HttpUrl {
     /**
      * 角色得票
      */
-    public static final String HTTP_ROLE = HTTP_HOME + "/role";
+    public static final String ROLE = HTTP_HOME + "/role";
     /**
      * 票仓
      */
-    public static final String HTTP_BALLOT = HTTP_HOME + "/ballot";
+    public static final String BALLOT = HTTP_HOME + "/ballot";
     /**
      * 排名
      */
-    public static final String HTTP_RANK = HTTP_HOME + "/rank";
+    public static final String RANK = HTTP_HOME + "/rank";
     /**
      * 动画
      */
-    public static final String HTTP_CAMP = HTTP_HOME + "/camp";
-
+    public static final String CAMP = HTTP_HOME + "/camp";
+    /**
+     * 所有阵营
+     */
+    public static final String ALL_CAMP = HTTP_HOME+"/camp";
 }
