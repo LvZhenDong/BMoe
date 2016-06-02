@@ -27,6 +27,15 @@ public class GsonRequest<T> extends Request<T> {
     private final Response.Listener<T> listener;
     private final Context context;
 
+    /**
+     *
+     * @param method
+     * @param url
+     * @param type 对于json对象传入(Type)(MyClass.class)，
+     *             对于json数组传入new TypeToken(ArrayList<MyClass>)(){}.getType()
+     * @param listener
+     * @param errorListener
+     */
     public GsonRequest(int method, String url, Type type,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
