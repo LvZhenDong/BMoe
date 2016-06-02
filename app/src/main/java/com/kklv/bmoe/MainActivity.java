@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
         DataHelper dataHelper=DataHelper.getInstance(this);
         dataHelper.getAllCamps();
         dataHelper.getCampRank("Fate/stay night [UBW]");
+        dataHelper.getRoleIntradayCount("Saber","16-01-03");
     }
 
 }

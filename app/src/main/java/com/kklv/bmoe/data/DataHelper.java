@@ -2,19 +2,18 @@ package com.kklv.bmoe.data;
 
 
 import android.content.Context;
-import android.service.voice.VoiceInteractionSession;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.reflect.TypeToken;
 import com.kklv.bmoe.constant.HttpUrl;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.RoleInfo;
+import com.kklv.bmoe.object.RoleIntradayCount;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -77,6 +76,31 @@ public class DataHelper {
             public void onResponse(ArrayList<RoleInfo> response) {
                 ArrayList<RoleInfo> list = response;
                 Log.i(TAG,"角色数量："+list.size());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG,error.getMessage(),error);
+            }
+        });
+        mRequestQueue.add(gsonRequest);
+    }
+
+    /**
+     * 获取角色当天票数
+     * @param name
+     * @param date
+     */
+    public void getRoleIntradayCount(String name,String date){
+        String url=HttpUrl.ROLE+"?name="+DataHelper.EncodeChinese(name)+"&date="+date;
+        GsonRequest gsonRequest=new GsonRequest<ArrayList<RoleIntradayCount>>(Request.Method.GET, url,
+                new TypeToken<ArrayList<RoleIntradayCount>>() {
+                }.getType(), new Response.Listener<ArrayList<RoleIntradayCount>>() {
+            @Override
+            public void onResponse(ArrayList<RoleIntradayCount> response) {
+                ArrayList<RoleIntradayCount> list = response;
+                ArrayList<RoleIntradayCount.DataBean>dataList=list.get(0).getData();
+                Log.i(TAG,"角色总票数："+ dataList.get(23).getCount());
             }
         }, new Response.ErrorListener() {
             @Override
