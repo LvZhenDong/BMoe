@@ -4,6 +4,7 @@ import android.content.Context;
 import android.nfc.Tag;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -14,6 +15,7 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * @author LvZhenDong
@@ -43,7 +45,6 @@ public class GsonRequest<T> extends Request<T> {
         this.type = type;
         this.listener = listener;
     }
-
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse networkResponse) {
         try {

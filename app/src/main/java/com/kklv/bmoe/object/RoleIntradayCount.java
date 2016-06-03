@@ -27,11 +27,20 @@ public class RoleIntradayCount {
     private String date;
     private int stage;
     private String sex;
+    private String group;
+
     /**
      * time : 00-小时
      * count : 0-票数
      */
 
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
     private ArrayList<DataBean> data;
 
     public String getId() {

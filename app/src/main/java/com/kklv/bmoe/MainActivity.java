@@ -11,10 +11,11 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.kklv.bmoe.data.DataHelper;
-import com.kklv.bmoe.data.HttpUtil;
 import com.kklv.bmoe.object.RoleIntradayCount;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends Activity implements DataHelper.DataHelperCallBack{
     private static final String TAG = "MainActivity";
@@ -27,9 +28,14 @@ public class MainActivity extends Activity implements DataHelper.DataHelperCallB
 
         DataHelper dataHelper = DataHelper.getInstance(this);
         dataHelper.registerCallBack(this);
+
         dataHelper.getAllCamps();
         dataHelper.getCampRank("Fate/stay night [UBW]");
-        dataHelper.getRoleIntradayCount("Saber", "16-01-03");
+        Map<String,String> map=new HashMap<>();
+        map.put("date","15-12-12");
+        map.put("sex","0");
+        map.put("group","A1");
+        dataHelper.getRoleIntradayCount(map);
 
         bindId();
         initView();
@@ -40,67 +46,54 @@ public class MainActivity extends Activity implements DataHelper.DataHelperCallB
     }
 
     private void initView() {
-
+        mLineChart.setDescription("总票数折线图");
     }
 
-    private void setData(RoleIntradayCount roleIntradayCount) {
-        ArrayList<RoleIntradayCount.DataBean> list=roleIntradayCount.getData();
-        Log.i(TAG,"数据长度："+list.size());
+    private void setData(ArrayList<RoleIntradayCount> list) {
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        Log.i(TAG,"list.size:"+list.size());
+        for (RoleIntradayCount item:list) {
+            dataSets.add(createLineDataSet(item));
+        }
+        LineData data = new LineData(getXVals(list.get(0)), dataSets);
+        // set data
+        mLineChart.setData(data);
+        mLineChart.notifyDataSetChanged();
+        mLineChart.invalidate();
+    }
+
+    private ArrayList<String> getXVals(RoleIntradayCount one){
+        ArrayList<RoleIntradayCount.DataBean> list=one.getData();
         ArrayList<String> xVals = new ArrayList<String>();
         for(int i=0;i<list.size();i++){
             xVals.add(list.get(i).getTime());
         }
+        return xVals;
+    }
 
+    private LineDataSet createLineDataSet(RoleIntradayCount roleIntradayCount){
+        LineDataSet set;
+        ArrayList<RoleIntradayCount.DataBean> list=roleIntradayCount.getData();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
-
         for (int i = 0; i < list.size(); i++) {
             yVals.add(new Entry(new Float(list.get(i).getCount()),i));
         }
 
-        LineDataSet set1;
-
-        if (mLineChart.getData() != null &&
-                mLineChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) mLineChart.getData().getDataSetByIndex(0);
-            set1.setYVals(yVals);
-            mLineChart.getData().setXVals(xVals);
-            mLineChart.getData().notifyDataChanged();
-            mLineChart.notifyDataSetChanged();
-        } else {
-            // create a dataset and give it a type
-            set1 = new LineDataSet(yVals, "DataSet 1");
-
-            // set1.setFillAlpha(110);
-            // set1.setFillColor(Color.RED);
-
-            // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f);
-            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.BLACK);
-            set1.setLineWidth(1f);
-            set1.setCircleRadius(3f);
-            set1.setDrawCircleHole(false);
-            set1.setValueTextSize(9f);
-            set1.setDrawFilled(true);
-
-            set1.setFillColor(Color.BLACK);
-
-            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-            dataSets.add(set1); // add the datasets
-
-            // create a data object with the datasets
-            LineData data = new LineData(xVals, dataSets);
-
-            // set data
-            mLineChart.setData(data);
-        }
+        set = new LineDataSet(yVals, roleIntradayCount.getName());
+//            set1.enableDashedLine(10f, 5f, 0f);       //不设置虚线
+//            set1.enableDashedHighlightLine(10f, 5f, 0f);
+        set.setColor(Color.BLACK);
+        set.setCircleColor(Color.BLACK);
+        set.setLineWidth(1f);
+        set.setCircleRadius(3f);
+        set.setDrawCircleHole(false);  //点是实心的
+        set.setValueTextSize(9f);
+        set.setDrawFilled(false);  //单纯的line，line下面不覆盖颜色
+        return set;
     }
-
     @Override
-    public void onSuccess(RoleIntradayCount result) {
-        setData(result);
-        mLineChart.invalidate();
+    public void onSuccess(ArrayList<RoleIntradayCount> list) {
+        setData(list);
     }
 
     @Override

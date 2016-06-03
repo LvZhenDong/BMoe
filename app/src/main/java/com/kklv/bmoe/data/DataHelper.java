@@ -2,8 +2,10 @@ package com.kklv.bmoe.data;
 
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,6 +19,8 @@ import com.kklv.bmoe.object.RoleIntradayCount;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -47,9 +51,10 @@ public class DataHelper {
      * 获取所有阵营信息--对应网页端的“阵营表格”
      */
     public void getAllCamps(){
-        GsonRequest gsonRequest=new GsonRequest<ArrayList<Camp>>(Request.Method.GET, HttpUrl.ALL_CAMP,
+        String url=HttpUrl.ALL_CAMP;
+        GsonRequest gsonRequest=new GsonRequest<ArrayList<Camp>>(Request.Method.GET, url,
                 new TypeToken<ArrayList<Camp>>() {
-                }.getType(), new Response.Listener<ArrayList<Camp>>() {
+                }.getType(),new Response.Listener<ArrayList<Camp>>() {
             @Override
             public void onResponse(ArrayList<Camp> response) {
                 ArrayList<Camp> list = response;
@@ -66,13 +71,13 @@ public class DataHelper {
 
     /**
      * 获取该阵营所有角色排名--对应网页端的“角色数据表格”
-     * @param bangumi 阵营名称
+     * @param bangumi
      */
     public void getCampRank(String bangumi){
-        String url=HttpUrl.RANK+"?bangumi="+DataHelper.EncodeChinese(bangumi);
+        String url=HttpUrl.RANK+"?bangumi="+EncodeChinese(bangumi);
         GsonRequest gsonRequest=new GsonRequest<ArrayList<RoleInfo>>(Request.Method.GET, url,
                 new TypeToken<ArrayList<RoleInfo>>() {
-                }.getType(), new Response.Listener<ArrayList<RoleInfo>>() {
+                }.getType(),new Response.Listener<ArrayList<RoleInfo>>() {
             @Override
             public void onResponse(ArrayList<RoleInfo> response) {
                 ArrayList<RoleInfo> list = response;
@@ -88,12 +93,12 @@ public class DataHelper {
     }
 
     /**
-     * 获取角色当天票数
-     * @param name
-     * @param date
+     *
+     * @param map
      */
-    public void getRoleIntradayCount(String name,String date){
-        String url=HttpUrl.ROLE+"?name="+DataHelper.EncodeChinese(name)+"&date="+date;
+    public void getRoleIntradayCount(Map<String,String> map){
+        String url=HttpUrl.ROLE+getURL(map);
+        Log.i(TAG,"url:"+url);
         GsonRequest gsonRequest=new GsonRequest<ArrayList<RoleIntradayCount>>(Request.Method.GET, url,
                 new TypeToken<ArrayList<RoleIntradayCount>>() {
                 }.getType(), new Response.Listener<ArrayList<RoleIntradayCount>>() {
@@ -102,7 +107,7 @@ public class DataHelper {
                 ArrayList<RoleIntradayCount> list = response;
                 ArrayList<RoleIntradayCount.DataBean>dataList=list.get(0).getData();
                 Log.i(TAG,"角色总票数："+ dataList.get(23).getCount());
-                mCallBack.onSuccess(list.get(0));
+                mCallBack.onSuccess(list);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -112,6 +117,20 @@ public class DataHelper {
             }
         });
         mRequestQueue.add(gsonRequest);
+    }
+
+    private String getURL(Map<String,String> map){
+        String result="?";
+        if (!(TextUtils.isEmpty(map.get("date")))){
+            result +="&date="+map.get("date");
+        }
+        if (!(TextUtils.isEmpty(map.get("sex")))){
+            result +="&sex="+map.get("sex");
+        }
+        if (!(TextUtils.isEmpty(map.get("group")))){
+            result +="&group="+map.get("group");
+        }
+        return result;
     }
 
     /**
@@ -130,7 +149,7 @@ public class DataHelper {
     }
 
     public interface DataHelperCallBack{
-        public void onSuccess(RoleIntradayCount result);
+        public void onSuccess(ArrayList<RoleIntradayCount> result);
         public void onFailure(Exception error);
     }
 
