@@ -30,6 +30,7 @@ public class DataHelper {
     private Context mContext;
     private RequestQueue mRequestQueue;
 
+    private DataHelperCallBack mCallBack;
     private DataHelper(Context context) {
         mContext = context;
         mRequestQueue= Volley.newRequestQueue(mContext);
@@ -101,11 +102,13 @@ public class DataHelper {
                 ArrayList<RoleIntradayCount> list = response;
                 ArrayList<RoleIntradayCount.DataBean>dataList=list.get(0).getData();
                 Log.i(TAG,"角色总票数："+ dataList.get(23).getCount());
+                mCallBack.onSuccess(list.get(0));
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG,error.getMessage(),error);
+                mCallBack.onFailure(error);
             }
         });
         mRequestQueue.add(gsonRequest);
@@ -124,5 +127,14 @@ public class DataHelper {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public interface DataHelperCallBack{
+        public void onSuccess(RoleIntradayCount result);
+        public void onFailure(Exception error);
+    }
+
+    public void registerCallBack(DataHelperCallBack callBack){
+        this.mCallBack=callBack;
     }
 }
