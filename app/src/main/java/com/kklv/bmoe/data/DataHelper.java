@@ -4,6 +4,7 @@ package com.kklv.bmoe.data;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -105,6 +106,11 @@ public class DataHelper {
             @Override
             public void onResponse(ArrayList<RoleIntradayCount> response) {
                 ArrayList<RoleIntradayCount> list = response;
+                if (list.size() == 0){
+                    //TODO 返回无数据时处理
+                    Log.e(TAG,"response == null");
+                    return;
+                }
                 ArrayList<RoleIntradayCount.DataBean>dataList=list.get(0).getData();
                 Log.i(TAG,"角色总票数："+ dataList.get(23).getCount());
                 mCallBack.onSuccess(list);

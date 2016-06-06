@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -32,9 +34,9 @@ public class MainActivity extends Activity implements DataHelper.DataHelperCallB
         dataHelper.getAllCamps();
         dataHelper.getCampRank("Fate/stay night [UBW]");
         Map<String,String> map=new HashMap<>();
-        map.put("date","15-12-12");
-        map.put("sex","0");
-        map.put("group","A1");
+        map.put("date","15-12-18");
+//        map.put("sex","0");
+        map.put("group","G1"); //有一段时间是A1后面变成1-A
         dataHelper.getRoleIntradayCount(map);
 
         bindId();
@@ -47,6 +49,17 @@ public class MainActivity extends Activity implements DataHelper.DataHelperCallB
 
     private void initView() {
         mLineChart.setDescription("总票数折线图");
+        mLineChart.setNoDataText("数据加载中...");
+        mLineChart.setDescriptionTextSize(20.0f);
+        mLineChart.getLegend().setWordWrapEnabled(true);    //label自动换行
+        YAxis rightAxis=mLineChart.getAxisRight();
+        rightAxis.setEnabled(false);    //右边Y轴不显示
+
+        YAxis leftAxis=mLineChart.getAxisLeft();
+        leftAxis.setAxisMinValue(0.0f); //Y轴从0开始
+
+//        XAxis xAxis=mLineChart.getXAxis();
+//        xAxis.setAvoidFirstLastClipping(true);
     }
 
     private void setData(ArrayList<RoleIntradayCount> list) {
