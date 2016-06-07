@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!--TODO 增加颜色，当数据超过8组时怎么办-->
     <!--图表的颜色-->
     <color name="set0">#E51C23</color>
     <color name="set1">#9C27B0</color>
