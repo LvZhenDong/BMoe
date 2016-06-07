@@ -109,10 +109,11 @@ public class DataHelper {
                 if (list.size() == 0){
                     //TODO 返回无数据时处理
                     Log.e(TAG,"response == null");
-                    return;
+                    list=null;
+                }else{
+                    ArrayList<RoleIntradayCount.DataBean>dataList=list.get(0).getData();
+                    Log.i(TAG,"角色总票数："+ dataList.get(23).getCount());
                 }
-                ArrayList<RoleIntradayCount.DataBean>dataList=list.get(0).getData();
-                Log.i(TAG,"角色总票数："+ dataList.get(23).getCount());
                 mCallBack.onSuccess(list);
             }
         }, new Response.ErrorListener() {

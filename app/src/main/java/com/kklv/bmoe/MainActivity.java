@@ -1,12 +1,11 @@
 package com.kklv.bmoe;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -58,15 +57,15 @@ public class MainActivity extends Activity implements DataHelper.DataHelperCallB
         YAxis leftAxis=mLineChart.getAxisLeft();
         leftAxis.setAxisMinValue(0.0f); //Y轴从0开始
 
-//        XAxis xAxis=mLineChart.getXAxis();
-//        xAxis.setAvoidFirstLastClipping(true);
     }
 
     private void setData(ArrayList<RoleIntradayCount> list) {
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         Log.i(TAG,"list.size:"+list.size());
+        int[] colors=getResources().getIntArray(R.array.lineChart);
         for (RoleIntradayCount item:list) {
-            dataSets.add(createLineDataSet(item));
+            int i=list.indexOf(item);
+            dataSets.add(createLineDataSet(item,colors[i]));
         }
         LineData data = new LineData(getXVals(list.get(0)), dataSets);
         // set data
@@ -84,7 +83,7 @@ public class MainActivity extends Activity implements DataHelper.DataHelperCallB
         return xVals;
     }
 
-    private LineDataSet createLineDataSet(RoleIntradayCount roleIntradayCount){
+    private LineDataSet createLineDataSet(RoleIntradayCount roleIntradayCount,int color){
         LineDataSet set;
         ArrayList<RoleIntradayCount.DataBean> list=roleIntradayCount.getData();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
@@ -93,10 +92,11 @@ public class MainActivity extends Activity implements DataHelper.DataHelperCallB
         }
 
         set = new LineDataSet(yVals, roleIntradayCount.getName());
-//            set1.enableDashedLine(10f, 5f, 0f);       //不设置虚线
-//            set1.enableDashedHighlightLine(10f, 5f, 0f);
-        set.setColor(Color.BLACK);
-        set.setCircleColor(Color.BLACK);
+//            set.enableDashedLine(10f, 5f, 0f);       //设置虚线
+//            set.enableDashedHighlightLine(10f, 5f, 0f);
+        set.setColor(color);
+        set.setCircleColor(color);
+        set.setValueTextColor(color);
         set.setLineWidth(1f);
         set.setCircleRadius(3f);
         set.setDrawCircleHole(false);  //点是实心的
@@ -106,7 +106,12 @@ public class MainActivity extends Activity implements DataHelper.DataHelperCallB
     }
     @Override
     public void onSuccess(ArrayList<RoleIntradayCount> list) {
-        setData(list);
+        if(list != null){
+            setData(list);
+        }else {
+            Toast.makeText(this,"没有数据",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
