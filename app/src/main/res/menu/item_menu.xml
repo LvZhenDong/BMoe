@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_chat"
-            android:icon="@mipmap/ic_launcher"
-            android:title="chat"/>
+            android:id="@+id/nav_line_chart"
+            android:icon="@drawable/ic_equalizer_white_24dp"
+            android:checked="true"
+            android:title="曲线图"/>
+        <item
+            android:id="@+id/nav_camp"
+            android:icon="@drawable/ic_group_white_24dp"
+            android:title="阵营信息"/>
+
 
     </group>
 

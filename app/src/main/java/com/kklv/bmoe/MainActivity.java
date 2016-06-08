@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView mNavigationView;
 
     private FragmentManager mFragmentManager;
-//    private FragmentTransaction mFragmentTransaction;
     private LineChartFragment mLineChartFragment;
     private CampFragment mCampFragment;
 //    private LineChart mLineChart;
@@ -61,11 +60,13 @@ public class MainActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupDrawerContent(mNavigationView);
+        setDefaultFragment();
 
+    }
+    private void setDefaultFragment(){
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        mCampFragment=new CampFragment();
         mLineChartFragment=new LineChartFragment();
         transaction.replace(R.id.fl_fragment,mLineChartFragment);
         transaction.commit();
@@ -76,20 +77,43 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 if (!item.isChecked()){
+                    FragmentTransaction transaction = mFragmentManager.beginTransaction();
+                    hideAllFragments(transaction);
                     switch (item.getItemId()){
-                        case R.id.nav_chat:
-                            FragmentTransaction transaction = mFragmentManager.beginTransaction();
-                            transaction.add(R.id.fl_fragment,mCampFragment);
-
-                            transaction.commit();
+                        case R.id.nav_line_chart:
+                            if (mLineChartFragment == null){
+                                mLineChartFragment=new LineChartFragment();
+                                transaction.add(R.id.fl_fragment,mLineChartFragment);
+                            }else {
+                                transaction.show(mLineChartFragment);
+                            }
+                            break;
+                        case R.id.nav_camp:
+                            if (mCampFragment == null){
+                                mCampFragment= new CampFragment();
+                                transaction.add(R.id.fl_fragment,mCampFragment);
+                            }else {
+                                transaction.show(mCampFragment);
+                            }
                             break;
                     }
+                    transaction.commit();
+                    item.setChecked(true);
                 }
-                item.setChecked(true);
+
                 mDrawerLayout.closeDrawers();
                 return true;
             }
         });
+    }
+    private void hideAllFragments(FragmentTransaction transaction){
+        //TODO 考虑用更好的方式来实现
+        if(mLineChartFragment != null){
+            transaction.hide(mLineChartFragment);
+        }
+        if(mCampFragment != null){
+            transaction.hide(mCampFragment);
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
