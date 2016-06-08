@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -58,6 +59,8 @@ public class Chart implements DataHelper.DataHelperCallBack{
 
         YAxis leftAxis=mLineChart.getAxisLeft();
         leftAxis.setAxisMinValue(0.0f); //Y轴从0开始
+
+        XAxis xAxis=mLineChart.getXAxis();
     }
     /**
      * 设置图表数据
@@ -102,6 +105,7 @@ public class Chart implements DataHelper.DataHelperCallBack{
         set.setDrawCircleHole(false);  //点是实心的
         set.setValueTextSize(9f);
         set.setDrawFilled(false);  //单纯的line，line下面不覆盖颜色
+
         return set;
     }
 
