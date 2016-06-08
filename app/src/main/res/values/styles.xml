@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Theme.MyDemo" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">#009688</item>
+        <item name="colorPrimaryDark">#00796b</item>
+        <item name="colorAccent">#4db6ac</item>
+
+    </style>
 </resources>
