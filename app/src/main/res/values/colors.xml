@@ -4,16 +4,20 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <!--TODO 增加颜色，当数据超过8组时怎么办-->
+    <!--TODO 暂时12种颜色，也就是说一次最多显示12条折线-->
     <!--图表的颜色-->
     <color name="set0">#E51C23</color>
     <color name="set1">#9C27B0</color>
     <color name="set2">#3F51B5</color>
     <color name="set3">#009688</color>
     <color name="set4">#CDDC39</color>
-    <color name="set5">#FF9800</color>
+    <color name="set5">#FFC107</color>
     <color name="set6">#795548</color>
     <color name="set7">#607d8b</color>
+    <color name="set8">#03A9F4</color>
+    <color name="set9">#8BC34A</color>
+    <color name="set10">#607d8b</color>
+    <color name="set11">#607d8b</color>
 
     <!--图表颜色数组-->
     <array name="lineChart">
@@ -25,5 +29,9 @@
         <item>@color/set5</item>
         <item>@color/set6</item>
         <item>@color/set7</item>
+        <item>@color/set8</item>
+        <item>@color/set9</item>
+        <item>@color/set10</item>
+        <item>@color/set11</item>
     </array>
 </resources>
