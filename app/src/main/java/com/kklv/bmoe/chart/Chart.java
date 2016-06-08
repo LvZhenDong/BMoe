@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -50,10 +51,11 @@ public class Chart implements DataHelper.DataHelperCallBack{
     }
 
     private void initLineChart(){
-        mLineChart.setDescription("总票数折线图");
-        mLineChart.setNoDataText("数据加载中...");
+        mLineChart.setDescription(mContext.getString(R.string.count_line_chart));
+        mLineChart.setNoDataText(mContext.getString(R.string.data_loading));
         mLineChart.setDescriptionTextSize(20.0f);
         mLineChart.getLegend().setWordWrapEnabled(true);    //label自动换行
+        mLineChart.animateY(2000);
         YAxis rightAxis=mLineChart.getAxisRight();
         rightAxis.setEnabled(false);    //右边Y轴不显示
 
@@ -128,12 +130,12 @@ public class Chart implements DataHelper.DataHelperCallBack{
         if(result != null){
             setData(result);
         }else {
-            Toast.makeText(mContext,"没有数据",Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.no_data,Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onFailure(Exception error) {
-        Toast.makeText(mContext,"网络异常",Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, R.string.net_error,Toast.LENGTH_SHORT).show();
     }
 }

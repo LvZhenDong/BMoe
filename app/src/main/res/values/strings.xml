@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">BMoe</string>
+    <string name="line_chart">曲线图</string>
+    <string name="camp_message">阵营信息</string>
+    <string name="net_error">网络异常</string>
+    <string name="no_data">没有数据</string>
+    <string name="data_loading">数据加载中...</string>
+    <string name="count_line_chart">总票数折线图</string>
 
 
 </resources>

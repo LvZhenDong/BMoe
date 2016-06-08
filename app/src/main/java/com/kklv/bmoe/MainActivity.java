@@ -1,27 +1,21 @@
 package com.kklv.bmoe;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.kklv.bmoe.chart.Chart;
+import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.fragment.CampFragment;
 import com.kklv.bmoe.fragment.LineChartFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private DrawerLayout mDrawerLayout;
@@ -72,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mLineChartFragment=new LineChartFragment();
         transaction.replace(R.id.fl_fragment,mLineChartFragment);
         transaction.commit();
-        mActionBar.setTitle("曲线图");
+        mActionBar.setTitle(R.string.line_chart);
     }
 
     private void setupDrawerContent(NavigationView navigationView){
