@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
+    private ActionBar mActionBar;
 
     private FragmentManager mFragmentManager;
     private LineChartFragment mLineChartFragment;
@@ -55,9 +56,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+        mActionBar = getSupportActionBar();
+        mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+
 
         setupDrawerContent(mNavigationView);
         setDefaultFragment();
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         mLineChartFragment=new LineChartFragment();
         transaction.replace(R.id.fl_fragment,mLineChartFragment);
         transaction.commit();
+        mActionBar.setTitle("曲线图");
     }
 
     private void setupDrawerContent(NavigationView navigationView){
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     transaction.commit();
                     item.setChecked(true);
+                    mActionBar.setTitle(item.getTitle());
                 }
 
                 mDrawerLayout.closeDrawers();
