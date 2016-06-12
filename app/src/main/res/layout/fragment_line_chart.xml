@@ -24,6 +24,12 @@
             android:id="@+id/et_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btn_full_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/full_screen"/>
     </RelativeLayout>
 
 </LinearLayout>

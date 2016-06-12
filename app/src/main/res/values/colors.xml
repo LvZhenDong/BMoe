@@ -34,4 +34,6 @@
         <item>@color/set10</item>
         <item>@color/set11</item>
     </array>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

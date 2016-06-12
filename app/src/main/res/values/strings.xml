@@ -6,6 +6,11 @@
     <string name="no_data">没有数据</string>
     <string name="data_loading">数据加载中...</string>
     <string name="count_line_chart">总票数折线图</string>
+    <string name="full_screen">全屏</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 
 </resources>
