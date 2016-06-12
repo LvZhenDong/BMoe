@@ -25,8 +25,6 @@ public class MainActivity extends BaseActivity {
     private FragmentManager mFragmentManager;
     private LineChartFragment mLineChartFragment;
     private CampFragment mCampFragment;
-//    private LineChart mLineChart;
-//    private Chart mChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +37,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void bindId() {
-//        mLineChart = (LineChart) findViewById(R.id.lineChart);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
     }
 
     private void initView() {
-//        mChart=new Chart(this,mLineChart);
-//        mChart.showData();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
