@@ -1,8 +1,13 @@
 package com.kklv.bmoe.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.kklv.bmoe.R;
 
 /**
  * Created by Administrator on 2016/6/8.
@@ -16,6 +21,12 @@ public class BaseActivity extends AppCompatActivity{
     }
 
     private void setStatusBar(){
-
+        if (Build.VERSION.SDK_INT >= 19) {
+            Window window = getWindow();
+            // Translucent status bar
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 }
