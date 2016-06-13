@@ -88,6 +88,7 @@ public class LineChartFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         });
+        mDatePickerET.setFocusable(false);
 
         mFullScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override

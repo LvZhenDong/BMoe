@@ -64,6 +64,10 @@ public class MainActivity extends BaseActivity {
         mActionBar.setTitle(R.string.line_chart);
     }
 
+    /**
+     * 设置侧滑栏
+     * @param navigationView
+     */
     private void setupDrawerContent(NavigationView navigationView){
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

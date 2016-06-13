@@ -60,6 +60,14 @@ public class DataHelper {
             public void onResponse(ArrayList<Camp> response) {
                 ArrayList<Camp> list = response;
                 Log.i(TAG,"阵营数量："+list.size());
+                if (list.size() ==0){
+                    //TODO 返回无数据时处理
+                    Log.e(TAG,"response == null");
+                    list=null;
+                }else {
+
+                }
+                mCallBack.onGetCampSuccess(list);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -158,6 +166,7 @@ public class DataHelper {
     public interface DataHelperCallBack{
         public void onSuccess(ArrayList<RoleIntradayCount> result);
         public void onFailure(Exception error);
+        public void onGetCampSuccess(ArrayList<Camp> result);
     }
 
     public void registerCallBack(DataHelperCallBack callBack){

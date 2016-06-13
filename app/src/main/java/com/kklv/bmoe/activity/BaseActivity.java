@@ -10,7 +10,10 @@ import android.view.WindowManager;
 import com.kklv.bmoe.R;
 
 /**
- * Created by Administrator on 2016/6/8.
+ *
+ * @author LvZhenDong
+ * @email lvzhendong1993@gmail.com
+ * created at 2016/6/12 17:24
  */
 public class BaseActivity extends AppCompatActivity{
     @Override

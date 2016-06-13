@@ -14,6 +14,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.data.DataHelper;
+import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.RoleIntradayCount;
 
 import java.util.ArrayList;
@@ -41,8 +42,8 @@ public class Chart implements DataHelper.DataHelperCallBack{
         initLineChart();
     }
     public void showData(){
-        mDataHelper.getAllCamps();
-        mDataHelper.getCampRank("Fate/stay night [UBW]");
+//        mDataHelper.getAllCamps();
+//        mDataHelper.getCampRank("Fate/stay night [UBW]");
         Map<String,String> map=new HashMap<>();
         map.put("date","15-12-18");
 //        map.put("sex","0");
@@ -137,5 +138,10 @@ public class Chart implements DataHelper.DataHelperCallBack{
     @Override
     public void onFailure(Exception error) {
         Toast.makeText(mContext, R.string.net_error,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetCampSuccess(ArrayList<Camp> result) {
+
     }
 }

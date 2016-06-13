@@ -38,9 +38,6 @@ public class Camp {
     }
 
     public void setTotal(int total) {
-        if (total < 0) {
-            total = 0;
-        }
         this.total = total;
     }
 
@@ -49,9 +46,6 @@ public class Camp {
     }
 
     public void setSuc(int suc) {
-        if (suc < 0) {
-            suc = 0;
-        }
         this.suc = suc;
     }
 
@@ -60,21 +54,7 @@ public class Camp {
     }
 
     public void setWait(int wait) {
-        if (wait < 0) {
-            wait = 0;
-        }
         this.wait = wait;
-    }
-
-    public int getFail() {
-        return fail;
-    }
-
-    public void setFail(int fail) {
-        if (fail < 0) {
-            fail = 0;
-        }
-        this.fail = fail;
     }
 
     public int getAlive() {
@@ -82,9 +62,14 @@ public class Camp {
     }
 
     public void setAlive(int alive) {
-        if (alive < 0) {
-            alive = 0;
-        }
         this.alive = alive;
+    }
+
+    public int getFail() {
+        return fail;
+    }
+
+    public void setFail(int fail) {
+        this.fail = fail;
     }
 }
