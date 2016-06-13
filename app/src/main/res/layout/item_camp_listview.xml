@@ -9,8 +9,9 @@
     <TextView
         android:id="@+id/tv_id"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         style="@style/CampListViewItemText"
+        android:textSize="14sp"
         tools:text="284"/>
     <TextView
         android:id="@+id/tv_bangumi"

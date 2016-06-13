@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="white">#FFFFFF</color>
+    <color name="gray_pressed">#9E9E9E</color>
+    <color name="green_camp_listview_item">#A3E9A4</color>
     <!--TODO 暂时12种颜色，也就是说一次最多显示12条折线-->
     <!--图表的颜色-->
     <color name="set0">#E51C23</color>

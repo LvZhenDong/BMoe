@@ -33,8 +33,8 @@ public class CampListAdapter extends BaseAdapter {
         this.mList = list;
     }
 
-    public void setData(List<Camp> list){
-        this.mList=list;
+    public void setData(List<Camp> list) {
+        this.mList = list;
         notifyDataSetChanged();
     }
 
@@ -68,18 +68,24 @@ public class CampListAdapter extends BaseAdapter {
             holder.failTV = (TextView) convertView.findViewById(R.id.tv_fail);
 
             convertView.setTag(holder);
-        }else{
-            holder= (ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        Camp item=mList.get(position);
-        holder.idTV.setText((position+1)+"");
+        Camp item = mList.get(position);
+        holder.idTV.setText((position + 1) + "");
         holder.bangumiTV.setText(item.getBangumi());
-        holder.totalTV.setText(item.getTotal()+"");
-        holder.sucTV.setText(item.getSuc()+"");
-        holder.waitTV.setText(item.getWait()+"");
-        holder.aliveTV.setText(item.getAlive()+"");
-        holder.failTV.setText(item.getFail()+"");
+        holder.totalTV.setText(item.getTotal() + "");
+        holder.sucTV.setText(item.getSuc() + "");
+        holder.waitTV.setText(item.getWait() + "");
+        holder.aliveTV.setText(item.getAlive() + "");
+        holder.failTV.setText(item.getFail() + "");
+        //item颜色交替
+        if (position % 2 == 0) {
+            convertView.setBackgroundResource(R.drawable.selector_item_camp_listview_bgcolor1);
+        } else {
+            convertView.setBackgroundResource(R.drawable.selector_item_camp_listview_bgcolor2);
+        }
 
         return convertView;
     }
