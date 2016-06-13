@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *阵营信息
+ * 阵营信息
+ *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/13 10:08
@@ -37,7 +38,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_camp, container, false);
+        View view = inflater.inflate(R.layout.fragment_camp, container, false);
 
         bindId(view);
         initView();
@@ -45,45 +46,44 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         return view;
     }
 
-    private void bindId(View view){
-        mCampLV= (ListView) view.findViewById(R.id.lv_camp);
+    private void bindId(View view) {
+        mCampLV = (ListView) view.findViewById(R.id.lv_camp);
     }
 
-    private void initView(){
-        mDataHelper=DataHelper.getInstance(getActivity());
+    private void initView() {
+        mDataHelper = DataHelper.getInstance(getActivity());
         mDataHelper.registerCallBack(this);
     }
 
-    private void getData(){
+    private void getData() {
         mDataHelper.getAllCamps();
     }
-    @Override
-    public void onSuccess(ArrayList<RoleIntradayCount> result) {
 
+    @Override
+    public <T> void onSuccess(ArrayList<T> result) {
+        if (!isAdded()) {
+            return;
+        }
+        Log.i(TAG, "result:" + result.size());
+        if (result != null) {
+            mList = (List<Camp>) result;
+            if (mCampListAdapter == null) {
+                mCampListAdapter = new CampListAdapter(getActivity(), mList);
+                mCampLV.setAdapter(mCampListAdapter);
+            } else {
+                mCampListAdapter.setData(mList);
+            }
+        } else {
+            Toast.makeText(getActivity(), R.string.no_data, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onFailure(Exception error) {
-        //TODO 这里getActivity应该有问题
-        Toast.makeText(getActivity(), R.string.net_error,Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onGetCampSuccess(ArrayList<Camp> result) {
-        Log.i(TAG,"result:"+result.size());
-        if(result != null){
-            mList=result;
-            if (mCampListAdapter == null){
-                //TODO 这里getActivity应该有问题
-                mCampListAdapter=new CampListAdapter(getActivity(),mList);
-                mCampLV.setAdapter(mCampListAdapter);
-            }else{
-                mCampListAdapter.setData(mList);
-            }
-
-        }else {
-            //TODO 这里getActivity应该有问题
-            Toast.makeText(getActivity(), R.string.no_data,Toast.LENGTH_SHORT).show();
+        if (!isAdded()) {
+            return;
         }
+        Toast.makeText(getActivity(), R.string.net_error, Toast.LENGTH_SHORT).show();
     }
+
 }

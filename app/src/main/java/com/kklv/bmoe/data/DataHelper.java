@@ -67,7 +67,7 @@ public class DataHelper {
                 }else {
 
                 }
-                mCallBack.onGetCampSuccess(list);
+                mCallBack.onSuccess(list);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -164,9 +164,8 @@ public class DataHelper {
     }
 
     public interface DataHelperCallBack{
-        public void onSuccess(ArrayList<RoleIntradayCount> result);
+        public <T>void onSuccess(ArrayList<T> result);
         public void onFailure(Exception error);
-        public void onGetCampSuccess(ArrayList<Camp> result);
     }
 
     public void registerCallBack(DataHelperCallBack callBack){

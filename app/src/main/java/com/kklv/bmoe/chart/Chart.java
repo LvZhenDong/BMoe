@@ -127,9 +127,9 @@ public class Chart implements DataHelper.DataHelperCallBack{
     }
 
     @Override
-    public void onSuccess(ArrayList<RoleIntradayCount> result) {
+    public <T> void onSuccess(ArrayList<T> result) {
         if(result != null){
-            setData(result);
+            setData((ArrayList<RoleIntradayCount>) result);
         }else {
             Toast.makeText(mContext, R.string.no_data,Toast.LENGTH_SHORT).show();
         }
@@ -140,8 +140,4 @@ public class Chart implements DataHelper.DataHelperCallBack{
         Toast.makeText(mContext, R.string.net_error,Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onGetCampSuccess(ArrayList<Camp> result) {
-
-    }
 }
