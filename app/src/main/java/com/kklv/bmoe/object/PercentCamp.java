@@ -23,9 +23,7 @@ public class PercentCamp {
     }
 
     public void setPercentFail(double percentFail) {
-        Log.i(TAG,"value1:"+percentFail);
         this.percentFail = formatPercent(percentFail);
-        Log.i(TAG,"value2:"+this.percentFail);
     }
 
     public Camp getCamp() {

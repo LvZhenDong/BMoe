@@ -11,6 +11,15 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="camp_id">序号</string>
+    <string name="camp_bangumi">动画</string>
+    <string name="camp_total">参与人数</string>
+    <string name="camp_suc">海选晋级</string>
+    <string name="camp_wait">进入复活赛</string>
+    <string name="camp_fail">海选淘汰人数</string>
+    <string name="camp_suc_percent">晋级率</string>
+    <string name="camp_wait_percent">复活率</string>
+    <string name="camp_fail_percent">淘汰率</string>
 
 
 </resources>

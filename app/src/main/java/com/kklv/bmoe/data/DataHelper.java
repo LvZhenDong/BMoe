@@ -50,16 +50,7 @@ public class DataHelper {
                 }.getType(),new Response.Listener<ArrayList<Camp>>() {
             @Override
             public void onResponse(ArrayList<Camp> response) {
-                ArrayList<Camp> list = response;
-                Log.i(TAG,"阵营数量："+list.size());
-                if (list.size() ==0){
-                    //TODO 返回无数据时处理
-                    Log.e(TAG,"response == null");
-                    list=null;
-                }else {
-
-                }
-                mCallBack.onSuccess(list);
+                mCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -105,16 +96,7 @@ public class DataHelper {
                 }.getType(), new Response.Listener<ArrayList<RoleIntradayCount>>() {
             @Override
             public void onResponse(ArrayList<RoleIntradayCount> response) {
-                ArrayList<RoleIntradayCount> list = response;
-                if (list.size() == 0){
-                    //TODO 返回无数据时处理
-                    Log.e(TAG,"response == null");
-                    list=null;
-                }else{
-                    ArrayList<RoleIntradayCount.DataBean>dataList=list.get(0).getData();
-                    Log.i(TAG,"角色总票数："+ dataList.get(23).getCount());
-                }
-                mCallBack.onSuccess(list);
+                mCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override

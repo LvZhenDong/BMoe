@@ -19,43 +19,43 @@
         <TextView
             android:id="@+id/tv_id"
             style="@style/CampListViewItemText"
-            android:text="序号"/>
+            android:text="@string/camp_id"/>
         <TextView
             android:id="@+id/tv_bangumi"
             android:layout_width="100dp"
             style="@style/CampListViewItemText"
-            android:text="动画"/>
+            android:text="@string/camp_bangumi"/>
         <TextView
             android:id="@+id/tv_total"
             style="@style/CampListViewItemText"
-            android:text="参与人数"/>
+            android:text="@string/camp_total"/>
         <TextView
             android:id="@+id/tv_suc"
             style="@style/CampListViewItemText"
-            android:text="海选晋级"/>
+            android:text="@string/camp_suc"/>
         <TextView
             android:id="@+id/tv_wait"
             style="@style/CampListViewItemText"
-            android:text="进入复活赛"/>
+            android:text="@string/camp_wait"/>
         <TextView
            android:id="@+id/tv_fail"
            style="@style/CampListViewItemText"
-           android:text="海选淘汰人数"/>
+           android:text="@string/camp_fail"/>
         <TextView
             android:id="@+id/tv_suc_percent"
             style="@style/CampListViewItemText"
             android:layout_width="70dp"
-            android:text="晋级率"/>
+            android:text="@string/camp_suc_percent"/>
         <TextView
             android:id="@+id/tv_wait_percent"
             style="@style/CampListViewItemText"
             android:layout_width="70dp"
-            android:text="复活率"/>
+            android:text="@string/camp_wait_percent"/>
         <TextView
             android:id="@+id/tv_fail_percent"
             style="@style/CampListViewItemText"
             android:layout_width="70dp"
-            android:text="淘汰率"/>
+            android:text="@string/camp_fail_percent"/>
     </LinearLayout>
     <ListView
         android:id="@+id/lv_camp"

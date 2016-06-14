@@ -1,16 +1,19 @@
 package com.kklv.bmoe.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.adapter.CampListAdapter;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.object.Camp;
@@ -53,6 +56,14 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         mDataHelper = new DataHelper(getActivity());
         mDataHelper.registerCallBack(this);
 
+        mCampLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getActivity(), BangumiActivity.class);
+                intent.putExtra(BangumiActivity.BANGUMI,mList.get(position).getBangumi());
+                startActivity(intent);
+            }
+        });
     }
 
     private void getData() {
