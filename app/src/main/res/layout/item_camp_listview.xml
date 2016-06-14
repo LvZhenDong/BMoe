@@ -8,45 +8,38 @@
 
     <TextView
         android:id="@+id/tv_id"
-        android:layout_width="0dp"
-        android:layout_weight="1.5"
+        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         android:textSize="14sp"
         tools:text="284"/>
     <TextView
         android:id="@+id/tv_bangumi"
-        android:layout_width="0dp"
-        android:layout_weight="4"
+        android:layout_width="100dp"
         style="@style/CampListViewItemText"
         tools:text="Fate/stay night [UBW]"/>
     <TextView
         android:id="@+id/tv_total"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         tools:text="84"/>
     <TextView
         android:id="@+id/tv_suc"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         tools:text="12"/>
     <TextView
         android:id="@+id/tv_wait"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         tools:text="10"/>
     <TextView
         android:id="@+id/tv_alive"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         tools:text="9"/>
     <TextView
         android:id="@+id/tv_fail"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         tools:text="8"/>
 </LinearLayout>
