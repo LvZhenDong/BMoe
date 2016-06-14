@@ -14,7 +14,6 @@ import com.kklv.bmoe.R;
 import com.kklv.bmoe.adapter.CampListAdapter;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.object.Camp;
-import com.kklv.bmoe.object.RoleIntradayCount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +52,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
     private void initView() {
         mDataHelper = DataHelper.getInstance(getActivity());
         mDataHelper.registerCallBack(this);
+
     }
 
     private void getData() {
