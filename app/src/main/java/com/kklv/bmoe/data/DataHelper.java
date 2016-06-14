@@ -31,21 +31,13 @@ import java.util.Map;
  */
 public class DataHelper {
     private static final String TAG = "DataHelper";
-    private static DataHelper instance;
     private Context mContext;
     private RequestQueue mRequestQueue;
 
     private DataHelperCallBack mCallBack;
-    private DataHelper(Context context) {
+    public DataHelper(Context context) {
         mContext = context;
         mRequestQueue= Volley.newRequestQueue(mContext);
-    }
-
-    public static DataHelper getInstance(Context context) {
-        if(instance == null){
-            instance=new DataHelper(context);
-        }
-        return instance;
     }
 
     /**

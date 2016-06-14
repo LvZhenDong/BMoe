@@ -50,7 +50,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
     }
 
     private void initView() {
-        mDataHelper = DataHelper.getInstance(getActivity());
+        mDataHelper = new DataHelper(getActivity());
         mDataHelper.registerCallBack(this);
 
     }

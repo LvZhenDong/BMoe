@@ -8,7 +8,6 @@
 
     <TextView
         android:id="@+id/tv_id"
-        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         android:textSize="14sp"
         tools:text="284"/>
@@ -19,27 +18,33 @@
         tools:text="Fate/stay night [UBW]"/>
     <TextView
         android:id="@+id/tv_total"
-        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         tools:text="84"/>
     <TextView
         android:id="@+id/tv_suc"
-        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         tools:text="12"/>
     <TextView
         android:id="@+id/tv_wait"
-        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         tools:text="10"/>
     <TextView
-        android:id="@+id/tv_alive"
-        android:layout_width="50dp"
-        style="@style/CampListViewItemText"
-        tools:text="9"/>
-    <TextView
         android:id="@+id/tv_fail"
-        android:layout_width="50dp"
         style="@style/CampListViewItemText"
         tools:text="8"/>
+    <TextView
+        android:id="@+id/tv_suc_percent"
+        style="@style/CampListViewItemText"
+        android:layout_width="70dp"
+        tools:text="84.32%"/>
+    <TextView
+        android:id="@+id/tv_wait_percent"
+        style="@style/CampListViewItemText"
+        android:layout_width="70dp"
+        tools:text="84.32%"/>
+    <TextView
+        android:id="@+id/tv_fail_percent"
+        style="@style/CampListViewItemText"
+        android:layout_width="70dp"
+        tools:text="84.32%"/>
 </LinearLayout>

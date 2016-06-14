@@ -7,6 +7,15 @@
     <color name="white">#FFFFFF</color>
     <color name="gray_pressed">#9E9E9E</color>
     <color name="green_camp_listview_item">#A3E9A4</color>
+    <!--Material Color-->
+    <color name="primary">#009688</color>
+    <color name="primary_dark">#00796B</color>
+    <color name="primary_light">#B2DFDB</color>
+    <color name="accent">#009688</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
     <!--TODO 暂时12种颜色，也就是说一次最多显示12条折线-->
     <!--图表的颜色-->
     <color name="set0">#E51C23</color>

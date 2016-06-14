@@ -36,7 +36,7 @@ public class Chart implements DataHelper.DataHelperCallBack{
     public Chart(Context context,LineChart lineChart){
         this.mContext=context;
         this.mLineChart=lineChart;
-        mDataHelper=DataHelper.getInstance(mContext);
+        mDataHelper=new DataHelper(mContext);
         mDataHelper.registerCallBack(this);
 
         initLineChart();

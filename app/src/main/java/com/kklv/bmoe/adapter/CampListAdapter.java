@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.object.Camp;
+import com.kklv.bmoe.object.PercentCamp;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -23,29 +25,60 @@ import java.util.zip.Inflater;
  * created at 2016/6/13 10:47
  */
 public class CampListAdapter extends BaseAdapter {
-    private List<Camp> mList;
+    private List<PercentCamp> mPercentCampList;
     private Context mContext;
     private LayoutInflater mInflater;
 
     public CampListAdapter(Context context, List<Camp> list) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
-        this.mList = list;
+        this.mPercentCampList = getPercentCampList(list);
+    }
+
+    /**
+     * 根据List<Camp>计算晋级率、复活率、淘汰率，得到List<PercentCamp>
+     *
+     * @param list
+     * @return
+     */
+    private List<PercentCamp> getPercentCampList(List<Camp> list) {
+        List<PercentCamp> percentCampList = new ArrayList<>();
+        for (Camp item : list) {
+            PercentCamp percentCamp = new PercentCamp();
+            percentCamp.setCamp(item);
+            int total = item.getTotal();
+            percentCamp.setPercentSuc(getPercent(item.getSuc(), total));
+            percentCamp.setPercentWait(getPercent(item.getWait(), total));
+            percentCamp.setPercentFail(getPercent(item.getFail(), total));
+            percentCampList.add(percentCamp);
+        }
+        return percentCampList;
+    }
+
+    /**
+     * 计算百分比
+     *
+     * @param member
+     * @param denominator
+     * @return
+     */
+    private double getPercent(double member, double denominator) {
+        return denominator > 0 ? (member / denominator)*100 : 0;
     }
 
     public void setData(List<Camp> list) {
-        this.mList = list;
+        this.mPercentCampList = getPercentCampList(list);
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return mList.size();
+        return mPercentCampList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mList.get(position);
+        return mPercentCampList.get(position);
     }
 
     @Override
@@ -64,22 +97,27 @@ public class CampListAdapter extends BaseAdapter {
             holder.totalTV = (TextView) convertView.findViewById(R.id.tv_total);
             holder.sucTV = (TextView) convertView.findViewById(R.id.tv_suc);
             holder.waitTV = (TextView) convertView.findViewById(R.id.tv_wait);
-            holder.aliveTV = (TextView) convertView.findViewById(R.id.tv_alive);
             holder.failTV = (TextView) convertView.findViewById(R.id.tv_fail);
+            holder.percentSucTV = (TextView) convertView.findViewById(R.id.tv_suc_percent);
+            holder.percentWaitTV = (TextView) convertView.findViewById(R.id.tv_wait_percent);
+            holder.percentFailTV = (TextView) convertView.findViewById(R.id.tv_fail_percent);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Camp item = mList.get(position);
+        PercentCamp percentCamp = mPercentCampList.get(position);
+        Camp item = percentCamp.getCamp();
         holder.idTV.setText((position + 1) + "");
         holder.bangumiTV.setText(item.getBangumi());
         holder.totalTV.setText(item.getTotal() + "");
         holder.sucTV.setText(item.getSuc() + "");
         holder.waitTV.setText(item.getWait() + "");
-        holder.aliveTV.setText(item.getAlive() + "");
         holder.failTV.setText(item.getFail() + "");
+        holder.percentSucTV.setText(percentCamp.getPercentSuc() + "%");
+        holder.percentWaitTV.setText(percentCamp.getPercentWait() + "%");
+        holder.percentFailTV.setText(percentCamp.getPercentFail() + "%");
         //item颜色交替
         if (position % 2 == 0) {
             convertView.setBackgroundResource(R.drawable.selector_item_camp_listview_bgcolor1);
@@ -96,7 +134,9 @@ public class CampListAdapter extends BaseAdapter {
         TextView totalTV;
         TextView sucTV;
         TextView waitTV;
-        TextView aliveTV;
         TextView failTV;
+        TextView percentSucTV;
+        TextView percentWaitTV;
+        TextView percentFailTV;
     }
 }

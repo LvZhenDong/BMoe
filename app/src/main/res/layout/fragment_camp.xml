@@ -1,10 +1,62 @@
 <HorizontalScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/hsv_camp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fadingEdgeLength="0dp"
+    android:overScrollMode="never"
     android:background="@color/white">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/set6">
+        <TextView
+            android:id="@+id/tv_id"
+            style="@style/CampListViewItemText"
+            android:text="序号"/>
+        <TextView
+            android:id="@+id/tv_bangumi"
+            android:layout_width="100dp"
+            style="@style/CampListViewItemText"
+            android:text="动画"/>
+        <TextView
+            android:id="@+id/tv_total"
+            style="@style/CampListViewItemText"
+            android:text="参与人数"/>
+        <TextView
+            android:id="@+id/tv_suc"
+            style="@style/CampListViewItemText"
+            android:text="海选晋级"/>
+        <TextView
+            android:id="@+id/tv_wait"
+            style="@style/CampListViewItemText"
+            android:text="进入复活赛"/>
+        <TextView
+           android:id="@+id/tv_fail"
+           style="@style/CampListViewItemText"
+           android:text="海选淘汰人数"/>
+        <TextView
+            android:id="@+id/tv_suc_percent"
+            style="@style/CampListViewItemText"
+            android:layout_width="70dp"
+            android:text="晋级率"/>
+        <TextView
+            android:id="@+id/tv_wait_percent"
+            style="@style/CampListViewItemText"
+            android:layout_width="70dp"
+            android:text="复活率"/>
+        <TextView
+            android:id="@+id/tv_fail_percent"
+            style="@style/CampListViewItemText"
+            android:layout_width="70dp"
+            android:text="淘汰率"/>
+    </LinearLayout>
     <ListView
         android:id="@+id/lv_camp"
         android:layout_width="match_parent"
@@ -12,4 +64,5 @@
         android:scrollbars="none">
 
     </ListView>
+    </LinearLayout>
 </HorizontalScrollView>
