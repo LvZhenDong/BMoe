@@ -93,9 +93,8 @@ public class LineChartFragment extends Fragment {
         mFullScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 传递数据过去
                 Intent intent=new Intent(getActivity(),FullscreenActivity.class);
-
+                intent.putExtra(FullscreenActivity.CAMP_LIST,mChart.getCampList());
                 startActivity(intent);
             }
         });

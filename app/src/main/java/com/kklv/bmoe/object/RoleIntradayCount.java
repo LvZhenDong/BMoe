@@ -1,5 +1,6 @@
 package com.kklv.bmoe.object;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/2 15:41
  */
-public class RoleIntradayCount {
+public class RoleIntradayCount implements Serializable{
 
     /**
      * id :
@@ -99,7 +100,7 @@ public class RoleIntradayCount {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         private String time;
         private String count;
 

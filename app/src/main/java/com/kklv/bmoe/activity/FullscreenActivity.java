@@ -11,14 +11,21 @@ import android.view.View;
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.chart.Chart;
+import com.kklv.bmoe.object.RoleIntradayCount;
+
+import java.util.ArrayList;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class FullscreenActivity extends AppCompatActivity {
+    public static final String CAMP_LIST="campList";
+
     private LineChart mLineChart;
     private Chart mChart;
+
+    private ArrayList<RoleIntradayCount> mCampList;
 
     private void bindId(){
         mLineChart= (LineChart) findViewById(R.id.fullscreen_content);
@@ -26,7 +33,12 @@ public class FullscreenActivity extends AppCompatActivity {
 
     private void initView(){
         mChart=new Chart(this,mLineChart);
-        mChart.showData();
+        mCampList= (ArrayList<RoleIntradayCount>) getIntent().getSerializableExtra(CAMP_LIST);
+        if(mCampList == null){  //没有数据就从网络加载
+            mChart.showData();
+        }else {
+            mChart.setData(mCampList);
+        }
     }
     /**
      * Whether or not the system UI should be auto-hidden after

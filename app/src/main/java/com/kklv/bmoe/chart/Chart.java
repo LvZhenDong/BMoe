@@ -33,6 +33,12 @@ public class Chart implements DataHelper.DataHelperCallBack{
     private DataHelper mDataHelper;
     private Context mContext;
 
+    private ArrayList<RoleIntradayCount> mCampList;
+
+    public ArrayList<RoleIntradayCount> getCampList() {
+        return mCampList;
+    }
+
     public Chart(Context context,LineChart lineChart){
         this.mContext=context;
         this.mLineChart=lineChart;
@@ -70,7 +76,7 @@ public class Chart implements DataHelper.DataHelperCallBack{
      * 设置图表数据
      * @param list
      */
-    private void setData(ArrayList<RoleIntradayCount> list) {
+    public void setData(ArrayList<RoleIntradayCount> list) {
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         Log.i(TAG,"list.size:"+list.size());
         int[] colors=mContext.getResources().getIntArray(R.array.lineChart);
@@ -130,6 +136,7 @@ public class Chart implements DataHelper.DataHelperCallBack{
     @Override
     public <T> void onSuccess(ArrayList<T> result) {
         if(result != null){
+            mCampList= (ArrayList<RoleIntradayCount>) result;
             setData((ArrayList<RoleIntradayCount>) result);
         }else {
             Toast.makeText(mContext, R.string.no_data,Toast.LENGTH_SHORT).show();
