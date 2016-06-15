@@ -42,7 +42,6 @@ public class Chart implements DataHelper.DataHelperCallBack{
         initLineChart();
     }
     public void showData(){
-//        mDataHelper.getAllCamps();
 //        mDataHelper.getCampRank("Fate/stay night [UBW]");
         Map<String,String> map=new HashMap<>();
         map.put("date","15-12-18");
@@ -53,10 +52,12 @@ public class Chart implements DataHelper.DataHelperCallBack{
 
     private void initLineChart(){
         mLineChart.setDescription(mContext.getString(R.string.count_line_chart));
+//        mLineChart.setDescriptionPosition(440,100);
         mLineChart.setNoDataText(mContext.getString(R.string.data_loading));
         mLineChart.setDescriptionTextSize(20.0f);
         mLineChart.getLegend().setWordWrapEnabled(true);    //label自动换行
         mLineChart.animateY(2000);
+        mLineChart.setMaxVisibleValueCount(Integer.MAX_VALUE);
         YAxis rightAxis=mLineChart.getAxisRight();
         rightAxis.setEnabled(false);    //右边Y轴不显示
 
