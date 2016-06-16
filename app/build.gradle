@@ -32,4 +32,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
     compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.pgyersdk:sdk:2.2.2'
 }

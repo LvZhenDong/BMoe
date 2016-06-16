@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.kklv.bmoe.R;
+import com.pgyersdk.crash.PgyCrashManager;
 
 /**
  *
@@ -20,6 +20,7 @@ public class BaseActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PgyCrashManager.register(this);
         setStatusBar();
     }
 
