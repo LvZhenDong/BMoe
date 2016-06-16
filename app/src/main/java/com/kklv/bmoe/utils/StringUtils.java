@@ -21,9 +21,9 @@ public class StringUtils {
      * @return
      */
     private static String addZero(String date) {
-        int month = Integer.parseInt(date);
-        if (month < 10) {
-            date = "0" + date;
+        int value = Integer.parseInt(date);
+        if (value < 10) {
+            date = "0" + value;
         }
         return date;
     }

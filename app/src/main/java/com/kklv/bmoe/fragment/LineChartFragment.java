@@ -34,6 +34,9 @@ public class LineChartFragment extends Fragment {
     private Button mFullScreenBtn;
     private Button mDrawChartBtn;
 
+    /**
+     * 类似于06-04-12这样的日期
+     */
     private String mDateStr;
 
     @Override
@@ -64,14 +67,14 @@ public class LineChartFragment extends Fragment {
         mDatePickerET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
+                String[] date = mDateStr.split("-");
                 new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         mDatePickerET.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                     }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH)).show();
+                }, Integer.parseInt("20" + date[0]), Integer.parseInt(date[1]) - 1,
+                        Integer.parseInt(date[2])).show();
             }
         });
         mDatePickerET.addTextChangedListener(new TextWatcher() {

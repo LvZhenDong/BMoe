@@ -16,7 +16,7 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
-    <!--TODO 暂时12种颜色，也就是说一次最多显示12条折线-->
+    <!--TODO 暂时16种颜色，也就是说一次最多显示16条折线-->
     <!--图表的颜色-->
     <color name="set0">#E51C23</color>
     <color name="set1">#9C27B0</color>
@@ -28,8 +28,12 @@
     <color name="set7">#607d8b</color>
     <color name="set8">#03A9F4</color>
     <color name="set9">#8BC34A</color>
-    <color name="set10">#607d8b</color>
-    <color name="set11">#607d8b</color>
+    <color name="set10">#AA00FF</color>
+    <color name="set11">#827717</color>
+    <color name="set12">#262338</color>
+    <color name="set13">#9E9E9E</color>
+    <color name="set14">#E91E63</color>
+    <color name="set15">#673AB7</color>
 
     <!--图表颜色数组-->
     <array name="lineChart">
@@ -45,6 +49,10 @@
         <item>@color/set9</item>
         <item>@color/set10</item>
         <item>@color/set11</item>
+        <item>@color/set12</item>
+        <item>@color/set13</item>
+        <item>@color/set14</item>
+        <item>@color/set15</item>
     </array>
 
     <color name="black_overlay">#66000000</color>

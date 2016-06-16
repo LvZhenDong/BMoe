@@ -17,9 +17,11 @@ import com.kklv.bmoe.R;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.RoleIntradayCount;
+import com.kklv.bmoe.utils.ListUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +37,7 @@ public class Chart implements DataHelper.DataHelperCallBack{
     private Context mContext;
 
     private ArrayList<RoleIntradayCount> mCampList;
+    private List<List<RoleIntradayCount>> mSplitedList;
 
     public ArrayList<RoleIntradayCount> getCampList() {
         return mCampList;
@@ -82,8 +85,17 @@ public class Chart implements DataHelper.DataHelperCallBack{
      * @param list
      */
     public void setData(ArrayList<RoleIntradayCount> list) {
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        Log.i(TAG,"list.size:"+list.size());
+        if(list == null){
+            return;
+        }
+        mSplitedList= ListUtils.split(list,16);
+        drawChart((ArrayList<RoleIntradayCount>) mSplitedList.get(0));
+    }
+    private void drawChart(ArrayList<RoleIntradayCount> list){
+        if(list == null){
+            return;
+        }
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         int[] colors=mContext.getResources().getIntArray(R.array.lineChart);
         for (RoleIntradayCount item:list) {
             int i=list.indexOf(item);
