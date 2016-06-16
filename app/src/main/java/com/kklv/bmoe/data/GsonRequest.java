@@ -51,6 +51,9 @@ public class GsonRequest<T> extends Request<T> {
             String jsonStr = new String(networkResponse.data,
                     HttpHeaderParser.parseCharset(networkResponse.headers));
             Log.i(TAG, jsonStr);
+            if("[]".equals(jsonStr)){
+                jsonStr="";
+            }
             return Response.success((T) (gson.fromJson(jsonStr, type)),
                     HttpHeaderParser.parseCacheHeaders(networkResponse));
         } catch (UnsupportedEncodingException e) {

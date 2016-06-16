@@ -32,8 +32,10 @@ public class LineChartFragment extends Fragment {
 
     private EditText mDatePickerET;
     private Button mFullScreenBtn;
+    private Button mDrawChartBtn;
 
-    private String dateStr;
+    private String mDateStr;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,23 +43,24 @@ public class LineChartFragment extends Fragment {
 
         bindId(view);
         initView();
-
+        mChart.showData(mDateStr);
         return view;
     }
 
     private void bindId(View view) {
         mLineChart = (LineChart) view.findViewById(R.id.lineChart);
         mDatePickerET = (EditText) view.findViewById(R.id.et_date);
-        mFullScreenBtn= (Button) view.findViewById(R.id.btn_full_screen);
+        mFullScreenBtn = (Button) view.findViewById(R.id.btn_full_screen);
+        mDrawChartBtn = (Button) view.findViewById(R.id.btn_draw_chart);
     }
 
     private void initView() {
         mChart = new Chart(getActivity(), mLineChart);
-        mChart.showData();
 
         mDatePickerET.setInputType(InputType.TYPE_NULL);
-        dateStr=getTodayDate();
-        mDatePickerET.setText(dateStr);
+        mDateStr = getTodayDate();
+        mDatePickerET.setText(mDateStr);
+        mDateStr = StringUtils.formatDateString(mDateStr);
         mDatePickerET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +87,8 @@ public class LineChartFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Toast.makeText(getActivity(), StringUtils.formatDateString(mDatePickerET.getText()+""),
+                mDateStr = StringUtils.formatDateString(mDatePickerET.getText() + "");
+                Toast.makeText(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -93,15 +97,22 @@ public class LineChartFragment extends Fragment {
         mFullScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),FullscreenActivity.class);
-                intent.putExtra(FullscreenActivity.CAMP_LIST,mChart.getCampList());
+                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
+                intent.putExtra(FullscreenActivity.CAMP_LIST, mChart.getCampList());
                 startActivity(intent);
+            }
+        });
+        mDrawChartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mChart.showData(mDateStr);
             }
         });
     }
 
     /**
      * 获取当天日期
+     *
      * @return
      */
     private String getTodayDate() {

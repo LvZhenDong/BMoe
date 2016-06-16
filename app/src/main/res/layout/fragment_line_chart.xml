@@ -30,6 +30,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="@string/full_screen"/>
+        <Button
+            android:id="@+id/btn_draw_chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_full_screen"
+            android:layout_alignParentRight="true"
+            android:text="@string/draw_chart"/>
     </RelativeLayout>
 
 </LinearLayout>

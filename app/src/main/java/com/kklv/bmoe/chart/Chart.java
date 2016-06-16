@@ -1,6 +1,7 @@
 package com.kklv.bmoe.chart;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -47,12 +48,16 @@ public class Chart implements DataHelper.DataHelperCallBack{
 
         initLineChart();
     }
-    public void showData(){
+    public void showData(String date){
+        if(TextUtils.isEmpty(date)){
+            //TODO 我在考虑要不要Toast下
+            return;
+        }
 //        mDataHelper.getCampRank("Fate/stay night [UBW]");
         Map<String,String> map=new HashMap<>();
-        map.put("date","15-12-18");
+        map.put("date",date);
 //        map.put("sex","0");
-        map.put("group","G1"); //有一段时间是A1后面变成1-A
+//        map.put("group","G1"); //有一段时间是A1后面变成1-A
         mDataHelper.getRoleIntradayCount(map);
     }
 

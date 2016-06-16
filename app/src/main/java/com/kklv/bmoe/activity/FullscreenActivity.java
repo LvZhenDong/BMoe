@@ -35,7 +35,7 @@ public class FullscreenActivity extends AppCompatActivity {
         mChart=new Chart(this,mLineChart);
         mCampList= (ArrayList<RoleIntradayCount>) getIntent().getSerializableExtra(CAMP_LIST);
         if(mCampList == null){  //没有数据就从网络加载
-            mChart.showData();
+//            mChart.showData();
         }else {
             mChart.setData(mCampList);
         }
