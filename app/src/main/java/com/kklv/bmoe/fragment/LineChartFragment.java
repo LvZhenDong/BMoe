@@ -19,9 +19,14 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.Chart;
+import com.kklv.bmoe.database.TestDatabase;
+import com.kklv.bmoe.object.RoleIntradayCount;
 import com.kklv.bmoe.utils.StringUtils;
 
+import junit.framework.TestCase;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -100,9 +105,11 @@ public class LineChartFragment extends Fragment {
         mFullScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-                intent.putExtra(FullscreenActivity.CAMP_LIST, mChart.getCampList());
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
+//                intent.putExtra(FullscreenActivity.CAMP_LIST, mChart.getCampList());
+//                startActivity(intent);
+                TestDatabase test=new TestDatabase();
+                mChart.setData((ArrayList<RoleIntradayCount>) test.testAddUser(getActivity(),mChart.getCampList()));
             }
         });
         mDrawChartBtn.setOnClickListener(new View.OnClickListener() {

@@ -33,4 +33,6 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.pgyersdk:sdk:2.2.2'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile 'com.j256.ormlite:ormlite-core:4.48'
 }

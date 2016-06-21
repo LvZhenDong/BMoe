@@ -1,16 +1,20 @@
 package com.kklv.bmoe.object;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+import com.kklv.bmoe.database.DataBean;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
- *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/2 15:41
  */
-public class RoleIntradayCount implements Serializable{
+@DatabaseTable
+public class RoleIntradayCount implements Serializable {
 
     /**
      * id :
@@ -21,19 +25,24 @@ public class RoleIntradayCount implements Serializable{
      * sex : 性别，0女1男
      * data :
      */
-
-    private String id;
+//    @DatabaseField(d = true)
+//    private int keyId;
+    @DatabaseField(id = true)
+    private int id;
+    @DatabaseField
     private String name;
+    @DatabaseField
     private String bangumi;
+    @DatabaseField
     private String date;
+    @DatabaseField
     private int stage;
+    @DatabaseField
     private String sex;
+    @DatabaseField
     private String group;
-
-    /**
-     * time : 00-小时
-     * count : 0-票数
-     */
+    @ForeignCollectionField
+    private Collection<DataBean> data;
 
     public String getGroup() {
         return group;
@@ -42,14 +51,13 @@ public class RoleIntradayCount implements Serializable{
     public void setGroup(String group) {
         this.group = group;
     }
-    private ArrayList<DataBean> data;
 
     public String getId() {
-        return id;
+        return id+"";
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = Integer.parseInt(id);
     }
 
     public String getName() {
@@ -92,32 +100,19 @@ public class RoleIntradayCount implements Serializable{
         this.sex = sex;
     }
 
-    public ArrayList<DataBean> getData() {
+    public Collection<DataBean> getData() {
         return data;
     }
 
-    public void setData(ArrayList<DataBean> data) {
+    public void setData(Collection<DataBean> data) {
         this.data = data;
     }
 
-    public static class DataBean implements Serializable{
-        private String time;
-        private String count;
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-        public String getCount() {
-            return count;
-        }
-
-        public void setCount(String count) {
-            this.count = count;
-        }
-    }
+//    public int getKeyId() {
+//        return keyId;
+//    }
+//
+//    public void setKeyId(int keyId) {
+//        this.keyId = keyId;
+//    }
 }
