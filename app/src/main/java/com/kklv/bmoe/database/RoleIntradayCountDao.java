@@ -50,7 +50,7 @@ public class RoleIntradayCountDao {
         }
     }
 
-    public void addOrUpdateRoleIntradayCounts(ArrayList<RoleIntradayCount> list) {
+    public void addOrUpdateRoleIntradayCounts(List<RoleIntradayCount> list) {
         for (RoleIntradayCount itme : list) {
             addOrUpdateRoleIntradayCount(itme);
         }

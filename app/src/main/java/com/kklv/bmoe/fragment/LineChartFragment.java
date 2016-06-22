@@ -105,9 +105,8 @@ public class LineChartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-                intent.putExtra(FullscreenActivity.CAMP_LIST, mChart.getCampList());
+                intent.putExtra(FullscreenActivity.CAMP_LIST, (ArrayList<RoleIntradayCount>)mChart.getCampList());
                 startActivity(intent);
-//                mChart.setData((ArrayList<RoleIntradayCount>) new RoleIntradayCountDao(getActivity()).getRoleIntradayCounts(mDateStr));
             }
         });
         mDrawChartBtn.setOnClickListener(new View.OnClickListener() {

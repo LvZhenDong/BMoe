@@ -71,7 +71,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
     }
 
     @Override
-    public <T> void onSuccess(ArrayList<T> result) {
+    public <T> void onSuccess(List<T> result) {
         if (!isAdded()) {
             return;
         }

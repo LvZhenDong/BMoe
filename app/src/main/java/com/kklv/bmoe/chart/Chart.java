@@ -33,10 +33,10 @@ public class Chart implements DataHelper.DataHelperCallBack {
     private DataHelper mDataHelper;
     private Context mContext;
 
-    private ArrayList<RoleIntradayCount> mCampList;
+    private List<RoleIntradayCount> mCampList;
     private List<List<RoleIntradayCount>> mSplitedList;
 
-    public ArrayList<RoleIntradayCount> getCampList() {
+    public List<RoleIntradayCount> getCampList() {
         return mCampList;
     }
 
@@ -84,19 +84,19 @@ public class Chart implements DataHelper.DataHelperCallBack {
      *
      * @param list
      */
-    public void setData(ArrayList<RoleIntradayCount> list) {
+    public void setData(List<RoleIntradayCount> list) {
         if (list == null) {
             return;
         }
         mSplitedList = ListUtils.split(list, 16);
-        drawChart((ArrayList<RoleIntradayCount>) mSplitedList.get(0));
+        drawChart(mSplitedList.get(0));
     }
 
-    private void drawChart(ArrayList<RoleIntradayCount> list) {
+    private void drawChart(List<RoleIntradayCount> list) {
         if (list == null) {
             return;
         }
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        List<ILineDataSet> dataSets = new ArrayList<>();
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
         for (RoleIntradayCount item : list) {
             int i = list.indexOf(item);
@@ -118,10 +118,9 @@ public class Chart implements DataHelper.DataHelperCallBack {
      */
     private LineDataSet createLineDataSet(RoleIntradayCount roleIntradayCount, int color) {
         LineDataSet set;
-//        ArrayList<DataBean> list = (ArrayList<DataBean>) roleIntradayCount.getData();
-        ArrayList<DataBean> list=new ArrayList<>();
+        List<DataBean> list=new ArrayList<>();
         list.addAll(roleIntradayCount.getData());
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
+        List<Entry> yVals = new ArrayList<Entry>();
         for (int i = 0; i < list.size(); i++) {
             yVals.add(new Entry(new Float(list.get(i).getCount()), i));
         }
@@ -148,11 +147,10 @@ public class Chart implements DataHelper.DataHelperCallBack {
      * @param one 一个角色当天的数据
      * @return
      */
-    private ArrayList<String> getXVals(RoleIntradayCount one) {
-//        ArrayList<DataBean> list = (ArrayList<DataBean>) one.getData();
-        ArrayList<DataBean> list = new ArrayList<>();
+    private List<String> getXVals(RoleIntradayCount one) {
+        List<DataBean> list = new ArrayList<>();
         list.addAll(one.getData());
-        ArrayList<String> xVals = new ArrayList<String>();
+        List<String> xVals = new ArrayList<String>();
         for (int i = 0; i < list.size(); i++) {
             xVals.add(list.get(i).getTime());
         }
@@ -160,10 +158,10 @@ public class Chart implements DataHelper.DataHelperCallBack {
     }
 
     @Override
-    public <T> void onSuccess(ArrayList<T> result) {
-        if (result != null) {
-            mCampList = (ArrayList<RoleIntradayCount>) result;
-//            setData((ArrayList<RoleIntradayCount>) result);
+    public <T> void onSuccess(List<T> result) {
+        if (result != null && result.size() > 0) {
+            mCampList = (List<RoleIntradayCount>) result;
+            setData((List<RoleIntradayCount>) result);
         } else {
             Toast.makeText(mContext, R.string.no_data, Toast.LENGTH_SHORT).show();
         }

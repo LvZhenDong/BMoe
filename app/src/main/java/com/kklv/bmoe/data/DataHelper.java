@@ -19,6 +19,7 @@ import com.kklv.bmoe.object.RoleIntradayCount;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,11 +44,11 @@ public class DataHelper {
      */
     public void getAllCamps(){
         String url=HttpUrl.ALL_CAMP;
-        GsonRequest gsonRequest=new GsonRequest<ArrayList<Camp>>(Request.Method.GET, url,
-                new TypeToken<ArrayList<Camp>>() {
-                }.getType(),new Response.Listener<ArrayList<Camp>>() {
+        GsonRequest gsonRequest=new GsonRequest<List<Camp>>(Request.Method.GET, url,
+                new TypeToken<List<Camp>>() {
+                }.getType(),new Response.Listener<List<Camp>>() {
             @Override
-            public void onResponse(ArrayList<Camp> response) {
+            public void onResponse(List<Camp> response) {
                 mCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
@@ -65,12 +66,12 @@ public class DataHelper {
      */
     public void getCampRank(String bangumi){
         String url=HttpUrl.RANK+"?bangumi="+EncodeChinese(bangumi);
-        GsonRequest gsonRequest=new GsonRequest<ArrayList<RoleInfo>>(Request.Method.GET, url,
-                new TypeToken<ArrayList<RoleInfo>>() {
-                }.getType(),new Response.Listener<ArrayList<RoleInfo>>() {
+        GsonRequest gsonRequest=new GsonRequest<List<RoleInfo>>(Request.Method.GET, url,
+                new TypeToken<List<RoleInfo>>() {
+                }.getType(),new Response.Listener<List<RoleInfo>>() {
             @Override
-            public void onResponse(ArrayList<RoleInfo> response) {
-                ArrayList<RoleInfo> list = response;
+            public void onResponse(List<RoleInfo> response) {
+                List<RoleInfo> list = response;
                 Log.i(TAG,"角色数量："+list.size());
             }
         }, new Response.ErrorListener() {
@@ -87,7 +88,7 @@ public class DataHelper {
      * @param map
      */
     public void getRoleIntradayCount(Map<String,String> map){
-        ArrayList<RoleIntradayCount> databaseResult= (ArrayList<RoleIntradayCount>) new RoleIntradayCountDao(mContext).getRoleIntradayCounts(map.get("date"));
+        List<RoleIntradayCount> databaseResult= new RoleIntradayCountDao(mContext).getRoleIntradayCounts(map.get("date"));
         if(databaseResult != null && databaseResult.size() > 0){
             mCallBack.onSuccess(databaseResult);
         }else {
@@ -99,11 +100,11 @@ public class DataHelper {
     private void getRoleIntradayCountFromInterNet(Map<String,String> map){
         String url=HttpUrl.ROLE+getURL(map);
         Log.i(TAG,"url:"+url);
-        GsonRequest gsonRequest=new GsonRequest<ArrayList<RoleIntradayCount>>(Request.Method.GET, url,
-                new TypeToken<ArrayList<RoleIntradayCount>>() {
-                }.getType(), new Response.Listener<ArrayList<RoleIntradayCount>>() {
+        GsonRequest gsonRequest=new GsonRequest<List<RoleIntradayCount>>(Request.Method.GET, url,
+                new TypeToken<List<RoleIntradayCount>>() {
+                }.getType(), new Response.Listener<List<RoleIntradayCount>>() {
             @Override
-            public void onResponse(ArrayList<RoleIntradayCount> response) {
+            public void onResponse(List<RoleIntradayCount> response) {
                 mCallBack.onSuccess(response);
                 if(response != null && response.size() >0){
                     //将数据添加到数据库
@@ -152,7 +153,7 @@ public class DataHelper {
     }
 
     public interface DataHelperCallBack{
-        public <T>void onSuccess(ArrayList<T> result);
+        public <T>void onSuccess(List<T> result);
         public void onFailure(Exception error);
     }
 
