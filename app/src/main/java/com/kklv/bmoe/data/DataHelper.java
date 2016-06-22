@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.reflect.TypeToken;
 import com.kklv.bmoe.constant.HttpUrl;
+import com.kklv.bmoe.database.RoleIntradayCountDao;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.RoleInfo;
 import com.kklv.bmoe.object.RoleIntradayCount;
@@ -82,10 +83,20 @@ public class DataHelper {
     }
 
     /**
-     *
+     *先从数据库取数据，如果数据库没有就从网络上取
      * @param map
      */
     public void getRoleIntradayCount(Map<String,String> map){
+        ArrayList<RoleIntradayCount> databaseResult= (ArrayList<RoleIntradayCount>) new RoleIntradayCountDao(mContext).getRoleIntradayCounts(map.get("date"));
+        if(databaseResult != null && databaseResult.size() > 0){
+            mCallBack.onSuccess(databaseResult);
+        }else {
+            getRoleIntradayCountFromInterNet(map);
+        }
+
+    }
+
+    private void getRoleIntradayCountFromInterNet(Map<String,String> map){
         String url=HttpUrl.ROLE+getURL(map);
         Log.i(TAG,"url:"+url);
         GsonRequest gsonRequest=new GsonRequest<ArrayList<RoleIntradayCount>>(Request.Method.GET, url,
@@ -94,6 +105,10 @@ public class DataHelper {
             @Override
             public void onResponse(ArrayList<RoleIntradayCount> response) {
                 mCallBack.onSuccess(response);
+                if(response != null && response.size() >0){
+                    //将数据添加到数据库
+                    new RoleIntradayCountDao(mContext).addOrUpdateRoleIntradayCounts(response);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -104,6 +119,8 @@ public class DataHelper {
         });
         mRequestQueue.add(gsonRequest);
     }
+
+
 
     private String getURL(Map<String,String> map){
         String result="?";

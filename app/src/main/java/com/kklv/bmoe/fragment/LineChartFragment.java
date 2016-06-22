@@ -1,6 +1,7 @@
 package com.kklv.bmoe.fragment;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.Chart;
 import com.kklv.bmoe.database.RoleIntradayCountDao;
 import com.kklv.bmoe.database.TestDatabase;
@@ -92,6 +94,7 @@ public class LineChartFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 mDateStr = StringUtils.formatDateString(mDatePickerET.getText() + "");
+//                mChart.setData();
                 Toast.makeText(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""),
                         Toast.LENGTH_SHORT).show();
             }
@@ -101,12 +104,10 @@ public class LineChartFragment extends Fragment {
         mFullScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-//                intent.putExtra(FullscreenActivity.CAMP_LIST, mChart.getCampList());
-//                startActivity(intent);
-//                TestDatabase test=new TestDatabase();
-//                mChart.setData((ArrayList<RoleIntradayCount>) test.testAddUser(getActivity(),mChart.getCampList()));
-                mChart.setData((ArrayList<RoleIntradayCount>) new RoleIntradayCountDao(getActivity()).getRoleIntradayCounts(mDateStr));
+                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
+                intent.putExtra(FullscreenActivity.CAMP_LIST, mChart.getCampList());
+                startActivity(intent);
+//                mChart.setData((ArrayList<RoleIntradayCount>) new RoleIntradayCountDao(getActivity()).getRoleIntradayCounts(mDateStr));
             }
         });
         mDrawChartBtn.setOnClickListener(new View.OnClickListener() {
