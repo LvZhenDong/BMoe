@@ -15,7 +15,7 @@ public class TestDatabase {
     public List<RoleIntradayCount> testAddUser(Context context, ArrayList<RoleIntradayCount> list){
         Log.i("kklv","list.size:"+list.size());
         RoleIntradayCountDao roleIntradayCountDao=new RoleIntradayCountDao(context);
-        roleIntradayCountDao.addRoleIntradayCounts(list);
+        roleIntradayCountDao.addOrUpdateRoleIntradayCounts(list);
         Log.i("TestDatabase","SIZE:"+roleIntradayCountDao.getAllRoleIntradayCounts().size());
         return roleIntradayCountDao.getAllRoleIntradayCounts();
     }

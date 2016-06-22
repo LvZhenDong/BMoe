@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.chart.Chart;
+import com.kklv.bmoe.database.RoleIntradayCountDao;
 import com.kklv.bmoe.database.TestDatabase;
 import com.kklv.bmoe.object.RoleIntradayCount;
 import com.kklv.bmoe.utils.StringUtils;
@@ -103,8 +104,9 @@ public class LineChartFragment extends Fragment {
 //                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
 //                intent.putExtra(FullscreenActivity.CAMP_LIST, mChart.getCampList());
 //                startActivity(intent);
-                TestDatabase test=new TestDatabase();
-                mChart.setData((ArrayList<RoleIntradayCount>) test.testAddUser(getActivity(),mChart.getCampList()));
+//                TestDatabase test=new TestDatabase();
+//                mChart.setData((ArrayList<RoleIntradayCount>) test.testAddUser(getActivity(),mChart.getCampList()));
+                mChart.setData((ArrayList<RoleIntradayCount>) new RoleIntradayCountDao(getActivity()).getRoleIntradayCounts(mDateStr));
             }
         });
         mDrawChartBtn.setOnClickListener(new View.OnClickListener() {
