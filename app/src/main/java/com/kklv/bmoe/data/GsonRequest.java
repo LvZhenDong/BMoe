@@ -1,10 +1,8 @@
 package com.kklv.bmoe.data;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -15,7 +13,6 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.util.Map;
 
 /**
  * @author LvZhenDong

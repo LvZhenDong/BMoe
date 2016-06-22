@@ -1,23 +1,26 @@
-package com.kklv.bmoe.database;
+package com.kklv.bmoe.object;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.kklv.bmoe.object.RoleIntradayCount;
 
 import java.io.Serializable;
 
 /**
- * Created by Administrator on 2016/6/17.
+ * 时间-票数
+ *
+ * @author LvZhenDong
+ * @email lvzhendong1993@gmail.com
+ * created at 2016/6/22 10:38
  */
 @DatabaseTable
-public class DataBean implements Serializable{
+public class DataBean implements Serializable {
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField
     private String time;
     @DatabaseField
     private String count;
-    @DatabaseField(foreign = true,foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private RoleIntradayCount roleIntradayCount;
 
     public String getTime() {

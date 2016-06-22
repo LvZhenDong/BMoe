@@ -3,7 +3,6 @@ package com.kklv.bmoe.object;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.kklv.bmoe.database.DataBean;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -23,10 +22,8 @@ public class RoleIntradayCount implements Serializable {
      * date :
      * stage : 比赛阶段 1:海选 2:复活 3:128强 4:32强 5:16强 6：8强 7:半决赛 8：三四位半决赛 9:决赛
      * sex : 性别，0女1男
-     * data :
+     * data : 时间-票数
      */
-//    @DatabaseField(d = true)
-//    private int keyId;
     @DatabaseField(id = true)
     private int id;
     @DatabaseField
@@ -108,11 +105,4 @@ public class RoleIntradayCount implements Serializable {
         this.data = data;
     }
 
-//    public int getKeyId() {
-//        return keyId;
-//    }
-//
-//    public void setKeyId(int keyId) {
-//        this.keyId = keyId;
-//    }
 }

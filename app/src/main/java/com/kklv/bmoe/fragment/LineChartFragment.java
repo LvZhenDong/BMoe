@@ -1,7 +1,6 @@
 package com.kklv.bmoe.fragment;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -17,17 +16,13 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
-import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.Chart;
 import com.kklv.bmoe.database.TestDatabase;
 import com.kklv.bmoe.object.RoleIntradayCount;
 import com.kklv.bmoe.utils.StringUtils;
 
-import junit.framework.TestCase;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 
 public class LineChartFragment extends Fragment {

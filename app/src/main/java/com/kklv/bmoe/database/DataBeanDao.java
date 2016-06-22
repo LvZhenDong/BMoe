@@ -1,15 +1,18 @@
 package com.kklv.bmoe.database;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+import com.kklv.bmoe.object.DataBean;
 
 import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/6/17.
+ *
+ * @author LvZhenDong
+ * @email lvzhendong1993@gmail.com
+ * created at 2016/6/22 11:09
  */
 public class DataBeanDao {
     private Dao<DataBean, Integer> mDataBeenOpe;
@@ -32,18 +35,13 @@ public class DataBeanDao {
         }
     }
 
-    public void getAll() {
-
+    public List<DataBean> getAll() {
+        List<DataBean> list=null;
         try {
-            List<DataBean> list = null;
-//            list=mDataBeenOpe.queryForAll();
-            list = mDataBeenOpe.queryBuilder().where().eq("time", "sd4").query();
-            for (DataBean data : list
-                    ) {
-                Log.i("TAG", "\nd");
-            }
+            list = mDataBeenOpe.queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return list;
     }
 }

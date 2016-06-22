@@ -11,11 +11,8 @@ import com.kklv.bmoe.R;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.PercentCamp;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * 阵营信息列表Adapter

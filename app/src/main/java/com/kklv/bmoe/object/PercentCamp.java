@@ -1,9 +1,6 @@
 package com.kklv.bmoe.object;
 
-import android.util.Log;
-
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 /**
  *计算过百分比的Camp信息

@@ -1,9 +1,5 @@
 package com.kklv.bmoe.database;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -12,52 +8,54 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleIntradayCount;
 
-public  class DatabaseHelper extends OrmLiteSqliteOpenHelper
-{
-    private static final String TABLE_NAME = "sqlite-kklv.db";
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
-    private Map<String, Dao> daos = new HashMap<String, Dao>();
+/**
+ * @author LvZhenDong
+ * @email lvzhendong1993@gmail.com
+ * created at 2016/6/22 10:30
+ */
+public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+    private static final String DB_NAME = "BMoe.db";
+    private static final int DB_VERSION = 1;
 
-    private DatabaseHelper(Context context)
-    {
-        super(context, TABLE_NAME, null, 5);
+    private Map<String, Dao> mDaos = new HashMap<>();
+    private static DatabaseHelper instance;
+
+    private DatabaseHelper(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase database,
-                         ConnectionSource connectionSource)
-    {
-        Log.i("TAG","onCreate:");
-        try
-        {
+                         ConnectionSource connectionSource) {
+        //创建表
+        try {
             TableUtils.createTable(connectionSource, RoleIntradayCount.class);
             TableUtils.createTable(connectionSource, DataBean.class);
-        } catch (SQLException e)
-        {
-            Log.i("TAG","onCreate: e");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase database,
-                          ConnectionSource connectionSource, int oldVersion, int newVersion)
-    {
-        try
-        {
-            TableUtils.dropTable(connectionSource,RoleIntradayCount.class,true);
-            TableUtils.dropTable(connectionSource,DataBean.class,true);
+                          ConnectionSource connectionSource, int oldVersion, int newVersion) {
+        //更新表
+        try {
+            TableUtils.dropTable(connectionSource, RoleIntradayCount.class, true);
+            TableUtils.dropTable(connectionSource, DataBean.class, true);
             onCreate(database, connectionSource);
-        } catch (SQLException e)
-        {
-            Log.i("TAG","onCreate:e2");
+        } catch (SQLException e) {
+            Log.i("TAG", "onCreate:e2");
             e.printStackTrace();
         }
     }
-
-    private static DatabaseHelper instance;
 
     /**
      * 单例获取该Helper
@@ -65,13 +63,10 @@ public  class DatabaseHelper extends OrmLiteSqliteOpenHelper
      * @param context
      * @return
      */
-    public static synchronized DatabaseHelper getHelper(Context context)
-    {
+    public static synchronized DatabaseHelper getHelper(Context context) {
         context = context.getApplicationContext();
-        if (instance == null)
-        {
-            synchronized (DatabaseHelper.class)
-            {
+        if (instance == null) {
+            synchronized (DatabaseHelper.class) {
                 if (instance == null)
                     instance = new DatabaseHelper(context);
             }
@@ -80,21 +75,16 @@ public  class DatabaseHelper extends OrmLiteSqliteOpenHelper
         return instance;
     }
 
-    public synchronized Dao getDao(Class clazz) throws SQLException
-    {
+    public synchronized Dao getDao(Class clazz) throws SQLException {
         Dao dao = null;
         String className = clazz.getSimpleName();
 
-        if (daos.containsKey(className))
-        {
-            dao = daos.get(className);
+        if (mDaos.containsKey(className)) {
+            dao = mDaos.get(className);
         }
-        if (dao == null)
-        {
-            Log.i("TAG","dao == null1");
-            dao=super.getDao(clazz);
-            Log.i("TAG","super");
-            daos.put(className, dao);
+        if (dao == null) {
+            dao = super.getDao(clazz);
+            mDaos.put(className, dao);
         }
         return dao;
     }
@@ -103,13 +93,11 @@ public  class DatabaseHelper extends OrmLiteSqliteOpenHelper
      * 释放资源
      */
     @Override
-    public void close()
-    {
+    public void close() {
         super.close();
 
-        for (String key : daos.keySet())
-        {
-            Dao dao = daos.get(key);
+        for (String key : mDaos.keySet()) {
+            Dao dao = mDaos.get(key);
             dao = null;
         }
     }
