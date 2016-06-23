@@ -5,10 +5,14 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,7 +116,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-                intent.putExtra(FullscreenActivity.CAMP_LIST, (ArrayList<RoleIntradayCount>)mChart.getCampList());
+                intent.putExtra(FullscreenActivity.CAMP_LIST, (ArrayList<RoleIntradayCount>) mChart.getCampList());
                 startActivity(intent);
             }
         });
@@ -125,8 +129,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         });
     }
 
-    private void initProgressDialog(){
-        mProgressDialog=new ProgressDialog(getActivity());
+    private void initProgressDialog() {
+        mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -135,7 +139,9 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             }
         });
         mProgressDialog.setCancelable(true);
+        mProgressDialog.setCanceledOnTouchOutside(false);
     }
+
     /**
      * 获取当天日期
      *

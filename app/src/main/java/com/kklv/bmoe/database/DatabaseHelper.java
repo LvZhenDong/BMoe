@@ -23,6 +23,7 @@ import java.util.Map;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DB_NAME = "BMoe.db";
     private static final int DB_VERSION = 1;
+    public static final String DB_HANDLER_THREAD_NAME="BMoe";
 
     private Map<String, Dao> mDaos = new HashMap<>();
     private static DatabaseHelper instance;

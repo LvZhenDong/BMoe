@@ -50,4 +50,11 @@ public class BangumiActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        //TODO 取消所有网络请求
+
+        super.onDestroy();
+    }
 }

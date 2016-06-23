@@ -127,6 +127,10 @@ public class DataHelper {
                 mCallBack.onFailure(error);
             }
         });
+        //TODO
+        //为Request添加Tag，当Activity的onDestroy执行后取消所有请求，网上写的是onStop，但我觉得为什么
+        //不应该是onDestroy呢？
+//        mRoleIntradayCountRequest.setTag(mContext);
         mRequestQueue.add(mRoleIntradayCountRequest);
     }
 
@@ -191,4 +195,5 @@ public class DataHelper {
         }
         return list;
     }
+
 }

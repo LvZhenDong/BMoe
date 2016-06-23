@@ -1,7 +1,11 @@
 package com.kklv.bmoe.chart;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -13,6 +17,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.data.DataHelper;
+import com.kklv.bmoe.database.DatabaseHelper;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleIntradayCount;
 import com.kklv.bmoe.utils.ListUtils;
@@ -34,6 +39,10 @@ public class Chart extends BaseChart{
     private DataHelper mDataHelper;
     private Context mContext;
 
+    private HandlerThread mHandlerThread;
+    private Handler mSubThreadHandler;
+    private Handler mUIHandler=new Handler();
+
     private List<RoleIntradayCount> mCampList;
     private List<List<RoleIntradayCount>> mSplitedList;
 
@@ -47,6 +56,7 @@ public class Chart extends BaseChart{
         mDataHelper = new DataHelper(mContext);
         mDataHelper.registerCallBack(this);
 
+        initHandler();
         initLineChart();
     }
 
@@ -60,7 +70,10 @@ public class Chart extends BaseChart{
         map.put("date", date);
 //        map.put("sex","0");
 //        map.put("group","G1"); //有一段时间是A1后面变成1-A
-        mDataHelper.getRoleIntradayCount(map);
+//        mDataHelper.getRoleIntradayCount(map);
+        Message msg=new Message();
+        msg.obj=map;
+        mSubThreadHandler.sendMessage(msg);
     }
 
     private void initLineChart() {
@@ -160,20 +173,31 @@ public class Chart extends BaseChart{
     }
 
     @Override
-    public <T> void onSuccess(List<T> result) {
-        mCallBack.onLoadCompleted();
-        if (result != null && result.size() > 0) {
-            mCampList = (List<RoleIntradayCount>) result;
-            setData((List<RoleIntradayCount>) result);
-        } else {
-            Toast.makeText(mContext, R.string.no_data, Toast.LENGTH_SHORT).show();
-        }
+    public <T> void onSuccess(final List<T> result) {
+        mUIHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mCallBack.onLoadCompleted();
+                if (result != null && result.size() > 0) {
+                    mCampList = (List<RoleIntradayCount>) result;
+                    setData((List<RoleIntradayCount>) result);
+                } else {
+                    Toast.makeText(mContext, R.string.no_data, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
     public void onFailure(Exception error) {
-        mCallBack.onLoadCompleted();
-        Toast.makeText(mContext, R.string.net_error, Toast.LENGTH_SHORT).show();
+        mUIHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mCallBack.onLoadCompleted();
+                Toast.makeText(mContext, R.string.net_error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -181,4 +205,17 @@ public class Chart extends BaseChart{
         mDataHelper.mRoleIntradayCountRequest.cancel();
     }
 
+    /**
+     * 初始化HandlerThread，在子线程中进行数据库操作
+     */
+    private void initHandler(){
+        mHandlerThread=new HandlerThread(DatabaseHelper.DB_HANDLER_THREAD_NAME);
+        mHandlerThread.start();
+        mSubThreadHandler=new Handler(mHandlerThread.getLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                mDataHelper.getRoleIntradayCount((Map<String, String>) msg.obj);
+            }
+        };
+    }
 }
