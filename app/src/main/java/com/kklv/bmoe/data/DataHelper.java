@@ -32,6 +32,7 @@ public class DataHelper {
     private static final String TAG = "DataHelper";
     private Context mContext;
     private RequestQueue mRequestQueue;
+    public GsonRequest mRoleIntradayCountRequest;
 
     private DataHelperCallBack mCallBack;
 
@@ -103,7 +104,7 @@ public class DataHelper {
     private void getRoleIntradayCountFromInterNet(final Map<String, String> map) {
         String url = HttpUrl.ROLE + getURL(map);
         Log.i(TAG, "url:" + url);
-        GsonRequest gsonRequest = new GsonRequest<List<RoleIntradayCount>>(Request.Method.GET, url,
+        mRoleIntradayCountRequest = new GsonRequest<List<RoleIntradayCount>>(Request.Method.GET, url,
                 new TypeToken<List<RoleIntradayCount>>() {
                 }.getType(), new Response.Listener<List<RoleIntradayCount>>() {
             @Override
@@ -126,7 +127,7 @@ public class DataHelper {
                 mCallBack.onFailure(error);
             }
         });
-        mRequestQueue.add(gsonRequest);
+        mRequestQueue.add(mRoleIntradayCountRequest);
     }
 
 

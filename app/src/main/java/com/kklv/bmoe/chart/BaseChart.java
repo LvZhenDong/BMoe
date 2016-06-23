@@ -11,7 +11,7 @@ import java.util.List;
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/23 11:28
  */
-public class BaseChart implements DataHelper.DataHelperCallBack {
+public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     protected ChartCallBack mCallBack;
 
     @Override
@@ -39,4 +39,9 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
     public void registerChartCallBack(ChartCallBack callBack) {
         this.mCallBack = callBack;
     }
+
+    /**
+     * 取消网络请求
+     */
+    public abstract void cancelRequest();
 }

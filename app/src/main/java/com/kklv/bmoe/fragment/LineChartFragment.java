@@ -131,6 +131,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             @Override
             public void onCancel(DialogInterface dialog) {
                 // TODO 取消网络请求
+                mChart.cancelRequest();
             }
         });
         mProgressDialog.setCancelable(true);

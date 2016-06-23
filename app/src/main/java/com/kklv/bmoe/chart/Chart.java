@@ -176,4 +176,9 @@ public class Chart extends BaseChart{
         Toast.makeText(mContext, R.string.net_error, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void cancelRequest() {
+        mDataHelper.mRoleIntradayCountRequest.cancel();
+    }
+
 }
