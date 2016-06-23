@@ -18,7 +18,6 @@ import com.kklv.bmoe.adapter.CampListAdapter;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.object.Camp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

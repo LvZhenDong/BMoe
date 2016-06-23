@@ -32,16 +32,16 @@ import java.util.Map;
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/7 11:45
  */
-public class Chart extends BaseChart{
+public class Chart extends BaseChart {
     private static final String TAG = "Chart";
-    private static final int ANIMATEY_TIME=2000;
+    private static final int ANIMATEY_TIME = 2000;
     private LineChart mLineChart;
     private DataHelper mDataHelper;
     private Context mContext;
 
     private HandlerThread mHandlerThread;
     private Handler mSubThreadHandler;
-    private Handler mUIHandler=new Handler();
+    private Handler mUIHandler = new Handler();
 
     private List<RoleIntradayCount> mCampList;
     private List<List<RoleIntradayCount>> mSplitedList;
@@ -71,8 +71,8 @@ public class Chart extends BaseChart{
 //        map.put("sex","0");
 //        map.put("group","G1"); //有一段时间是A1后面变成1-A
 //        mDataHelper.getRoleIntradayCount(map);
-        Message msg=new Message();
-        msg.obj=map;
+        Message msg = new Message();
+        msg.obj = map;
         mSubThreadHandler.sendMessage(msg);
     }
 
@@ -133,7 +133,7 @@ public class Chart extends BaseChart{
      */
     private LineDataSet createLineDataSet(RoleIntradayCount roleIntradayCount, int color) {
         LineDataSet set;
-        List<DataBean> list=new ArrayList<>();
+        List<DataBean> list = new ArrayList<>();
         list.addAll(roleIntradayCount.getData());
         List<Entry> yVals = new ArrayList<Entry>();
         for (int i = 0; i < list.size(); i++) {
@@ -208,10 +208,10 @@ public class Chart extends BaseChart{
     /**
      * 初始化HandlerThread，在子线程中进行数据库操作
      */
-    private void initHandler(){
-        mHandlerThread=new HandlerThread(DatabaseHelper.DB_HANDLER_THREAD_NAME);
+    private void initHandler() {
+        mHandlerThread = new HandlerThread(DatabaseHelper.DB_HANDLER_THREAD_NAME);
         mHandlerThread.start();
-        mSubThreadHandler=new Handler(mHandlerThread.getLooper()){
+        mSubThreadHandler = new Handler(mHandlerThread.getLooper()) {
             @Override
             public void handleMessage(Message msg) {
                 mDataHelper.getRoleIntradayCount((Map<String, String>) msg.obj);

@@ -12,6 +12,15 @@
         <item name="colorPrimary">#009688</item>
         <item name="colorPrimaryDark">#00796B</item>
         <item name="colorAccent">#009688</item>
+        <item name="android:windowAnimationStyle">@style/AnimActivity</item>
+    </style>
+
+    <!--Activity跳转时的动画-->
+    <style name="AnimActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/open_slide_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/open_slide_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/close_slide_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/close_slide_out</item>
     </style>
 
     <style name="FullscreenTheme" parent="Theme.MyDemo">

@@ -9,15 +9,17 @@ import android.view.MenuItem;
 import com.kklv.bmoe.R;
 
 /**
- *角色数据表格
+ * 角色数据表格
+ *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/13 17:43
  */
 public class BangumiActivity extends BaseActivity {
-    public static final String BANGUMI="bangumi";
+    public static final String BANGUMI = "bangumi";
     private ActionBar mActionBar;
     private String mBangumi;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,23 +29,23 @@ public class BangumiActivity extends BaseActivity {
         initView();
     }
 
-    private void bindId(){
+    private void bindId() {
 
     }
 
-    private void initView(){
-        mBangumi=getIntent().getStringExtra(BANGUMI);
+    private void initView() {
+        mBangumi = getIntent().getStringExtra(BANGUMI);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mActionBar=getSupportActionBar();
+        mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setTitle(mBangumi);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
