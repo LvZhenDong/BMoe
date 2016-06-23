@@ -1,6 +1,8 @@
 package com.kklv.bmoe.fragment;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,6 +39,8 @@ public class LineChartFragment extends Fragment {
     private Button mFullScreenBtn;
     private Button mDrawChartBtn;
 
+    private ProgressDialog mProgressDialog;
+
     /**
      * 类似于06-04-12这样的日期
      */
@@ -61,6 +65,7 @@ public class LineChartFragment extends Fragment {
     }
 
     private void initView() {
+        initProgressDialog();
         mChart = new Chart(getActivity(), mLineChart);
 
         mDatePickerET.setInputType(InputType.TYPE_NULL);
@@ -117,6 +122,16 @@ public class LineChartFragment extends Fragment {
         });
     }
 
+    private void initProgressDialog(){
+        mProgressDialog=new ProgressDialog(getActivity());
+        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                // TODO 取消网络请求
+            }
+        });
+        mProgressDialog.setCancelable(true);
+    }
     /**
      * 获取当天日期
      *

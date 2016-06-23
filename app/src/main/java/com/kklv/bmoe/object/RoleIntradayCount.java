@@ -23,6 +23,7 @@ public class RoleIntradayCount implements Serializable {
      * stage : 比赛阶段 1:海选 2:复活 3:128强 4:32强 5:16强 6：8强 7:半决赛 8：三四位半决赛 9:决赛
      * sex : 性别，0女1男
      * data : 时间-票数
+     * maxCount : 得到的最大票数，可以用于排序
      */
     @DatabaseField(id = true)
     private int id;
@@ -38,6 +39,8 @@ public class RoleIntradayCount implements Serializable {
     private String sex;
     @DatabaseField
     private String group;
+    @DatabaseField
+    private String maxCount;
     @ForeignCollectionField
     private Collection<DataBean> data;
 
@@ -50,7 +53,7 @@ public class RoleIntradayCount implements Serializable {
     }
 
     public String getId() {
-        return id+"";
+        return id + "";
     }
 
     public void setId(String id) {
@@ -95,6 +98,14 @@ public class RoleIntradayCount implements Serializable {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getMaxCount() {
+        return maxCount;
+    }
+
+    public void setMaxCount(String maxCount) {
+        this.maxCount = maxCount;
     }
 
     public Collection<DataBean> getData() {

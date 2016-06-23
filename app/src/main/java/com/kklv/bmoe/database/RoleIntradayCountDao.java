@@ -1,6 +1,7 @@
 package com.kklv.bmoe.database;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -73,7 +74,7 @@ public class RoleIntradayCountDao {
     }
 
     /**
-     * 获取日期对应的数据
+     * 获取日期对应的数据，并按macCount降序排列
      *
      * @param date
      * @return
@@ -83,8 +84,14 @@ public class RoleIntradayCountDao {
         QueryBuilder<RoleIntradayCount, Integer> queryBuilder = mRoleIntradayCountDaoOpe.queryBuilder();
         Where<RoleIntradayCount, Integer> where = queryBuilder.where();
         try {
-            //TODO 有没有不用写"date"，之间根据RoleIntradayCount里面名称改变的方法
-            return where.eq("date", date).query();
+
+            List<RoleIntradayCount> list= queryBuilder.orderBy("maxCount",false).where().eq("date",date).query();
+            for (RoleIntradayCount item:list
+                    ) {
+                Log.i("kklv","name:"+item.getName()+";maxCount:"+item.getMaxCount());
+            }
+            //TODO 有没有不用写"date"，直接根据RoleIntradayCount里面名称改变的方法
+            return list;
         } catch (SQLException e) {
             e.printStackTrace();
         }
