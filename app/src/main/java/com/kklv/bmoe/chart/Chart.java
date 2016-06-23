@@ -27,8 +27,9 @@ import java.util.Map;
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/7 11:45
  */
-public class Chart implements DataHelper.DataHelperCallBack {
+public class Chart extends BaseChart{
     private static final String TAG = "Chart";
+    private static final int ANIMATEY_TIME=2000;
     private LineChart mLineChart;
     private DataHelper mDataHelper;
     private Context mContext;
@@ -68,7 +69,7 @@ public class Chart implements DataHelper.DataHelperCallBack {
         mLineChart.setNoDataText(mContext.getString(R.string.data_loading));
         mLineChart.setDescriptionTextSize(20.0f);
         mLineChart.getLegend().setWordWrapEnabled(true);    //label自动换行
-        mLineChart.animateY(2000);
+        mLineChart.animateY(ANIMATEY_TIME);
         mLineChart.setMaxVisibleValueCount(Integer.MAX_VALUE);
         YAxis rightAxis = mLineChart.getAxisRight();
         rightAxis.setEnabled(false);    //右边Y轴不显示
@@ -105,6 +106,7 @@ public class Chart implements DataHelper.DataHelperCallBack {
         LineData data = new LineData(getXVals(list.get(0)), dataSets);
         // set data
         mLineChart.setData(data);
+        mLineChart.animateY(ANIMATEY_TIME);
         mLineChart.notifyDataSetChanged();
         mLineChart.invalidate();
     }
@@ -159,6 +161,7 @@ public class Chart implements DataHelper.DataHelperCallBack {
 
     @Override
     public <T> void onSuccess(List<T> result) {
+        mCallBack.onLoadCompleted();
         if (result != null && result.size() > 0) {
             mCampList = (List<RoleIntradayCount>) result;
             setData((List<RoleIntradayCount>) result);
@@ -169,6 +172,7 @@ public class Chart implements DataHelper.DataHelperCallBack {
 
     @Override
     public void onFailure(Exception error) {
+        mCallBack.onLoadCompleted();
         Toast.makeText(mContext, R.string.net_error, Toast.LENGTH_SHORT).show();
     }
 

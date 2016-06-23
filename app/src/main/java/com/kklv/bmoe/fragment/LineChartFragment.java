@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
+import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.chart.Chart;
 import com.kklv.bmoe.database.RoleIntradayCountDao;
 import com.kklv.bmoe.database.TestDatabase;
@@ -30,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
-public class LineChartFragment extends Fragment {
+public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack {
     private LineChart mLineChart;
     private Chart mChart;
 
@@ -67,6 +68,7 @@ public class LineChartFragment extends Fragment {
     private void initView() {
         initProgressDialog();
         mChart = new Chart(getActivity(), mLineChart);
+        mChart.registerChartCallBack(this);
 
         mDatePickerET.setInputType(InputType.TYPE_NULL);
         mDateStr = getTodayDate();
@@ -117,6 +119,7 @@ public class LineChartFragment extends Fragment {
         mDrawChartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressDialog.show();
                 mChart.showData(mDateStr);
             }
         });
@@ -140,5 +143,10 @@ public class LineChartFragment extends Fragment {
     private String getTodayDate() {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return sDateFormat.format(new java.util.Date());
+    }
+
+    @Override
+    public void onLoadCompleted() {
+        mProgressDialog.dismiss();
     }
 }
