@@ -2,6 +2,9 @@ package com.kklv.bmoe.data;
 
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -30,15 +33,22 @@ import java.util.Map;
  */
 public class DataHelper {
     private static final String TAG = "DataHelper";
+    public static final String DB_HANDLER_THREAD_NAME="BMoe";
     private Context mContext;
     private RequestQueue mRequestQueue;
     public GsonRequest mRoleIntradayCountRequest;
 
     private DataHelperCallBack mCallBack;
 
+    private HandlerThread mHandlerThread;
+    private Handler mSubThreadHandler;
+    private Handler mUIHandler=new Handler();
+
     public DataHelper(Context context) {
         mContext = context;
         mRequestQueue = Volley.newRequestQueue(mContext);
+
+        initHandler();
     }
 
     /**
@@ -109,16 +119,11 @@ public class DataHelper {
                 }.getType(), new Response.Listener<List<RoleIntradayCount>>() {
             @Override
             public void onResponse(List<RoleIntradayCount> response) {
+                Log.i("kklv","这里就是主线程了？");
                 response = setRoleIntradayCountsMaxCount(response);   //拿到数据后先设置maxCount
-                List<RoleIntradayCount> databaseResult = null;
-                if (response != null && response.size() > 0) {
-                    RoleIntradayCountDao roleIntradayCountDao = new RoleIntradayCountDao(mContext);
-                    //将数据添加到数据库
-                    roleIntradayCountDao.addOrUpdateRoleIntradayCounts(response);
-                    //因为需要排序后的数据，所有还是从数据库读取
-                    databaseResult = roleIntradayCountDao.getRoleIntradayCounts(map.get("date"));
-                }
-                mCallBack.onSuccess(databaseResult);
+                Message msg=new Message();
+                msg.obj=response;
+                mSubThreadHandler.sendMessage(msg);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -135,6 +140,38 @@ public class DataHelper {
     }
 
 
+    /**
+     * 初始化HandlerThread，在子线程中进行数据库操作
+     */
+    private void initHandler(){
+        mHandlerThread=new HandlerThread(DB_HANDLER_THREAD_NAME);
+        mHandlerThread.start();
+        mSubThreadHandler=new Handler(mHandlerThread.getLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                //HandlerThread开辟的子线程
+                List<RoleIntradayCount> response= (List<RoleIntradayCount>) msg.obj;
+                List<RoleIntradayCount> databaseResult = null;
+                if (response != null && response.size() > 0) {
+                    RoleIntradayCountDao roleIntradayCountDao = new RoleIntradayCountDao(mContext);
+                    //将数据添加到数据库
+                    roleIntradayCountDao.addOrUpdateRoleIntradayCounts(response);
+                    //因为需要排序后的数据，所有还是从数据库读取
+                    //本来date是从getRoleIntradayCountFromInterNet的map里得来的，这么做应该也没什么问题
+                    String date=response.get(0).getDate();
+                    databaseResult = roleIntradayCountDao.getRoleIntradayCounts(date);
+                }
+                final List<RoleIntradayCount> finalDatabaseResult = databaseResult;
+                mUIHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //主线程
+                        mCallBack.onSuccess(finalDatabaseResult);
+                    }
+                });
+            }
+        };
+    }
     private String getURL(Map<String, String> map) {
         String result = "?";
         if (!(TextUtils.isEmpty(map.get("date")))) {
