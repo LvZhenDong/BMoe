@@ -126,8 +126,8 @@ public class MainActivity extends BaseActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.menu_debug_null_point_exception:
-                Chart debug=null;   //调试蒲公英
-                debug.showData("SFSD");
+//                Chart debug=null;   //调试蒲公英
+//                debug.showData("SFSD");
                 break;
 
         }

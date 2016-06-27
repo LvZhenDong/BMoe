@@ -35,4 +35,5 @@ dependencies {
     compile 'com.pgyersdk:sdk:2.2.2'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile files('libs/radial-menu-v4.jar')
 }

@@ -69,7 +69,7 @@ public class Chart extends BaseChart {
     }
 
     private void initLineChart() {
-        mLineChart.setDescription(mContext.getString(R.string.count_line_chart));
+        mLineChart.setDescription(mContext.getString(R.string.count_line_chart)+"(1-16)");
 //        mLineChart.setDescriptionPosition(440,100);
         mLineChart.setNoDataText(mContext.getString(R.string.data_loading));
         mLineChart.setDescriptionTextSize(20.0f);

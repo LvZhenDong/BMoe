@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -30,9 +31,12 @@ import com.kklv.bmoe.database.RoleIntradayCountDao;
 import com.kklv.bmoe.database.TestDatabase;
 import com.kklv.bmoe.object.RoleIntradayCount;
 import com.kklv.bmoe.utils.StringUtils;
+import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
+import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack {
@@ -45,6 +49,11 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private Button mDrawChartBtn;
 
     private ProgressDialog mProgressDialog;
+
+    private RadialMenuWidget pieMenu;
+    private RadialMenuItem centerItem, menuUpItem, menuDownItem,menuLeftItem;
+    public RadialMenuItem firstChildItem, secondChildItem, thirdChildItem;
+    private List<RadialMenuItem> children = new ArrayList<RadialMenuItem>();
 
     /**
      * 类似于06-04-12这样的日期
@@ -70,6 +79,38 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     }
 
     private void initView() {
+        pieMenu = new RadialMenuWidget(getActivity());
+        pieMenu.setAnimationSpeed(0L);
+        pieMenu.setSourceLocation(200, 200);
+        pieMenu.setIconSize(15, 30);
+        pieMenu.setTextSize(13);
+        pieMenu.setOutlineColor(Color.WHITE, 225);
+        pieMenu.setInnerRingColor(0x0000ff, 180);
+        pieMenu.setDisabledColor(0xff0000, 0xff);
+        pieMenu.setOuterRingColor(0x00ff00, 0xff);
+        pieMenu.setSelectedColor(Color.GRAY, 255);
+
+        centerItem = new RadialMenuItem("center", "asdf");
+        menuDownItem = new RadialMenuItem("down", "fghs");
+        menuUpItem = new RadialMenuItem("up", "erfgge");
+        menuLeftItem=new RadialMenuItem("left","left");
+
+        firstChildItem=new RadialMenuItem("kklv","sd");
+        secondChildItem=new RadialMenuItem("kklvs","sdf");
+        thirdChildItem=new RadialMenuItem("sdf","sdfsd");
+        children.add(firstChildItem);
+        children.add(secondChildItem);
+        children.add(thirdChildItem);
+        menuDownItem.setMenuChildren(children);
+        pieMenu.setCenterCircle(centerItem);
+        pieMenu.addMenuEntry(new ArrayList<RadialMenuItem>() {
+            {
+                add(menuDownItem);
+                add(menuUpItem);
+                add(menuLeftItem);
+            }
+        });
+
         initProgressDialog();
         mChart = new Chart(getActivity(), mLineChart);
         mChart.registerChartCallBack(this);
@@ -115,9 +156,10 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mFullScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-                intent.putExtra(FullscreenActivity.CAMP_LIST, (ArrayList<RoleIntradayCount>) mChart.getCampList());
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
+//                intent.putExtra(FullscreenActivity.CAMP_LIST, (ArrayList<RoleIntradayCount>) mChart.getCampList());
+//                startActivity(intent);
+                pieMenu.show(mDrawChartBtn);
             }
         });
         mDrawChartBtn.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +169,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                 mChart.showData(mDateStr);
             }
         });
+
     }
 
     private void initProgressDialog() {
