@@ -38,8 +38,8 @@ public class Chart extends BaseChart {
     private List<List<RoleIntradayCount>> mSplitLists;
     private int showingSplitListId = 0;
 
-    public List<RoleIntradayCount> getCampList() {
-        return mCampList;
+    public List<RoleIntradayCount> getSplitList() {
+        return mSplitLists.get(showingSplitListId);
     }
 
     public Chart(Context context, LineChart lineChart) {
@@ -87,7 +87,7 @@ public class Chart extends BaseChart {
      * @param list
      */
     public void setData(List<RoleIntradayCount> list) {
-        if (list == null) {
+        if (list == null || list.size() <= 0) {
             return;
         }
         mSplitLists = ListUtils.split(list, 16);

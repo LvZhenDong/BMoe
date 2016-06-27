@@ -34,12 +34,13 @@ public class FullscreenActivity extends AppCompatActivity {
 
     private void initView(){
         mChart=new Chart(this,mLineChart);
-//        mCampList= (List<RoleIntradayCount>) getIntent().getSerializableExtra(CAMP_LIST);
-        if(mCampList == null){  //没有数据就从网络加载
+        mCampList= (List<RoleIntradayCount>) getIntent().getSerializableExtra(CAMP_LIST);
+        mChart.setData(mCampList);
+//        if(mCampList == null){  //没有数据就从网络加载
 //            mChart.showData();
-        }else {
+//        }else {
 //            mChart.setData(mCampList);
-        }
+//        }
     }
     /**
      * Whether or not the system UI should be auto-hidden after

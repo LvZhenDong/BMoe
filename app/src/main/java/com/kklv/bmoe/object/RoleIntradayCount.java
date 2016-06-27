@@ -1,5 +1,6 @@
 package com.kklv.bmoe.object;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -41,7 +42,7 @@ public class RoleIntradayCount implements Serializable {
     private String group;
     @DatabaseField
     private int maxCount;
-    @ForeignCollectionField
+    @ForeignCollectionField(eager = true) //好像为FALSE才是懒加载
     private Collection<DataBean> data;
 
     public String getGroup() {

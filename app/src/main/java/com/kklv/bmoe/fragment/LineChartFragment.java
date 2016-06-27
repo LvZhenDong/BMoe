@@ -3,6 +3,7 @@ package com.kklv.bmoe.fragment;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,8 +20,10 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.chart.Chart;
+import com.kklv.bmoe.object.RoleIntradayCount;
 import com.kklv.bmoe.utils.StringUtils;
 import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
 import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
@@ -148,10 +151,11 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mFullScreenIBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-//                intent.putExtra(FullscreenActivity.CAMP_LIST, (ArrayList<RoleIntradayCount>) mChart.getCampList());
-//                startActivity(intent);
-                pieMenu.show(mFullScreenIBtn);
+                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
+                intent.putExtra(FullscreenActivity.CAMP_LIST,
+                        (ArrayList<RoleIntradayCount>) mChart.getSplitList());
+                startActivity(intent);
+//                pieMenu.show(mFullScreenIBtn);
             }
         });
         mLeftIBtn.setOnClickListener(mChartRankListener);
