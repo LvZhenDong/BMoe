@@ -85,10 +85,12 @@ public class RoleIntradayCountDao {
         Where<RoleIntradayCount, Integer> where = queryBuilder.where();
         try {
 
-            List<RoleIntradayCount> list= queryBuilder.orderBy("maxCount",false).where().eq("date",date).query();
-            for (RoleIntradayCount item:list
+            //TODO 为什么把maxCount改为主键就成功了？ 现在不用主键也可以了，莫名其妙就好了，无语
+            List<RoleIntradayCount> list = queryBuilder.orderBy("maxCount", false).where().eq("date", date).query();
+//            List<RoleIntradayCount> list = queryBuilder.orderBy("id", false).where().eq("date", date).query();
+            for (RoleIntradayCount item : list
                     ) {
-                Log.i("kklv","name:"+item.getName()+";maxCount:"+item.getMaxCount());
+                Log.i("kklv", "name:" + item.getName() +";id:"+item.getId()+ ";maxCount:" + item.getMaxCount());
             }
             //TODO 有没有不用写"date"，直接根据RoleIntradayCount里面名称改变的方法
             return list;

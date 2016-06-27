@@ -40,7 +40,7 @@ public class RoleIntradayCount implements Serializable {
     @DatabaseField
     private String group;
     @DatabaseField
-    private String maxCount;
+    private int maxCount;
     @ForeignCollectionField
     private Collection<DataBean> data;
 
@@ -101,11 +101,11 @@ public class RoleIntradayCount implements Serializable {
     }
 
     public String getMaxCount() {
-        return maxCount;
+        return maxCount+"";
     }
 
     public void setMaxCount(String maxCount) {
-        this.maxCount = maxCount;
+        this.maxCount = Integer.parseInt(maxCount);
     }
 
     public Collection<DataBean> getData() {

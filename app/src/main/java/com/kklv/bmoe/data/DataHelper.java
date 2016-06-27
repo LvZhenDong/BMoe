@@ -119,7 +119,6 @@ public class DataHelper {
                 }.getType(), new Response.Listener<List<RoleIntradayCount>>() {
             @Override
             public void onResponse(List<RoleIntradayCount> response) {
-                Log.i("kklv","这里就是主线程了？");
                 response = setRoleIntradayCountsMaxCount(response);   //拿到数据后先设置maxCount
                 Message msg=new Message();
                 msg.obj=response;
