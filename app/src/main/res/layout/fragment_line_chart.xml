@@ -29,14 +29,14 @@
             android:layout_below="@id/et_date"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            style="@style/Button"
+            style="@style/RoundButton"
             android:src="@drawable/ic_keyboard_arrow_left_white_48dp"/>
         <ImageButton
             android:layout_alignTop="@id/ibtn_left"
             android:layout_toRightOf="@id/ibtn_left"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            style="@style/Button"
+            style="@style/RoundButton"
             android:src="@drawable/ic_keyboard_arrow_right_white_48dp"/>
 
         <ImageButton
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            style="@style/Button"
+            style="@style/RectButton"
             android:src="@drawable/ic_zoom_out_map_white_48dp"/>
 
     </RelativeLayout>
