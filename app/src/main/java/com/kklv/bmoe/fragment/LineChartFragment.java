@@ -3,33 +3,26 @@ package com.kklv.bmoe.fragment;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
-import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.chart.Chart;
-import com.kklv.bmoe.database.RoleIntradayCountDao;
-import com.kklv.bmoe.database.TestDatabase;
-import com.kklv.bmoe.object.RoleIntradayCount;
 import com.kklv.bmoe.utils.StringUtils;
 import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
 import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
@@ -45,8 +38,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
 
     private EditText mDatePickerET;
-    private Button mFullScreenBtn;
-    private Button mDrawChartBtn;
+    private ImageButton mFullScreenTV;
 
     private ProgressDialog mProgressDialog;
 
@@ -74,8 +66,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private void bindId(View view) {
         mLineChart = (LineChart) view.findViewById(R.id.lineChart);
         mDatePickerET = (EditText) view.findViewById(R.id.et_date);
-        mFullScreenBtn = (Button) view.findViewById(R.id.btn_full_screen);
-        mDrawChartBtn = (Button) view.findViewById(R.id.btn_draw_chart);
+        mFullScreenTV = (ImageButton) view.findViewById(R.id.btn_full_screen);
     }
 
     private void initView() {
@@ -146,27 +137,21 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             @Override
             public void afterTextChanged(Editable s) {
                 mDateStr = StringUtils.formatDateString(mDatePickerET.getText() + "");
-//                mChart.setData();
+                mProgressDialog.show();
+                mChart.showData(mDateStr);
                 Toast.makeText(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""),
                         Toast.LENGTH_SHORT).show();
             }
         });
         mDatePickerET.setFocusable(false);
 
-        mFullScreenBtn.setOnClickListener(new View.OnClickListener() {
+        mFullScreenTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
 //                intent.putExtra(FullscreenActivity.CAMP_LIST, (ArrayList<RoleIntradayCount>) mChart.getCampList());
 //                startActivity(intent);
-                pieMenu.show(mDrawChartBtn);
-            }
-        });
-        mDrawChartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProgressDialog.show();
-                mChart.showData(mDateStr);
+                pieMenu.show(mFullScreenTV);
             }
         });
 

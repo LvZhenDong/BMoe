@@ -24,20 +24,29 @@
             android:id="@+id/et_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <ImageButton
+            android:id="@+id/ibtn_left"
+            android:layout_below="@id/et_date"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            style="@style/Button"
+            android:src="@drawable/ic_keyboard_arrow_left_white_48dp"/>
+        <ImageButton
+            android:layout_alignTop="@id/ibtn_left"
+            android:layout_toRightOf="@id/ibtn_left"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            style="@style/Button"
+            android:src="@drawable/ic_keyboard_arrow_right_white_48dp"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_full_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="@string/full_screen"/>
-        <Button
-            android:id="@+id/btn_draw_chart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_full_screen"
-            android:layout_alignParentRight="true"
-            android:text="@string/draw_chart"/>
+            style="@style/Button"
+            android:src="@drawable/ic_zoom_out_map_white_48dp"/>
+
     </RelativeLayout>
 
 </LinearLayout>
