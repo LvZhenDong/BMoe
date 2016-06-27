@@ -12,11 +12,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -38,12 +36,12 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
 
     private EditText mDatePickerET;
-    private ImageButton mFullScreenTV;
+    private ImageButton mFullScreenIBtn, mLeftIBtn, mRightIBtn;
 
     private ProgressDialog mProgressDialog;
 
     private RadialMenuWidget pieMenu;
-    private RadialMenuItem centerItem, menuUpItem, menuDownItem,menuLeftItem;
+    private RadialMenuItem centerItem, menuUpItem, menuDownItem, menuLeftItem;
     public RadialMenuItem firstChildItem, secondChildItem, thirdChildItem;
     private List<RadialMenuItem> children = new ArrayList<RadialMenuItem>();
 
@@ -66,7 +64,9 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private void bindId(View view) {
         mLineChart = (LineChart) view.findViewById(R.id.lineChart);
         mDatePickerET = (EditText) view.findViewById(R.id.et_date);
-        mFullScreenTV = (ImageButton) view.findViewById(R.id.btn_full_screen);
+        mFullScreenIBtn = (ImageButton) view.findViewById(R.id.ibtn_full_screen);
+        mLeftIBtn = (ImageButton) view.findViewById(R.id.ibtn_left);
+        mRightIBtn = (ImageButton) view.findViewById(R.id.ibtn_right);
     }
 
     private void initView() {
@@ -84,11 +84,11 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         centerItem = new RadialMenuItem("center", "asdf");
         menuDownItem = new RadialMenuItem("down", "fghs");
         menuUpItem = new RadialMenuItem("up", "erfgge");
-        menuLeftItem=new RadialMenuItem("left","left");
+        menuLeftItem = new RadialMenuItem("left", "left");
 
-        firstChildItem=new RadialMenuItem("kklv","sd");
-        secondChildItem=new RadialMenuItem("kklvs","sdf");
-        thirdChildItem=new RadialMenuItem("sdf","sdfsd");
+        firstChildItem = new RadialMenuItem("kklv", "sd");
+        secondChildItem = new RadialMenuItem("kklvs", "sdf");
+        thirdChildItem = new RadialMenuItem("sdf", "sdfsd");
         children.add(firstChildItem);
         children.add(secondChildItem);
         children.add(thirdChildItem);
@@ -101,7 +101,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                 add(menuLeftItem);
             }
         });
-
+        /***************************************************************************/
         initProgressDialog();
         mChart = new Chart(getActivity(), mLineChart);
         mChart.registerChartCallBack(this);
@@ -145,17 +145,33 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         });
         mDatePickerET.setFocusable(false);
 
-        mFullScreenTV.setOnClickListener(new View.OnClickListener() {
+        mFullScreenIBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
 //                intent.putExtra(FullscreenActivity.CAMP_LIST, (ArrayList<RoleIntradayCount>) mChart.getCampList());
 //                startActivity(intent);
-                pieMenu.show(mFullScreenTV);
+                pieMenu.show(mFullScreenIBtn);
             }
         });
+        mLeftIBtn.setOnClickListener(mChartRankListener);
+        mRightIBtn.setOnClickListener(mChartRankListener);
 
     }
+
+    private View.OnClickListener mChartRankListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.ibtn_left:
+                    mChart.goLeftSplitLists();
+                    break;
+                case R.id.ibtn_right:
+                    mChart.goRightSplitLists();
+                    break;
+            }
+        }
+    };
 
     private void initProgressDialog() {
         mProgressDialog = new ProgressDialog(getActivity());

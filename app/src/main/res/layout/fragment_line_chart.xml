@@ -32,6 +32,7 @@
             style="@style/RoundButton"
             android:src="@drawable/ic_keyboard_arrow_left_white_48dp"/>
         <ImageButton
+            android:id="@+id/ibtn_right"
             android:layout_alignTop="@id/ibtn_left"
             android:layout_toRightOf="@id/ibtn_left"
             android:layout_width="48dp"
@@ -40,7 +41,7 @@
             android:src="@drawable/ic_keyboard_arrow_right_white_48dp"/>
 
         <ImageButton
-            android:id="@+id/btn_full_screen"
+            android:id="@+id/ibtn_full_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

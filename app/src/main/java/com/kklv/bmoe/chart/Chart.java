@@ -1,11 +1,7 @@
 package com.kklv.bmoe.chart;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -17,7 +13,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.data.DataHelper;
-import com.kklv.bmoe.database.DatabaseHelper;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleIntradayCount;
 import com.kklv.bmoe.utils.ListUtils;
@@ -40,7 +35,8 @@ public class Chart extends BaseChart {
     private Context mContext;
 
     private List<RoleIntradayCount> mCampList;
-    private List<List<RoleIntradayCount>> mSplitedList;
+    private List<List<RoleIntradayCount>> mSplitLists;
+    private int showingSplitListId = 0;
 
     public List<RoleIntradayCount> getCampList() {
         return mCampList;
@@ -69,7 +65,7 @@ public class Chart extends BaseChart {
     }
 
     private void initLineChart() {
-        mLineChart.setDescription(mContext.getString(R.string.count_line_chart)+"(1-16)");
+        mLineChart.setDescription(mContext.getString(R.string.count_line_chart) + "(1-16)");
 //        mLineChart.setDescriptionPosition(440,100);
         mLineChart.setNoDataText(mContext.getString(R.string.data_loading));
         mLineChart.setDescriptionTextSize(20.0f);
@@ -94,14 +90,53 @@ public class Chart extends BaseChart {
         if (list == null) {
             return;
         }
-        mSplitedList = ListUtils.split(list, 16);
-        drawChart(mSplitedList.get(0));
+        mSplitLists = ListUtils.split(list, 16);
+        drawChart(mSplitLists.get(showingSplitListId));
+    }
+
+    /**
+     * 查看上一组排名的数据
+     */
+    public void goLeftSplitLists() {
+        if (mSplitLists != null && mSplitLists.size() > 0 &&
+                showingSplitListId > 0) {
+            showingSplitListId--;
+            drawChart(mSplitLists.get(showingSplitListId));
+        }
+    }
+
+    /**
+     * 查看下一组排名的数据
+     */
+    public void goRightSplitLists() {
+
+        if (mSplitLists != null && mSplitLists.size() > 0 &&
+                showingSplitListId < mSplitLists.size() - 1) {
+            showingSplitListId++;
+            drawChart(mSplitLists.get(showingSplitListId));
+        }
+
+    }
+
+    /**
+     * 根据组数得到这一组开始和结束的排名字符串
+     *
+     * @param showingSplitListId
+     * @return
+     */
+    private String getRankString(int showingSplitListId) {
+        int start = showingSplitListId * 16 + 1;
+        int length = mSplitLists.get(showingSplitListId).size();
+
+        return "(" + start + "-" + (length + start) + ")";
     }
 
     private void drawChart(List<RoleIntradayCount> list) {
         if (list == null) {
             return;
         }
+        mLineChart.setDescription(mContext.getString(R.string.count_line_chart) +
+                getRankString(showingSplitListId));
         List<ILineDataSet> dataSets = new ArrayList<>();
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
         for (RoleIntradayCount item : list) {

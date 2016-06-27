@@ -47,7 +47,6 @@
     <style name="Button">
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_marginRight">5dp</item>
-
     </style>
     <style name="RoundButton" parent="Button">
         <item name="android:background">@drawable/selector_btn</item>
