@@ -27,11 +27,10 @@ public class GsonRequest<T> extends Request<T> {
     private final Context context;
 
     /**
-     *
      * @param method
      * @param url
-     * @param type 对于json对象传入(Type)(MyClass.class)，
-     *             对于json数组传入new TypeToken(ArrayList<MyClass>)(){}.getType()
+     * @param type          对于json对象传入(Type)(MyClass.class)，
+     *                      对于json数组传入new TypeToken(ArrayList<MyClass>)(){}.getType()
      * @param listener
      * @param errorListener
      */
@@ -42,14 +41,15 @@ public class GsonRequest<T> extends Request<T> {
         this.type = type;
         this.listener = listener;
     }
+
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse networkResponse) {
         try {
             String jsonStr = new String(networkResponse.data,
                     HttpHeaderParser.parseCharset(networkResponse.headers));
             Log.i(TAG, jsonStr);
-            if("[]".equals(jsonStr)){
-                jsonStr="";
+            if ("[]".equals(jsonStr)) {
+                jsonStr = "";
             }
             return Response.success((T) (gson.fromJson(jsonStr, type)),
                     HttpHeaderParser.parseCacheHeaders(networkResponse));

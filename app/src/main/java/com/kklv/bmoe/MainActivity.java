@@ -55,41 +55,43 @@ public class MainActivity extends BaseActivity {
         setDefaultFragment();
 
     }
-    private void setDefaultFragment(){
+
+    private void setDefaultFragment() {
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        mLineChartFragment=new LineChartFragment();
-        transaction.replace(R.id.fl_fragment,mLineChartFragment);
+        mLineChartFragment = new LineChartFragment();
+        transaction.replace(R.id.fl_fragment, mLineChartFragment);
         transaction.commit();
         mActionBar.setTitle(R.string.line_chart);
     }
 
     /**
      * 设置侧滑栏
+     *
      * @param navigationView
      */
-    private void setupDrawerContent(NavigationView navigationView){
+    private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                if (!item.isChecked()){
+                if (!item.isChecked()) {
                     FragmentTransaction transaction = mFragmentManager.beginTransaction();
                     hideAllFragments(transaction);
-                    switch (item.getItemId()){
+                    switch (item.getItemId()) {
                         case R.id.nav_line_chart:
-                            if (mLineChartFragment == null){
-                                mLineChartFragment=new LineChartFragment();
-                                transaction.add(R.id.fl_fragment,mLineChartFragment);
-                            }else {
+                            if (mLineChartFragment == null) {
+                                mLineChartFragment = new LineChartFragment();
+                                transaction.add(R.id.fl_fragment, mLineChartFragment);
+                            } else {
                                 transaction.show(mLineChartFragment);
                             }
                             break;
                         case R.id.nav_camp:
-                            if (mCampFragment == null){
-                                mCampFragment= new CampFragment();
-                                transaction.add(R.id.fl_fragment,mCampFragment);
-                            }else {
+                            if (mCampFragment == null) {
+                                mCampFragment = new CampFragment();
+                                transaction.add(R.id.fl_fragment, mCampFragment);
+                            } else {
                                 transaction.show(mCampFragment);
                             }
                             break;
@@ -104,15 +106,17 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-    private void hideAllFragments(FragmentTransaction transaction){
+
+    private void hideAllFragments(FragmentTransaction transaction) {
         //TODO 考虑用更好的方式来实现
-        if(mLineChartFragment != null){
+        if (mLineChartFragment != null) {
             transaction.hide(mLineChartFragment);
         }
-        if(mCampFragment != null){
+        if (mCampFragment != null) {
             transaction.hide(mCampFragment);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actions_menu, menu);

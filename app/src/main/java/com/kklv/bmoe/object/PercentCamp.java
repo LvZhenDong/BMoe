@@ -3,7 +3,8 @@ package com.kklv.bmoe.object;
 import java.math.BigDecimal;
 
 /**
- *计算过百分比的Camp信息
+ * 计算过百分比的Camp信息
+ *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/14 11:07
@@ -49,11 +50,12 @@ public class PercentCamp {
 
     /**
      * 保留2位小数
+     *
      * @param value
      * @return
      */
-    private double formatPercent(double value){
-        BigDecimal bigDecimal=new BigDecimal(value);
-        return bigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+    private double formatPercent(double value) {
+        BigDecimal bigDecimal = new BigDecimal(value);
+        return bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 }

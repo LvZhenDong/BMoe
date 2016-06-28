@@ -10,12 +10,11 @@ import android.view.WindowManager;
 import com.pgyersdk.crash.PgyCrashManager;
 
 /**
- *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/12 17:24
  */
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +23,7 @@ public class BaseActivity extends AppCompatActivity{
         setStatusBar();
     }
 
-    private void setStatusBar(){
+    private void setStatusBar() {
         if (Build.VERSION.SDK_INT >= 19) {
             Window window = getWindow();
             // Translucent status bar

@@ -39,7 +39,7 @@ public class Chart extends BaseChart {
     private int showingSplitListId = 0;
 
     public List<RoleIntradayCount> getSplitList() {
-        if (mSplitLists != null && mSplitLists.size() >0){
+        if (mSplitLists != null && mSplitLists.size() > 0) {
             return mSplitLists.get(showingSplitListId);
         }
         return null;
@@ -54,15 +54,10 @@ public class Chart extends BaseChart {
         initLineChart();
     }
 
-    public void showData(Map<String,String> map) {
-        if(map == null){
+    public void showData(Map<String, String> map) {
+        if (map == null) {
             return;
         }
-//        mDataHelper.getCampRank("Fate/stay night [UBW]");
-//        Map<String, String> map = new HashMap<>();
-//        map.put("date", date);
-//        map.put("sex",sex);
-//        map.put("group","G1"); //有一段时间是A1后面变成1-A
         mDataHelper.getRoleIntradayCount(map);
     }
 

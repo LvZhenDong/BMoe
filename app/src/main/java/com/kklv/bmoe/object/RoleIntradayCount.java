@@ -15,7 +15,9 @@ import java.util.Collection;
  */
 @DatabaseTable
 public class RoleIntradayCount implements Serializable {
-
+    public static final String DATE = "date";
+    public static final String SEX = "sex";
+    public static final String MAXCOUNT = "maxCount";
     /**
      * id :
      * name :
@@ -102,7 +104,7 @@ public class RoleIntradayCount implements Serializable {
     }
 
     public String getMaxCount() {
-        return maxCount+"";
+        return maxCount + "";
     }
 
     public void setMaxCount(String maxCount) {

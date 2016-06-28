@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/22 11:09
@@ -36,7 +35,7 @@ public class DataBeanDao {
     }
 
     public List<DataBean> getAll() {
-        List<DataBean> list=null;
+        List<DataBean> list = null;
         try {
             list = mDataBeenOpe.queryForAll();
         } catch (SQLException e) {

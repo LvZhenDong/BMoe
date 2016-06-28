@@ -90,16 +90,16 @@ public class RoleIntradayCountDao {
             //TODO 为什么把maxCount改为主键就成功了？ 现在不用主键也可以了，莫名其妙就好了，无语
             List<RoleIntradayCount> list = null;
             if (TextUtils.isEmpty(sex)) {
-                list = queryBuilder.orderBy("maxCount", false).where().eq("date", date).query();
-            } else if("0".equals(sex) || "1".equals(sex)) {
-                list = queryBuilder.orderBy("maxCount", false).where().eq("date", date).and().eq("sex", sex).query();
+                list = queryBuilder.orderBy(RoleIntradayCount.MAXCOUNT, false).where().eq(RoleIntradayCount.DATE, date).query();
+            } else if ("0".equals(sex) || "1".equals(sex)) {
+                list = queryBuilder.orderBy(RoleIntradayCount.MAXCOUNT, false).where().eq(RoleIntradayCount.DATE, date).
+                        and().eq(RoleIntradayCount.SEX, sex).query();
             }
             if (list != null)
-            for (RoleIntradayCount item : list
-                    ) {
-                Log.i("kklv", "name:" + item.getName() + ";id:" + item.getId() + ";maxCount:" + item.getMaxCount());
-            }
-            //TODO 有没有不用写"date"，直接根据RoleIntradayCount里面名称改变的方法
+                for (RoleIntradayCount item : list
+                        ) {
+                    Log.i("kklv", "name:" + item.getName() + ";id:" + item.getId() + ";maxCount:" + item.getMaxCount());
+                }
             return list;
         } catch (SQLException e) {
             e.printStackTrace();

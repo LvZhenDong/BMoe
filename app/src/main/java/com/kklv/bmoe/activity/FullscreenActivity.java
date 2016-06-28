@@ -21,20 +21,20 @@ import java.util.List;
  * status bar and navigation/system bar) with user interaction.
  */
 public class FullscreenActivity extends AppCompatActivity {
-    public static final String CAMP_LIST="campList";
+    public static final String CAMP_LIST = "campList";
 
     private LineChart mLineChart;
     private Chart mChart;
 
     private List<RoleIntradayCount> mCampList;
 
-    private void bindId(){
-        mLineChart= (LineChart) findViewById(R.id.fullscreen_content);
+    private void bindId() {
+        mLineChart = (LineChart) findViewById(R.id.fullscreen_content);
     }
 
-    private void initView(){
-        mChart=new Chart(this,mLineChart);
-        mCampList= (List<RoleIntradayCount>) getIntent().getSerializableExtra(CAMP_LIST);
+    private void initView() {
+        mChart = new Chart(this, mLineChart);
+        mCampList = (List<RoleIntradayCount>) getIntent().getSerializableExtra(CAMP_LIST);
         mChart.setData(mCampList);
 //        if(mCampList == null){  //没有数据就从网络加载
 //            mChart.showData();
@@ -42,6 +42,7 @@ public class FullscreenActivity extends AppCompatActivity {
 //            mChart.setData(mCampList);
 //        }
     }
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.

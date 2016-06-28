@@ -58,8 +58,8 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         mCampLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(), BangumiActivity.class);
-                intent.putExtra(BangumiActivity.BANGUMI,mList.get(position).getBangumi());
+                Intent intent = new Intent(getActivity(), BangumiActivity.class);
+                intent.putExtra(BangumiActivity.BANGUMI, mList.get(position).getBangumi());
                 startActivity(intent);
             }
         });

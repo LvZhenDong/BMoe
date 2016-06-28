@@ -24,6 +24,7 @@
             android:id="@+id/et_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
         <ImageButton
             android:id="@+id/ibtn_left"
             android:layout_below="@id/et_date"
@@ -31,6 +32,7 @@
             android:layout_height="48dp"
             style="@style/RoundButton"
             android:src="@drawable/ic_keyboard_arrow_left_white_48dp"/>
+
         <ImageButton
             android:id="@+id/ibtn_right"
             android:layout_alignTop="@id/ibtn_left"
@@ -54,14 +56,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_toRightOf="@id/et_date">
+
             <RadioButton
                 android:id="@+id/rb_moe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
             <RadioButton
                 android:id="@+id/rb_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
             <RadioButton
                 android:checked="true"
                 android:id="@+id/rb_moe_light"

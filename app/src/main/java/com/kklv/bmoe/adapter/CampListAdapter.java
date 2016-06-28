@@ -60,7 +60,7 @@ public class CampListAdapter extends BaseAdapter {
      * @return
      */
     private double getPercent(double member, double denominator) {
-        return denominator > 0 ? (member / denominator)*100 : 0;
+        return denominator > 0 ? (member / denominator) * 100 : 0;
     }
 
     public void setData(List<Camp> list) {

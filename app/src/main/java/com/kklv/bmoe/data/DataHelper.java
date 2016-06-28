@@ -107,7 +107,7 @@ public class DataHelper {
     public void getRoleIntradayCount(Map<String, String> map) {
         mParamMap = map;
         List<RoleIntradayCount> databaseResult = new RoleIntradayCountDao(mContext).
-                getRoleIntradayCounts(mParamMap.get("date"), mParamMap.get("sex"));
+                getRoleIntradayCounts(mParamMap.get(RoleIntradayCount.DATE), mParamMap.get(RoleIntradayCount.SEX));
         if (databaseResult != null && databaseResult.size() > 0) {
             mCallBack.onSuccess(databaseResult);
         } else {
@@ -162,7 +162,7 @@ public class DataHelper {
                     roleIntradayCountDao.addOrUpdateRoleIntradayCounts(response);
                     //因为需要排序后的数据，所有还是从数据库读取
                     databaseResult = roleIntradayCountDao.
-                            getRoleIntradayCounts(mParamMap.get("date"), mParamMap.get("sex"));
+                            getRoleIntradayCounts(mParamMap.get(RoleIntradayCount.DATE), mParamMap.get(RoleIntradayCount.SEX));
                 }
                 final List<RoleIntradayCount> finalDatabaseResult = databaseResult;
                 mUIHandler.post(new Runnable() {
@@ -178,11 +178,11 @@ public class DataHelper {
 
     private String getURL(Map<String, String> map) {
         String result = "?";
-        if (!(TextUtils.isEmpty(map.get("date")))) {
-            result += "&date=" + map.get("date");
+        if (!(TextUtils.isEmpty(map.get(RoleIntradayCount.DATE)))) {
+            result += "&date=" + map.get(RoleIntradayCount.DATE);
         }
-//        if (!(TextUtils.isEmpty(map.get("sex")))) {
-//            result += "&sex=" + map.get("sex");
+//        if (!(TextUtils.isEmpty(map.get(RoleIntradayCount.SEX)))) {
+//            result += "&sex=" + map.get(RoleIntradayCount.SEX);
 //        }
 //        if (!(TextUtils.isEmpty(map.get("group")))) {
 //            result += "&group=" + map.get("group");

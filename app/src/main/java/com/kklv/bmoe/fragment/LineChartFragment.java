@@ -54,12 +54,12 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     public RadialMenuItem firstChildItem, secondChildItem, thirdChildItem;
     private List<RadialMenuItem> children = new ArrayList<>();
 
-    private Map<String,String> mParamsMap=new HashMap<>();
+    private Map<String, String> mParamsMap = new HashMap<>();
+
     /**
      * 类似于06-04-12这样的日期
      */
 //    private String mDateStr;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mFullScreenIBtn = (ImageButton) view.findViewById(R.id.ibtn_full_screen);
         mLeftIBtn = (ImageButton) view.findViewById(R.id.ibtn_left);
         mRightIBtn = (ImageButton) view.findViewById(R.id.ibtn_right);
-        mSexRG= (RadioGroup) view.findViewById(R.id.rg_sex);
+        mSexRG = (RadioGroup) view.findViewById(R.id.rg_sex);
         mMoeRB = (RadioButton) view.findViewById(R.id.rb_moe);
         mLightRB = (RadioButton) view.findViewById(R.id.rb_light);
         mMoeAndLightRB = (RadioButton) view.findViewById(R.id.rb_moe_light);
@@ -125,11 +125,11 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mDatePickerET.setInputType(InputType.TYPE_NULL);
         String dateStr = getTodayDate();
         mDatePickerET.setText(dateStr);
-        mParamsMap.put("date",StringUtils.formatDateString(dateStr));
+        mParamsMap.put(RoleIntradayCount.DATE, StringUtils.formatDateString(dateStr));
         mDatePickerET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] date = mParamsMap.get("date").split("-");
+                String[] date = mParamsMap.get(RoleIntradayCount.DATE).split("-");
                 new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -152,7 +152,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
             @Override
             public void afterTextChanged(Editable s) {
-                mParamsMap.put("date",StringUtils.formatDateString(mDatePickerET.getText() + ""));
+                mParamsMap.put(RoleIntradayCount.DATE, StringUtils.formatDateString(mDatePickerET.getText() + ""));
                 mProgressDialog.show();
                 //TODO 选择萌燃
                 mChart.showData(mParamsMap);
@@ -178,21 +178,21 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         initRadioGroup();
     }
 
-    private void initRadioGroup(){
+    private void initRadioGroup() {
         mSexRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rb_moe:
-                        mParamsMap.put("sex","0");
+                        mParamsMap.put(RoleIntradayCount.SEX, "0");
                         mChart.showData(mParamsMap);
                         break;
                     case R.id.rb_light:
-                        mParamsMap.put("sex","1");
+                        mParamsMap.put(RoleIntradayCount.SEX, "1");
                         mChart.showData(mParamsMap);
                         break;
                     case R.id.rb_moe_light:
-                        mParamsMap.put("sex","");
+                        mParamsMap.put(RoleIntradayCount.SEX, "");
                         mChart.showData(mParamsMap);
                         break;
                 }

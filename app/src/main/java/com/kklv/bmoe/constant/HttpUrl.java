@@ -31,5 +31,5 @@ public class HttpUrl {
     /**
      * 所有阵营
      */
-    public static final String ALL_CAMP = HTTP_HOME+"/camp";
+    public static final String ALL_CAMP = HTTP_HOME + "/camp";
 }
