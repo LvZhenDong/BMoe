@@ -88,12 +88,13 @@ public class RoleIntradayCountDao {
         try {
 
             //TODO 为什么把maxCount改为主键就成功了？ 现在不用主键也可以了，莫名其妙就好了，无语
-            List<RoleIntradayCount> list;
+            List<RoleIntradayCount> list = null;
             if (TextUtils.isEmpty(sex)) {
                 list = queryBuilder.orderBy("maxCount", false).where().eq("date", date).query();
-            } else {
+            } else if("0".equals(sex) || "1".equals(sex)) {
                 list = queryBuilder.orderBy("maxCount", false).where().eq("date", date).and().eq("sex", sex).query();
             }
+            if (list != null)
             for (RoleIntradayCount item : list
                     ) {
                 Log.i("kklv", "name:" + item.getName() + ";id:" + item.getId() + ";maxCount:" + item.getMaxCount());

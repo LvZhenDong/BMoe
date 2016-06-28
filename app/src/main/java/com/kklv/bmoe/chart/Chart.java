@@ -54,15 +54,14 @@ public class Chart extends BaseChart {
         initLineChart();
     }
 
-    public void showData(String date,String sex) {
-        if (TextUtils.isEmpty(date)) {
-            //TODO 我在考虑要不要Toast下
+    public void showData(Map<String,String> map) {
+        if(map == null){
             return;
         }
 //        mDataHelper.getCampRank("Fate/stay night [UBW]");
-        Map<String, String> map = new HashMap<>();
-        map.put("date", date);
-        map.put("sex","0");
+//        Map<String, String> map = new HashMap<>();
+//        map.put("date", date);
+//        map.put("sex",sex);
 //        map.put("group","G1"); //有一段时间是A1后面变成1-A
         mDataHelper.getRoleIntradayCount(map);
     }

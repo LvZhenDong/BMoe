@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -30,7 +32,9 @@ import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack {
@@ -40,6 +44,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
     private EditText mDatePickerET;
     private ImageButton mFullScreenIBtn, mLeftIBtn, mRightIBtn;
+    private RadioGroup mSexRG;
+    private RadioButton mMoeRB, mLightRB, mMoeAndLightRB;
 
     private ProgressDialog mProgressDialog;
 
@@ -48,10 +54,11 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     public RadialMenuItem firstChildItem, secondChildItem, thirdChildItem;
     private List<RadialMenuItem> children = new ArrayList<>();
 
+    private Map<String,String> mParamsMap=new HashMap<>();
     /**
      * 类似于06-04-12这样的日期
      */
-    private String mDateStr;
+//    private String mDateStr;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +68,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         bindId(view);
         initView();
         //TODO 选择萌燃
-        mChart.showData(mDateStr,"");
+//        mChart.showData(mDateStr, "");
+        mChart.showData(mParamsMap);
         return view;
     }
 
@@ -71,6 +79,10 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mFullScreenIBtn = (ImageButton) view.findViewById(R.id.ibtn_full_screen);
         mLeftIBtn = (ImageButton) view.findViewById(R.id.ibtn_left);
         mRightIBtn = (ImageButton) view.findViewById(R.id.ibtn_right);
+        mSexRG= (RadioGroup) view.findViewById(R.id.rg_sex);
+        mMoeRB = (RadioButton) view.findViewById(R.id.rb_moe);
+        mLightRB = (RadioButton) view.findViewById(R.id.rb_light);
+        mMoeAndLightRB = (RadioButton) view.findViewById(R.id.rb_moe_light);
     }
 
     private void initView() {
@@ -111,13 +123,13 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mChart.registerChartCallBack(this);
 
         mDatePickerET.setInputType(InputType.TYPE_NULL);
-        mDateStr = getTodayDate();
-        mDatePickerET.setText(mDateStr);
-        mDateStr = StringUtils.formatDateString(mDateStr);
+        String dateStr = getTodayDate();
+        mDatePickerET.setText(dateStr);
+        mParamsMap.put("date",StringUtils.formatDateString(dateStr));
         mDatePickerET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] date = mDateStr.split("-");
+                String[] date = mParamsMap.get("date").split("-");
                 new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -140,10 +152,10 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
             @Override
             public void afterTextChanged(Editable s) {
-                mDateStr = StringUtils.formatDateString(mDatePickerET.getText() + "");
+                mParamsMap.put("date",StringUtils.formatDateString(mDatePickerET.getText() + ""));
                 mProgressDialog.show();
                 //TODO 选择萌燃
-                mChart.showData(mDateStr,"");
+                mChart.showData(mParamsMap);
                 Toast.makeText(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""),
                         Toast.LENGTH_SHORT).show();
             }
@@ -163,6 +175,29 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mLeftIBtn.setOnClickListener(mChartRankListener);
         mRightIBtn.setOnClickListener(mChartRankListener);
 
+        initRadioGroup();
+    }
+
+    private void initRadioGroup(){
+        mSexRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.rb_moe:
+                        mParamsMap.put("sex","0");
+                        mChart.showData(mParamsMap);
+                        break;
+                    case R.id.rb_light:
+                        mParamsMap.put("sex","1");
+                        mChart.showData(mParamsMap);
+                        break;
+                    case R.id.rb_moe_light:
+                        mParamsMap.put("sex","");
+                        mChart.showData(mParamsMap);
+                        break;
+                }
+            }
+        });
     }
 
     private View.OnClickListener mChartRankListener = new View.OnClickListener() {

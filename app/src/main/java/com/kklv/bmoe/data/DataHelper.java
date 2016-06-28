@@ -106,7 +106,8 @@ public class DataHelper {
      */
     public void getRoleIntradayCount(Map<String, String> map) {
         mParamMap = map;
-        List<RoleIntradayCount> databaseResult = new RoleIntradayCountDao(mContext).getRoleIntradayCounts(mParamMap.get("date"), mParamMap.get("map"));
+        List<RoleIntradayCount> databaseResult = new RoleIntradayCountDao(mContext).
+                getRoleIntradayCounts(mParamMap.get("date"), mParamMap.get("sex"));
         if (databaseResult != null && databaseResult.size() > 0) {
             mCallBack.onSuccess(databaseResult);
         } else {
@@ -160,7 +161,8 @@ public class DataHelper {
                     //将数据添加到数据库
                     roleIntradayCountDao.addOrUpdateRoleIntradayCounts(response);
                     //因为需要排序后的数据，所有还是从数据库读取
-                    databaseResult = roleIntradayCountDao.getRoleIntradayCounts(mParamMap.get("date"), mParamMap.get("sex"));
+                    databaseResult = roleIntradayCountDao.
+                            getRoleIntradayCounts(mParamMap.get("date"), mParamMap.get("sex"));
                 }
                 final List<RoleIntradayCount> finalDatabaseResult = databaseResult;
                 mUIHandler.post(new Runnable() {

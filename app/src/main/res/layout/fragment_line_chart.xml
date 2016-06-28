@@ -48,6 +48,27 @@
             style="@style/RectButton"
             android:src="@drawable/ic_zoom_out_map_white_48dp"/>
 
+        <RadioGroup
+            android:id="@+id/rg_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_toRightOf="@id/et_date">
+            <RadioButton
+                android:id="@+id/rb_moe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/rb_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/rb_moe_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+
     </RelativeLayout>
 
 </LinearLayout>
