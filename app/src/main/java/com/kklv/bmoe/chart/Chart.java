@@ -39,7 +39,10 @@ public class Chart extends BaseChart {
     private int showingSplitListId = 0;
 
     public List<RoleIntradayCount> getSplitList() {
-        return mSplitLists.get(showingSplitListId);
+        if (mSplitLists != null && mSplitLists.size() >0){
+            return mSplitLists.get(showingSplitListId);
+        }
+        return null;
     }
 
     public Chart(Context context, LineChart lineChart) {
@@ -51,7 +54,7 @@ public class Chart extends BaseChart {
         initLineChart();
     }
 
-    public void showData(String date) {
+    public void showData(String date,String sex) {
         if (TextUtils.isEmpty(date)) {
             //TODO 我在考虑要不要Toast下
             return;
@@ -59,7 +62,7 @@ public class Chart extends BaseChart {
 //        mDataHelper.getCampRank("Fate/stay night [UBW]");
         Map<String, String> map = new HashMap<>();
         map.put("date", date);
-//        map.put("sex","0");
+        map.put("sex","0");
 //        map.put("group","G1"); //有一段时间是A1后面变成1-A
         mDataHelper.getRoleIntradayCount(map);
     }
@@ -128,7 +131,7 @@ public class Chart extends BaseChart {
         int start = showingSplitListId * 16 + 1;
         int length = mSplitLists.get(showingSplitListId).size();
 
-        return "(" + start + "-" + (length + start) + ")";
+        return "(" + start + "-" + (length + start - 1) + ")";
     }
 
     private void drawChart(List<RoleIntradayCount> list) {

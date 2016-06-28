@@ -33,7 +33,10 @@ import java.util.Map;
  */
 public class DataHelper {
     private static final String TAG = "DataHelper";
-    public static final String DB_HANDLER_THREAD_NAME="BMoe";
+    public static final String DB_HANDLER_THREAD_NAME = "BMoe";
+
+    private Map<String, String> mParamMap;
+
     private Context mContext;
     private RequestQueue mRequestQueue;
     public GsonRequest mRoleIntradayCountRequest;
@@ -42,7 +45,7 @@ public class DataHelper {
 
     private HandlerThread mHandlerThread;
     private Handler mSubThreadHandler;
-    private Handler mUIHandler=new Handler();
+    private Handler mUIHandler = new Handler();
 
     public DataHelper(Context context) {
         mContext = context;
@@ -102,11 +105,12 @@ public class DataHelper {
      * @param map
      */
     public void getRoleIntradayCount(Map<String, String> map) {
-        List<RoleIntradayCount> databaseResult = new RoleIntradayCountDao(mContext).getRoleIntradayCounts(map.get("date"));
+        mParamMap = map;
+        List<RoleIntradayCount> databaseResult = new RoleIntradayCountDao(mContext).getRoleIntradayCounts(mParamMap.get("date"), mParamMap.get("map"));
         if (databaseResult != null && databaseResult.size() > 0) {
             mCallBack.onSuccess(databaseResult);
         } else {
-            getRoleIntradayCountFromInterNet(map);
+            getRoleIntradayCountFromInterNet(mParamMap);
         }
 
     }
@@ -120,8 +124,8 @@ public class DataHelper {
             @Override
             public void onResponse(List<RoleIntradayCount> response) {
                 response = setRoleIntradayCountsMaxCount(response);   //拿到数据后先设置maxCount
-                Message msg=new Message();
-                msg.obj=response;
+                Message msg = new Message();
+                msg.obj = response;
                 mSubThreadHandler.sendMessage(msg);
             }
         }, new Response.ErrorListener() {
@@ -142,23 +146,21 @@ public class DataHelper {
     /**
      * 初始化HandlerThread，在子线程中进行数据库操作
      */
-    private void initHandler(){
-        mHandlerThread=new HandlerThread(DB_HANDLER_THREAD_NAME);
+    private void initHandler() {
+        mHandlerThread = new HandlerThread(DB_HANDLER_THREAD_NAME);
         mHandlerThread.start();
-        mSubThreadHandler=new Handler(mHandlerThread.getLooper()){
+        mSubThreadHandler = new Handler(mHandlerThread.getLooper()) {
             @Override
             public void handleMessage(Message msg) {
                 //HandlerThread开辟的子线程
-                List<RoleIntradayCount> response= (List<RoleIntradayCount>) msg.obj;
+                List<RoleIntradayCount> response = (List<RoleIntradayCount>) msg.obj;
                 List<RoleIntradayCount> databaseResult = null;
                 if (response != null && response.size() > 0) {
                     RoleIntradayCountDao roleIntradayCountDao = new RoleIntradayCountDao(mContext);
                     //将数据添加到数据库
                     roleIntradayCountDao.addOrUpdateRoleIntradayCounts(response);
                     //因为需要排序后的数据，所有还是从数据库读取
-                    //本来date是从getRoleIntradayCountFromInterNet的map里得来的，这么做应该也没什么问题
-                    String date=response.get(0).getDate();
-                    databaseResult = roleIntradayCountDao.getRoleIntradayCounts(date);
+                    databaseResult = roleIntradayCountDao.getRoleIntradayCounts(mParamMap.get("date"), mParamMap.get("sex"));
                 }
                 final List<RoleIntradayCount> finalDatabaseResult = databaseResult;
                 mUIHandler.post(new Runnable() {
@@ -171,17 +173,18 @@ public class DataHelper {
             }
         };
     }
+
     private String getURL(Map<String, String> map) {
         String result = "?";
         if (!(TextUtils.isEmpty(map.get("date")))) {
             result += "&date=" + map.get("date");
         }
-        if (!(TextUtils.isEmpty(map.get("sex")))) {
-            result += "&sex=" + map.get("sex");
-        }
-        if (!(TextUtils.isEmpty(map.get("group")))) {
-            result += "&group=" + map.get("group");
-        }
+//        if (!(TextUtils.isEmpty(map.get("sex")))) {
+//            result += "&sex=" + map.get("sex");
+//        }
+//        if (!(TextUtils.isEmpty(map.get("group")))) {
+//            result += "&group=" + map.get("group");
+//        }
         return result;
     }
 

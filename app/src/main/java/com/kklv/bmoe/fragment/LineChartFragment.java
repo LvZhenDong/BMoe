@@ -46,7 +46,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private RadialMenuWidget pieMenu;
     private RadialMenuItem centerItem, menuUpItem, menuDownItem, menuLeftItem;
     public RadialMenuItem firstChildItem, secondChildItem, thirdChildItem;
-    private List<RadialMenuItem> children = new ArrayList<RadialMenuItem>();
+    private List<RadialMenuItem> children = new ArrayList<>();
 
     /**
      * 类似于06-04-12这样的日期
@@ -60,7 +60,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
         bindId(view);
         initView();
-        mChart.showData(mDateStr);
+        //TODO 选择萌燃
+        mChart.showData(mDateStr,"");
         return view;
     }
 
@@ -141,7 +142,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             public void afterTextChanged(Editable s) {
                 mDateStr = StringUtils.formatDateString(mDatePickerET.getText() + "");
                 mProgressDialog.show();
-                mChart.showData(mDateStr);
+                //TODO 选择萌燃
+                mChart.showData(mDateStr,"");
                 Toast.makeText(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""),
                         Toast.LENGTH_SHORT).show();
             }

@@ -1,6 +1,7 @@
 package com.kklv.bmoe.database;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
@@ -12,6 +13,7 @@ import com.kklv.bmoe.object.RoleIntradayCount;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author LvZhenDong
@@ -79,18 +81,22 @@ public class RoleIntradayCountDao {
      * @param date
      * @return
      */
-    public List<RoleIntradayCount> getRoleIntradayCounts(String date) {
+    public List<RoleIntradayCount> getRoleIntradayCounts(String date, String sex) {
 
         QueryBuilder<RoleIntradayCount, Integer> queryBuilder = mRoleIntradayCountDaoOpe.queryBuilder();
         Where<RoleIntradayCount, Integer> where = queryBuilder.where();
         try {
 
             //TODO 为什么把maxCount改为主键就成功了？ 现在不用主键也可以了，莫名其妙就好了，无语
-            List<RoleIntradayCount> list = queryBuilder.orderBy("maxCount", false).where().eq("date", date).query();
-//            List<RoleIntradayCount> list = queryBuilder.orderBy("id", false).where().eq("date", date).query();
+            List<RoleIntradayCount> list;
+            if (TextUtils.isEmpty(sex)) {
+                list = queryBuilder.orderBy("maxCount", false).where().eq("date", date).query();
+            } else {
+                list = queryBuilder.orderBy("maxCount", false).where().eq("date", date).and().eq("sex", sex).query();
+            }
             for (RoleIntradayCount item : list
                     ) {
-                Log.i("kklv", "name:" + item.getName() +";id:"+item.getId()+ ";maxCount:" + item.getMaxCount());
+                Log.i("kklv", "name:" + item.getName() + ";id:" + item.getId() + ";maxCount:" + item.getMaxCount());
             }
             //TODO 有没有不用写"date"，直接根据RoleIntradayCount里面名称改变的方法
             return list;
