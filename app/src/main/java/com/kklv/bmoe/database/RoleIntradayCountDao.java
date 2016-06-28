@@ -40,7 +40,7 @@ public class RoleIntradayCountDao {
      *
      * @param roleIntradayCount
      */
-    public void addOrUpdateRoleIntradayCount(RoleIntradayCount roleIntradayCount) {
+    private void addOrUpdateRoleIntradayCount(RoleIntradayCount roleIntradayCount) {
         try {
             mRoleIntradayCountDaoOpe.createOrUpdate(roleIntradayCount);
             for (DataBean item : roleIntradayCount.getData()

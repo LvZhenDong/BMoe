@@ -34,6 +34,8 @@ import java.util.Map;
 public class DataHelper {
     private static final String TAG = "DataHelper";
     public static final String DB_HANDLER_THREAD_NAME = "BMoe";
+    private static final int DB_HANDLER_THREAD_WHAT_ADD = 0X01;
+    private static final int DB_HANDLER_THREAD_WHAT_QUERY = 0X02;
 
     private Map<String, String> mParamMap;
 
@@ -106,13 +108,11 @@ public class DataHelper {
      */
     public void getRoleIntradayCount(Map<String, String> map) {
         mParamMap = map;
-        List<RoleIntradayCount> databaseResult = new RoleIntradayCountDao(mContext).
-                getRoleIntradayCounts(mParamMap.get(RoleIntradayCount.DATE), mParamMap.get(RoleIntradayCount.SEX));
-        if (databaseResult != null && databaseResult.size() > 0) {
-            mCallBack.onSuccess(databaseResult);
-        } else {
-            getRoleIntradayCountFromInterNet(mParamMap);
-        }
+        Message msg=new Message();
+        msg.obj=map;
+        msg.what=DB_HANDLER_THREAD_WHAT_QUERY;
+        mSubThreadHandler.sendMessage(msg);
+
 
     }
 
@@ -127,7 +127,9 @@ public class DataHelper {
                 response = setRoleIntradayCountsMaxCount(response);   //拿到数据后先设置maxCount
                 Message msg = new Message();
                 msg.obj = response;
+                msg.what=DB_HANDLER_THREAD_WHAT_ADD;
                 mSubThreadHandler.sendMessage(msg);
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -154,28 +156,74 @@ public class DataHelper {
             @Override
             public void handleMessage(Message msg) {
                 //HandlerThread开辟的子线程
-                List<RoleIntradayCount> response = (List<RoleIntradayCount>) msg.obj;
-                List<RoleIntradayCount> databaseResult = null;
-                if (response != null && response.size() > 0) {
-                    RoleIntradayCountDao roleIntradayCountDao = new RoleIntradayCountDao(mContext);
-                    //将数据添加到数据库
-                    roleIntradayCountDao.addOrUpdateRoleIntradayCounts(response);
-                    //因为需要排序后的数据，所有还是从数据库读取
-                    databaseResult = roleIntradayCountDao.
-                            getRoleIntradayCounts(mParamMap.get(RoleIntradayCount.DATE), mParamMap.get(RoleIntradayCount.SEX));
+                switch (msg.what) {
+                    case DB_HANDLER_THREAD_WHAT_ADD:
+                        handlerAdd(msg);
+                        break;
+                    case DB_HANDLER_THREAD_WHAT_QUERY:
+                        handlerQuery(msg);
+                        break;
                 }
-                final List<RoleIntradayCount> finalDatabaseResult = databaseResult;
-                mUIHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        //主线程
-                        mCallBack.onSuccess(finalDatabaseResult);
-                    }
-                });
+
             }
         };
     }
 
+    /**
+     * 数据库查询List<RoleIntradayCount>
+     * @param msg
+     */
+    private void handlerQuery(Message msg){
+        final List<RoleIntradayCount> databaseResult = new RoleIntradayCountDao(mContext).
+                getRoleIntradayCounts(mParamMap.get(RoleIntradayCount.DATE), mParamMap.get(RoleIntradayCount.SEX));
+        if (databaseResult != null && databaseResult.size() > 0) {
+            mUIHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCallBack.onSuccess(databaseResult);
+                }
+            });
+
+        } else {
+            mUIHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    getRoleIntradayCountFromInterNet(mParamMap);
+                }
+            });
+        }
+    }
+    /**
+     * 数据库添加List<RoleIntradayCount>
+     * @param msg
+     */
+    private void handlerAdd(Message msg){
+        List<RoleIntradayCount> response = (List<RoleIntradayCount>) msg.obj;
+        List<RoleIntradayCount> databaseResult = null;
+        if (response != null && response.size() > 0) {
+            RoleIntradayCountDao roleIntradayCountDao = new RoleIntradayCountDao(mContext);
+            //将数据添加到数据库
+            roleIntradayCountDao.addOrUpdateRoleIntradayCounts(response);
+            //因为需要排序后的数据，所有还是从数据库读取
+            databaseResult = roleIntradayCountDao.
+                    getRoleIntradayCounts(mParamMap.get(RoleIntradayCount.DATE), mParamMap.get(RoleIntradayCount.SEX));
+        }
+        final List<RoleIntradayCount> finalDatabaseResult = databaseResult;
+        mUIHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                //主线程
+                mCallBack.onSuccess(finalDatabaseResult);
+            }
+        });
+    }
+
+    /**
+     * 根据date得到url
+     *
+     * @param map
+     * @return
+     */
     private String getURL(Map<String, String> map) {
         String result = "?";
         if (!(TextUtils.isEmpty(map.get(RoleIntradayCount.DATE)))) {
