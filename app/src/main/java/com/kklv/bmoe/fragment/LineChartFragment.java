@@ -25,7 +25,7 @@ import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.chart.Chart;
-import com.kklv.bmoe.object.RoleIntradayCount;
+import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.StringUtils;
 import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
 import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
@@ -125,11 +125,11 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mDatePickerET.setInputType(InputType.TYPE_NULL);
         String dateStr = getTodayDate();
         mDatePickerET.setText(dateStr);
-        mParamsMap.put(RoleIntradayCount.DATE, StringUtils.formatDateString(dateStr));
+        mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(dateStr));
         mDatePickerET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] date = mParamsMap.get(RoleIntradayCount.DATE).split("-");
+                String[] date = mParamsMap.get(RoleDailyCount.DATE).split("-");
                 new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -152,7 +152,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
             @Override
             public void afterTextChanged(Editable s) {
-                mParamsMap.put(RoleIntradayCount.DATE, StringUtils.formatDateString(mDatePickerET.getText() + ""));
+                mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET.getText() + ""));
                 mProgressDialog.show();
                 //TODO 选择萌燃
                 mChart.showData(mParamsMap);
@@ -167,7 +167,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FullscreenActivity.class);
                 intent.putExtra(FullscreenActivity.CAMP_LIST,
-                        (ArrayList<RoleIntradayCount>) mChart.getSplitList());
+                        (ArrayList<RoleDailyCount>) mChart.getSplitList());
                 startActivity(intent);
 //                pieMenu.show(mFullScreenIBtn);
             }
@@ -184,15 +184,15 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_moe:
-                        mParamsMap.put(RoleIntradayCount.SEX, "0");
+                        mParamsMap.put(RoleDailyCount.SEX, "0");
                         mChart.showData(mParamsMap);
                         break;
                     case R.id.rb_light:
-                        mParamsMap.put(RoleIntradayCount.SEX, "1");
+                        mParamsMap.put(RoleDailyCount.SEX, "1");
                         mChart.showData(mParamsMap);
                         break;
                     case R.id.rb_moe_light:
-                        mParamsMap.put(RoleIntradayCount.SEX, "");
+                        mParamsMap.put(RoleDailyCount.SEX, "");
                         mChart.showData(mParamsMap);
                         break;
                 }

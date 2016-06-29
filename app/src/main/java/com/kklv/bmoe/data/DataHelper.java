@@ -15,11 +15,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.reflect.TypeToken;
 import com.kklv.bmoe.constant.HttpUrl;
-import com.kklv.bmoe.database.RoleIntradayCountDao;
+import com.kklv.bmoe.database.RoleDailyCountDao;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleInfo;
-import com.kklv.bmoe.object.RoleIntradayCount;
+import com.kklv.bmoe.object.RoleDailyCount;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class DataHelper {
 
     private Context mContext;
     private RequestQueue mRequestQueue;
-    public GsonRequest mRoleIntradayCountRequest;
+    public GsonRequest mRoleDailyCountRequest;
 
     private DataHelperCallBack mCallBack;
 
@@ -106,7 +106,7 @@ public class DataHelper {
      *
      * @param map
      */
-    public void getRoleIntradayCount(Map<String, String> map) {
+    public void getRoleDailyCount(Map<String, String> map) {
         mParamMap = map;
         Message msg=new Message();
         msg.obj=map;
@@ -116,15 +116,15 @@ public class DataHelper {
 
     }
 
-    private void getRoleIntradayCountFromInterNet(final Map<String, String> map) {
+    private void getRoleDailyCountFromInterNet(final Map<String, String> map) {
         String url = HttpUrl.ROLE + getURL(map);
         Log.i(TAG, "url:" + url);
-        mRoleIntradayCountRequest = new GsonRequest<List<RoleIntradayCount>>(Request.Method.GET, url,
-                new TypeToken<List<RoleIntradayCount>>() {
-                }.getType(), new Response.Listener<List<RoleIntradayCount>>() {
+        mRoleDailyCountRequest = new GsonRequest<List<RoleDailyCount>>(Request.Method.GET, url,
+                new TypeToken<List<RoleDailyCount>>() {
+                }.getType(), new Response.Listener<List<RoleDailyCount>>() {
             @Override
-            public void onResponse(List<RoleIntradayCount> response) {
-                response = setRoleIntradayCountsMaxCount(response);   //拿到数据后先设置maxCount
+            public void onResponse(List<RoleDailyCount> response) {
+                response = setRoleDailyCountsMaxCount(response);   //拿到数据后先设置maxCount
                 Message msg = new Message();
                 msg.obj = response;
                 msg.what=DB_HANDLER_THREAD_WHAT_ADD;
@@ -141,8 +141,8 @@ public class DataHelper {
         //TODO
         //为Request添加Tag，当Activity的onDestroy执行后取消所有请求，网上写的是onStop，但我觉得为什么
         //不应该是onDestroy呢？
-//        mRoleIntradayCountRequest.setTag(mContext);
-        mRequestQueue.add(mRoleIntradayCountRequest);
+//        mRoleDailyCountRequest.setTag(mContext);
+        mRequestQueue.add(mRoleDailyCountRequest);
     }
 
 
@@ -170,12 +170,12 @@ public class DataHelper {
     }
 
     /**
-     * 数据库查询List<RoleIntradayCount>
+     * 数据库查询List<RoleDailyCount>
      * @param msg
      */
     private void handlerQuery(Message msg){
-        final List<RoleIntradayCount> databaseResult = new RoleIntradayCountDao(mContext).
-                getRoleIntradayCounts(mParamMap.get(RoleIntradayCount.DATE), mParamMap.get(RoleIntradayCount.SEX));
+        final List<RoleDailyCount> databaseResult = new RoleDailyCountDao(mContext).
+                getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE), mParamMap.get(RoleDailyCount.SEX));
         if (databaseResult != null && databaseResult.size() > 0) {
             mUIHandler.post(new Runnable() {
                 @Override
@@ -188,27 +188,27 @@ public class DataHelper {
             mUIHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    getRoleIntradayCountFromInterNet(mParamMap);
+                    getRoleDailyCountFromInterNet(mParamMap);
                 }
             });
         }
     }
     /**
-     * 数据库添加List<RoleIntradayCount>
+     * 数据库添加List<RoleDailyCount>
      * @param msg
      */
     private void handlerAdd(Message msg){
-        List<RoleIntradayCount> response = (List<RoleIntradayCount>) msg.obj;
-        List<RoleIntradayCount> databaseResult = null;
+        List<RoleDailyCount> response = (List<RoleDailyCount>) msg.obj;
+        List<RoleDailyCount> databaseResult = null;
         if (response != null && response.size() > 0) {
-            RoleIntradayCountDao roleIntradayCountDao = new RoleIntradayCountDao(mContext);
+            RoleDailyCountDao roleDailyCountDao = new RoleDailyCountDao(mContext);
             //将数据添加到数据库
-            roleIntradayCountDao.addOrUpdateRoleIntradayCounts(response);
+            roleDailyCountDao.addOrUpdateRoleDailyCounts(response);
             //因为需要排序后的数据，所有还是从数据库读取
-            databaseResult = roleIntradayCountDao.
-                    getRoleIntradayCounts(mParamMap.get(RoleIntradayCount.DATE), mParamMap.get(RoleIntradayCount.SEX));
+            databaseResult = roleDailyCountDao.
+                    getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE), mParamMap.get(RoleDailyCount.SEX));
         }
-        final List<RoleIntradayCount> finalDatabaseResult = databaseResult;
+        final List<RoleDailyCount> finalDatabaseResult = databaseResult;
         mUIHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -226,11 +226,11 @@ public class DataHelper {
      */
     private String getURL(Map<String, String> map) {
         String result = "?";
-        if (!(TextUtils.isEmpty(map.get(RoleIntradayCount.DATE)))) {
-            result += "&date=" + map.get(RoleIntradayCount.DATE);
+        if (!(TextUtils.isEmpty(map.get(RoleDailyCount.DATE)))) {
+            result += "&date=" + map.get(RoleDailyCount.DATE);
         }
-//        if (!(TextUtils.isEmpty(map.get(RoleIntradayCount.SEX)))) {
-//            result += "&sex=" + map.get(RoleIntradayCount.SEX);
+//        if (!(TextUtils.isEmpty(map.get(RoleDailyCount.SEX)))) {
+//            result += "&sex=" + map.get(RoleDailyCount.SEX);
 //        }
 //        if (!(TextUtils.isEmpty(map.get("group")))) {
 //            result += "&group=" + map.get("group");
@@ -265,14 +265,14 @@ public class DataHelper {
     }
 
     /**
-     * 为RoleIntradayCount list 设置maxCount
+     * 为RoleDailyCount list 设置maxCount
      *
      * @param list
      * @return
      */
-    public List<RoleIntradayCount> setRoleIntradayCountsMaxCount(List<RoleIntradayCount> list) {
+    public List<RoleDailyCount> setRoleDailyCountsMaxCount(List<RoleDailyCount> list) {
         if (list != null && list.size() > 0) {
-            for (RoleIntradayCount item : list
+            for (RoleDailyCount item : list
                     ) {
                 List<DataBean> dataBeanList = new ArrayList<>();
                 dataBeanList.addAll(item.getData());

@@ -21,7 +21,7 @@ public class DataBean implements Serializable {
     @DatabaseField
     private String count;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private RoleIntradayCount roleIntradayCount;
+    private RoleDailyCount roleDailyCount;
 
     public String getTime() {
         return time;
@@ -47,11 +47,11 @@ public class DataBean implements Serializable {
         this.id = id;
     }
 
-    public RoleIntradayCount getRoleIntradayCount() {
-        return roleIntradayCount;
+    public RoleDailyCount getRoleDailyCount() {
+        return roleDailyCount;
     }
 
-    public void setRoleIntradayCount(RoleIntradayCount roleIntradayCount) {
-        this.roleIntradayCount = roleIntradayCount;
+    public void setRoleDailyCount(RoleDailyCount roleDailyCount) {
+        this.roleDailyCount = roleDailyCount;
     }
 }

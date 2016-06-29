@@ -3,9 +3,12 @@ package com.kklv.bmoe.database;
 import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedUpdate;
 import com.kklv.bmoe.object.DataBean;
+import com.kklv.bmoe.object.RoleDailyCount;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 /**

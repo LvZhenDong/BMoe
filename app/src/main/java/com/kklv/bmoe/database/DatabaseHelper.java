@@ -9,7 +9,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.kklv.bmoe.object.DataBean;
-import com.kklv.bmoe.object.RoleIntradayCount;
+import com.kklv.bmoe.object.RoleDailyCount;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                          ConnectionSource connectionSource) {
         //创建表
         try {
-            TableUtils.createTable(connectionSource, RoleIntradayCount.class);
+            TableUtils.createTable(connectionSource, RoleDailyCount.class);
             TableUtils.createTable(connectionSource, DataBean.class);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,7 +49,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                           ConnectionSource connectionSource, int oldVersion, int newVersion) {
         //更新表
         try {
-            TableUtils.dropTable(connectionSource, RoleIntradayCount.class, true);
+            TableUtils.dropTable(connectionSource, RoleDailyCount.class, true);
             TableUtils.dropTable(connectionSource, DataBean.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {

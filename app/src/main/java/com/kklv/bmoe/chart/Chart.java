@@ -14,7 +14,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.object.DataBean;
-import com.kklv.bmoe.object.RoleIntradayCount;
+import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.ListUtils;
 
 import java.util.ArrayList;
@@ -30,15 +30,21 @@ import java.util.Map;
 public class Chart extends BaseChart {
     private static final String TAG = "Chart";
     private static final int ANIMATEY_TIME = 2000;
+    /**
+     *将List<RoleDailyCount>分割为 SPLIT_LENGTH 长的 List<List<RoleDailyCount>> 集合；
+     * 即：chart每次最多显示 SPLIT_LENGTH 条曲线；
+     * 注意：现在最大设置16，因为我只设置了16种颜色
+     */
+    private static final int SPLIT_LENGTH = 16;
     private LineChart mLineChart;
     private DataHelper mDataHelper;
     private Context mContext;
 
-    private List<RoleIntradayCount> mCampList;
-    private List<List<RoleIntradayCount>> mSplitLists;
+    private List<RoleDailyCount> mCampList;
+    private List<List<RoleDailyCount>> mSplitLists;
     private int showingSplitListId = 0;
 
-    public List<RoleIntradayCount> getSplitList() {
+    public List<RoleDailyCount> getSplitList() {
         if (mSplitLists != null && mSplitLists.size() > 0) {
             return mSplitLists.get(showingSplitListId);
         }
@@ -58,11 +64,11 @@ public class Chart extends BaseChart {
         if (map == null) {
             return;
         }
-        mDataHelper.getRoleIntradayCount(map);
+        mDataHelper.getRoleDailyCount(map);
     }
 
     private void initLineChart() {
-        mLineChart.setDescription(mContext.getString(R.string.count_line_chart) + "(1-16)");
+        mLineChart.setDescription(mContext.getString(R.string.count_line_chart));
 //        mLineChart.setDescriptionPosition(440,100);
         mLineChart.setNoDataText(mContext.getString(R.string.data_loading));
         mLineChart.setDescriptionTextSize(20.0f);
@@ -83,11 +89,11 @@ public class Chart extends BaseChart {
      *
      * @param list
      */
-    public void setData(List<RoleIntradayCount> list) {
+    public void setData(List<RoleDailyCount> list) {
         if (list == null || list.size() <= 0) {
             return;
         }
-        mSplitLists = ListUtils.split(list, 16);
+        mSplitLists = ListUtils.split(list, SPLIT_LENGTH);
         drawChart(mSplitLists.get(showingSplitListId));
     }
 
@@ -122,13 +128,13 @@ public class Chart extends BaseChart {
      * @return
      */
     private String getRankString(int showingSplitListId) {
-        int start = showingSplitListId * 16 + 1;
+        int start = showingSplitListId * SPLIT_LENGTH + 1;
         int length = mSplitLists.get(showingSplitListId).size();
 
         return "(" + start + "-" + (length + start - 1) + ")";
     }
 
-    private void drawChart(List<RoleIntradayCount> list) {
+    private void drawChart(List<RoleDailyCount> list) {
         if (list == null) {
             return;
         }
@@ -136,7 +142,7 @@ public class Chart extends BaseChart {
                 getRankString(showingSplitListId));
         List<ILineDataSet> dataSets = new ArrayList<>();
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
-        for (RoleIntradayCount item : list) {
+        for (RoleDailyCount item : list) {
             int i = list.indexOf(item);
             dataSets.add(createLineDataSet(item, colors[i]));
         }
@@ -151,21 +157,21 @@ public class Chart extends BaseChart {
     /**
      * 生成一条折线
      *
-     * @param roleIntradayCount
+     * @param roleDailyCount
      * @param color             折线颜色
      * @return
      */
-    private LineDataSet createLineDataSet(RoleIntradayCount roleIntradayCount, int color) {
+    private LineDataSet createLineDataSet(RoleDailyCount roleDailyCount, int color) {
         LineDataSet set;
         List<DataBean> list = new ArrayList<>();
-        list.addAll(roleIntradayCount.getData());
+        list.addAll(roleDailyCount.getData());
         List<Entry> yVals = new ArrayList<Entry>();
         for (int i = 0; i < list.size(); i++) {
             yVals.add(new Entry(new Float(list.get(i).getCount()), i));
         }
 
 
-        set = new LineDataSet(yVals, roleIntradayCount.getName());
+        set = new LineDataSet(yVals, roleDailyCount.getName());
 //            set.enableDashedLine(10f, 5f, 0f);       //设置虚线
 //            set.enableDashedHighlightLine(10f, 5f, 0f);
         set.setColor(color);
@@ -186,7 +192,7 @@ public class Chart extends BaseChart {
      * @param one 一个角色当天的数据
      * @return
      */
-    private List<String> getXVals(RoleIntradayCount one) {
+    private List<String> getXVals(RoleDailyCount one) {
         List<DataBean> list = new ArrayList<>();
         list.addAll(one.getData());
         List<String> xVals = new ArrayList<String>();
@@ -200,8 +206,8 @@ public class Chart extends BaseChart {
     public <T> void onSuccess(final List<T> result) {
         mCallBack.onLoadCompleted();
         if (result != null && result.size() > 0) {
-            mCampList = (List<RoleIntradayCount>) result;
-            setData((List<RoleIntradayCount>) result);
+            mCampList = (List<RoleDailyCount>) result;
+            setData((List<RoleDailyCount>) result);
         } else {
             Toast.makeText(mContext, R.string.no_data, Toast.LENGTH_SHORT).show();
         }
@@ -216,7 +222,7 @@ public class Chart extends BaseChart {
 
     @Override
     public void cancelRequest() {
-        mDataHelper.mRoleIntradayCountRequest.cancel();
+        mDataHelper.mRoleDailyCountRequest.cancel();
     }
 
 }

@@ -14,10 +14,13 @@ import java.util.Collection;
  * created at 2016/6/2 15:41
  */
 @DatabaseTable
-public class RoleIntradayCount implements Serializable {
+public class RoleDailyCount implements Serializable {
     public static final String DATE = "date";
     public static final String SEX = "sex";
-    public static final String MAXCOUNT = "maxCount";
+    public static final String MAX_COUNT = "maxCount";
+
+    public static final String SEX_MOE = "0";
+    public static final String SEX_LIGHT = "1";
     /**
      * id :
      * name :
