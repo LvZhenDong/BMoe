@@ -23,6 +23,7 @@ import com.kklv.bmoe.object.RoleDailyCount;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -108,14 +109,19 @@ public class DataHelper {
      */
     public void getRoleDailyCount(Map<String, String> map) {
         mParamMap = map;
-        Message msg=new Message();
-        msg.obj=map;
-        msg.what=DB_HANDLER_THREAD_WHAT_QUERY;
+        Message msg = new Message();
+        msg.obj = map;
+        msg.what = DB_HANDLER_THREAD_WHAT_QUERY;
         mSubThreadHandler.sendMessage(msg);
 
 
     }
 
+    /**
+     * 从服务器读取RoleDailyCount数据
+     *
+     * @param map
+     */
     private void getRoleDailyCountFromInterNet(final Map<String, String> map) {
         String url = HttpUrl.ROLE + getURL(map);
         Log.i(TAG, "url:" + url);
@@ -125,9 +131,13 @@ public class DataHelper {
             @Override
             public void onResponse(List<RoleDailyCount> response) {
                 response = setRoleDailyCountsMaxCount(response);   //拿到数据后先设置maxCount
+                RoleDailyCount.MaxCountCompare maxCountCompare = new RoleDailyCount.MaxCountCompare();
+                if (response != null && response.size() > 0)
+                    Collections.sort(response, maxCountCompare); //按maxCountCompare排序
+                mCallBack.onSuccess(response);
                 Message msg = new Message();
                 msg.obj = response;
-                msg.what=DB_HANDLER_THREAD_WHAT_ADD;
+                msg.what = DB_HANDLER_THREAD_WHAT_ADD;
                 mSubThreadHandler.sendMessage(msg);
 
             }
@@ -171,9 +181,10 @@ public class DataHelper {
 
     /**
      * 数据库查询List<RoleDailyCount>
+     *
      * @param msg
      */
-    private void handlerQuery(Message msg){
+    private void handlerQuery(Message msg) {
         final List<RoleDailyCount> databaseResult = new RoleDailyCountDao(mContext).
                 getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE), mParamMap.get(RoleDailyCount.SEX));
         if (databaseResult != null && databaseResult.size() > 0) {
@@ -193,29 +204,31 @@ public class DataHelper {
             });
         }
     }
+
     /**
      * 数据库添加List<RoleDailyCount>
+     *
      * @param msg
      */
-    private void handlerAdd(Message msg){
+    private void handlerAdd(Message msg) {
         List<RoleDailyCount> response = (List<RoleDailyCount>) msg.obj;
-        List<RoleDailyCount> databaseResult = null;
+//        List<RoleDailyCount> databaseResult = null;
         if (response != null && response.size() > 0) {
             RoleDailyCountDao roleDailyCountDao = new RoleDailyCountDao(mContext);
             //将数据添加到数据库
             roleDailyCountDao.addOrUpdateRoleDailyCounts(response);
             //因为需要排序后的数据，所有还是从数据库读取
-            databaseResult = roleDailyCountDao.
-                    getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE), mParamMap.get(RoleDailyCount.SEX));
+//            databaseResult = roleDailyCountDao.
+//                    getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE), mParamMap.get(RoleDailyCount.SEX));
         }
-        final List<RoleDailyCount> finalDatabaseResult = databaseResult;
-        mUIHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                //主线程
-                mCallBack.onSuccess(finalDatabaseResult);
-            }
-        });
+//        final List<RoleDailyCount> finalDatabaseResult = databaseResult;
+//        mUIHandler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                //主线程
+//                mCallBack.onSuccess(finalDatabaseResult);
+//            }
+//        });
     }
 
     /**

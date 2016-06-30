@@ -7,6 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Comparator;
 
 /**
  * @author LvZhenDong
@@ -120,6 +121,15 @@ public class RoleDailyCount implements Serializable {
 
     public void setData(Collection<DataBean> data) {
         this.data = data;
+    }
+
+    public static class MaxCountCompare implements Comparator<RoleDailyCount> {
+
+        @Override
+        public int compare(RoleDailyCount lhs, RoleDailyCount rhs) {
+            //按从大到小排序
+            return Integer.parseInt(rhs.getMaxCount()) - Integer.parseInt(lhs.getMaxCount());
+        }
     }
 
 }

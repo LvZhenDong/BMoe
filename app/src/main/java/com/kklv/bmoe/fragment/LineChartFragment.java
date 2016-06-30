@@ -68,7 +68,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         bindId(view);
         initView();
         //TODO 选择萌燃
-//        mChart.showData(mDateStr, "");
         mChart.showData(mParamsMap);
         return view;
     }
