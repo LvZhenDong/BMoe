@@ -14,8 +14,8 @@ import java.io.Serializable;
  */
 @DatabaseTable
 public class DataBean implements Serializable {
-    @DatabaseField(generatedId = true)
-    private int id;
+    @DatabaseField(id = true)
+    private int id; //手动设置id，roleDailyCount的id+""+(DataBean的time+0XFFF)
     @DatabaseField
     private String time;
     @DatabaseField
@@ -43,8 +43,8 @@ public class DataBean implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = Integer.parseInt(id);
     }
 
     public RoleDailyCount getRoleDailyCount() {

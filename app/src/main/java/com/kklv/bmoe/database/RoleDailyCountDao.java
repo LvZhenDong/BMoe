@@ -44,11 +44,14 @@ public class RoleDailyCountDao {
     private void addOrUpdateRoleDailyCount(RoleDailyCount roleDailyCount) {
         try {
             mRoleDailyCountDaoOpe.createOrUpdate(roleDailyCount);
-            Collection<DataBean> list=mRoleDailyCountDaoOpe.getEmptyForeignCollection("data");//方法二
+//            Collection<DataBean> list = mRoleDailyCountDaoOpe.getEmptyForeignCollection("data");//方法二
             for (DataBean item : roleDailyCount.getData()) {
                 item.setRoleDailyCount(roleDailyCount);
-                list.add(item);//方法二
-//                new DataBeanDao(mContext).add(item);//方法一
+                //手动设置id，roleDailyCount的id+""+(DataBean的time+0XFFF)
+                item.setId(Integer.parseInt(roleDailyCount.getId())+""
+                        + (Integer.parseInt(item.getTime())+0XFFF));
+//                list.add(item);//方法二
+                new DataBeanDao(mContext).add(item);//方法一
             }
         } catch (SQLException e) {
             e.printStackTrace();
