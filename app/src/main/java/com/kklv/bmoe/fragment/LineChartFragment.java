@@ -68,7 +68,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         bindId(view);
         initView();
         //TODO 选择萌燃
-        mChart.showData(mParamsMap);
+        mChart.getData(mParamsMap);
         return view;
     }
 
@@ -154,7 +154,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                 mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET.getText() + ""));
                 mProgressDialog.show();
                 //TODO 选择萌燃
-                mChart.showData(mParamsMap);
+                mChart.getData(mParamsMap);
                 Toast.makeText(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""),
                         Toast.LENGTH_SHORT).show();
             }
@@ -183,16 +183,13 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_moe:
-                        mParamsMap.put(RoleDailyCount.SEX, "0");
-                        mChart.showData(mParamsMap);
+                        mChart.showMoe("0");
                         break;
                     case R.id.rb_light:
-                        mParamsMap.put(RoleDailyCount.SEX, "1");
-                        mChart.showData(mParamsMap);
+                        mChart.showMoe("1");
                         break;
                     case R.id.rb_moe_light:
-                        mParamsMap.put(RoleDailyCount.SEX, "");
-                        mChart.showData(mParamsMap);
+                        mChart.showMoe("");
                         break;
                 }
             }

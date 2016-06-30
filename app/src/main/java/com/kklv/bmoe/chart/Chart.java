@@ -1,7 +1,6 @@
 package com.kklv.bmoe.chart;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -18,7 +17,6 @@ import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.ListUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +29,7 @@ public class Chart extends BaseChart {
     private static final String TAG = "Chart";
     private static final int ANIMATEY_TIME = 2000;
     /**
-     *将List<RoleDailyCount>分割为 SPLIT_LENGTH 长的 List<List<RoleDailyCount>> 集合；
+     * 将List<RoleDailyCount>分割为 SPLIT_LENGTH 长的 List<List<RoleDailyCount>> 集合；
      * 即：chart每次最多显示 SPLIT_LENGTH 条曲线；
      * 注意：现在最大设置16，因为我只设置了16种颜色
      */
@@ -40,13 +38,13 @@ public class Chart extends BaseChart {
     private DataHelper mDataHelper;
     private Context mContext;
 
-    private List<RoleDailyCount> mCampList;
+    private List<RoleDailyCount> mRoleDailyCountList;
     private List<List<RoleDailyCount>> mSplitLists;
-    private int showingSplitListId = 0;
+    private int mShowingSplitListId = 0;
 
     public List<RoleDailyCount> getSplitList() {
         if (mSplitLists != null && mSplitLists.size() > 0) {
-            return mSplitLists.get(showingSplitListId);
+            return mSplitLists.get(mShowingSplitListId);
         }
         return null;
     }
@@ -60,7 +58,7 @@ public class Chart extends BaseChart {
         initLineChart();
     }
 
-    public void showData(Map<String, String> map) {
+    public void getData(Map<String, String> map) {
         if (map == null) {
             return;
         }
@@ -94,17 +92,18 @@ public class Chart extends BaseChart {
             return;
         }
         mSplitLists = ListUtils.split(list, SPLIT_LENGTH);
-        drawChart(mSplitLists.get(showingSplitListId));
+        mShowingSplitListId = 0;//必须清0
+        drawChart(mSplitLists.get(mShowingSplitListId));
     }
 
     /**
      * 查看上一组排名的数据
      */
     public void goLeftSplitLists() {
-        if (mSplitLists != null && mSplitLists.size() > 0 &&
-                showingSplitListId > 0) {
-            showingSplitListId--;
-            drawChart(mSplitLists.get(showingSplitListId));
+        if ((mSplitLists != null && mSplitLists.size() > 0) &&
+                mShowingSplitListId > 0) {
+            mShowingSplitListId--;
+            drawChart(mSplitLists.get(mShowingSplitListId));
         }
     }
 
@@ -113,12 +112,29 @@ public class Chart extends BaseChart {
      */
     public void goRightSplitLists() {
 
-        if (mSplitLists != null && mSplitLists.size() > 0 &&
-                showingSplitListId < mSplitLists.size() - 1) {
-            showingSplitListId++;
-            drawChart(mSplitLists.get(showingSplitListId));
+        if ((mSplitLists != null && mSplitLists.size() > 0) &&
+                mShowingSplitListId < mSplitLists.size() - 1) {
+            mShowingSplitListId++;
+            drawChart(mSplitLists.get(mShowingSplitListId));
         }
 
+    }
+
+    /**
+     * 选择萌、燃、萌燃
+     *
+     * @param sex "":萌燃;"1":萌;"2":燃
+     */
+    public void showMoe(String sex) {
+        List<RoleDailyCount> sexList = new ArrayList<>();
+        if ("".equals(sex)) {    //萌燃
+            setData(mRoleDailyCountList);
+        } else if (sex != null) {
+            for (RoleDailyCount item : mRoleDailyCountList) {
+                if (item.getSex().equals(sex)) sexList.add(item);
+            }
+            setData(sexList);
+        }
     }
 
     /**
@@ -139,7 +155,7 @@ public class Chart extends BaseChart {
             return;
         }
         mLineChart.setDescription(mContext.getString(R.string.count_line_chart) +
-                getRankString(showingSplitListId));
+                getRankString(mShowingSplitListId));
         List<ILineDataSet> dataSets = new ArrayList<>();
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
         for (RoleDailyCount item : list) {
@@ -158,7 +174,7 @@ public class Chart extends BaseChart {
      * 生成一条折线
      *
      * @param roleDailyCount
-     * @param color             折线颜色
+     * @param color          折线颜色
      * @return
      */
     private LineDataSet createLineDataSet(RoleDailyCount roleDailyCount, int color) {
@@ -206,8 +222,8 @@ public class Chart extends BaseChart {
     public <T> void onSuccess(final List<T> result) {
         mCallBack.onLoadCompleted();
         if (result != null && result.size() > 0) {
-            mCampList = (List<RoleDailyCount>) result;
-            setData((List<RoleDailyCount>) result);
+            mRoleDailyCountList = (List<RoleDailyCount>) result;
+            setData(mRoleDailyCountList);
         } else {
             Toast.makeText(mContext, R.string.no_data, Toast.LENGTH_SHORT).show();
         }

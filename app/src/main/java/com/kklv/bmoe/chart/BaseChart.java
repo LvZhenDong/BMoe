@@ -14,6 +14,11 @@ import java.util.List;
 public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     protected ChartCallBack mCallBack;
 
+    /**
+     * 取消网络请求
+     */
+    public abstract void cancelRequest();
+
     @Override
     public <T> void onSuccess(List<T> result) {
 
@@ -40,8 +45,5 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         this.mCallBack = callBack;
     }
 
-    /**
-     * 取消网络请求
-     */
-    public abstract void cancelRequest();
+
 }

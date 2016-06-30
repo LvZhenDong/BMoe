@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.menu_debug_null_point_exception:
 //                Chart debug=null;   //调试蒲公英
-//                debug.showData("SFSD");
+//                debug.getData("SFSD");
                 break;
 
         }
