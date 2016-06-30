@@ -31,7 +31,7 @@ public class DataBeanDao {
 
     public void add(DataBean dataBean) {
         try {
-            mDataBeenOpe.create(dataBean);
+            mDataBeenOpe.createOrUpdate(dataBean);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.os.MessageQueue;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -37,6 +38,11 @@ public class DataHelper {
     public static final String DB_HANDLER_THREAD_NAME = "BMoe";
     private static final int DB_HANDLER_THREAD_WHAT_ADD = 0X01;
     private static final int DB_HANDLER_THREAD_WHAT_QUERY = 0X02;
+
+    /**
+     * 添加数据到数据库的任务是否还在执行
+     */
+    private boolean isAddingToDataBase = false;
 
     private Map<String, String> mParamMap;
 
@@ -112,9 +118,16 @@ public class DataHelper {
         Message msg = new Message();
         msg.obj = map;
         msg.what = DB_HANDLER_THREAD_WHAT_QUERY;
-        mSubThreadHandler.sendMessage(msg);
 
-
+        //如果数据库还在进行写操作，就不从数据库读取数据，而改从服务器读取数据
+        synchronized (DataHelper.class) {
+            if (!isAddingToDataBase) {
+                mSubThreadHandler.sendMessage(msg);
+            } else {
+                Log.i(TAG,"isAddingToDataBase");
+                getRoleDailyCountFromInterNet(mParamMap);
+            }
+        }
     }
 
     /**
@@ -181,12 +194,14 @@ public class DataHelper {
 
     /**
      * 数据库查询List<RoleDailyCount>
+     * 如果数据库里没有数据，就从服务器读取
      *
      * @param msg
      */
     private void handlerQuery(Message msg) {
+        Log.i(TAG, "begin handlerQuery");
         final List<RoleDailyCount> databaseResult = new RoleDailyCountDao(mContext).
-                getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE), mParamMap.get(RoleDailyCount.SEX));
+                getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE));
         if (databaseResult != null && databaseResult.size() > 0) {
             mUIHandler.post(new Runnable() {
                 @Override
@@ -211,24 +226,20 @@ public class DataHelper {
      * @param msg
      */
     private void handlerAdd(Message msg) {
+        Log.i(TAG, "begin handlerAdd");
+        synchronized (DataHelper.class) {
+            isAddingToDataBase = true;
+        }
         List<RoleDailyCount> response = (List<RoleDailyCount>) msg.obj;
-//        List<RoleDailyCount> databaseResult = null;
         if (response != null && response.size() > 0) {
             RoleDailyCountDao roleDailyCountDao = new RoleDailyCountDao(mContext);
             //将数据添加到数据库
             roleDailyCountDao.addOrUpdateRoleDailyCounts(response);
-            //因为需要排序后的数据，所有还是从数据库读取
-//            databaseResult = roleDailyCountDao.
-//                    getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE), mParamMap.get(RoleDailyCount.SEX));
         }
-//        final List<RoleDailyCount> finalDatabaseResult = databaseResult;
-//        mUIHandler.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                //主线程
-//                mCallBack.onSuccess(finalDatabaseResult);
-//            }
-//        });
+        synchronized (DataHelper.class) {
+            isAddingToDataBase = false;
+        }
+        Log.i(TAG, "after handlerAdd");
     }
 
     /**
@@ -242,12 +253,6 @@ public class DataHelper {
         if (!(TextUtils.isEmpty(map.get(RoleDailyCount.DATE)))) {
             result += "&date=" + map.get(RoleDailyCount.DATE);
         }
-//        if (!(TextUtils.isEmpty(map.get(RoleDailyCount.SEX)))) {
-//            result += "&sex=" + map.get(RoleDailyCount.SEX);
-//        }
-//        if (!(TextUtils.isEmpty(map.get("group")))) {
-//            result += "&group=" + map.get("group");
-//        }
         return result;
     }
 

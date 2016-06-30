@@ -17,7 +17,6 @@ import java.util.Comparator;
 @DatabaseTable
 public class RoleDailyCount implements Serializable {
     public static final String DATE = "date";
-    public static final String SEX = "sex";
     public static final String MAX_COUNT = "maxCount";
 
     public static final String SEX_MOE = "0";

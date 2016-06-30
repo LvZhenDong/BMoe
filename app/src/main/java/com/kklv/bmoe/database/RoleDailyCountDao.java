@@ -44,12 +44,11 @@ public class RoleDailyCountDao {
     private void addOrUpdateRoleDailyCount(RoleDailyCount roleDailyCount) {
         try {
             mRoleDailyCountDaoOpe.createOrUpdate(roleDailyCount);
-//            Collection<DataBean> list=mRoleDailyCountDaoOpe.getEmptyForeignCollection("data");//方法二
-            for (DataBean item : roleDailyCount.getData()
-                    ) {
+            Collection<DataBean> list=mRoleDailyCountDaoOpe.getEmptyForeignCollection("data");//方法二
+            for (DataBean item : roleDailyCount.getData()) {
                 item.setRoleDailyCount(roleDailyCount);
-//                list.add(item);//方法二
-                new DataBeanDao(mContext).add(item);//方法一
+                list.add(item);//方法二
+//                new DataBeanDao(mContext).add(item);//方法一
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,11 +57,9 @@ public class RoleDailyCountDao {
     }
 
     public void addOrUpdateRoleDailyCounts(List<RoleDailyCount> list) {
-        Log.i(TAG,"begin addOrUpdateRoleDailyCount");
         for (RoleDailyCount itme : list) {
             addOrUpdateRoleDailyCount(itme);
         }
-        Log.i(TAG,"addOrUpdateRoleDailyCount over");
     }
 
     /**
@@ -85,29 +82,17 @@ public class RoleDailyCountDao {
      * 获取对应的数据，并按macCount降序排列
      *
      * @param date
-     * @param sex
      * @return
      */
-    public List<RoleDailyCount> getRoleDailyCounts(String date, String sex) {
+    public List<RoleDailyCount> getRoleDailyCounts(String date) {
 
         QueryBuilder<RoleDailyCount, Integer> queryBuilder = mRoleDailyCountDaoOpe.queryBuilder();
-        Where<RoleDailyCount, Integer> where = queryBuilder.where();
         try {
 
             //TODO 为什么把maxCount改为主键就成功了？ 现在不用主键也可以了，莫名其妙就好了，无语
-            List<RoleDailyCount> list = null;
-            if (TextUtils.isEmpty(sex)) {
-                list = queryBuilder.orderBy(RoleDailyCount.MAX_COUNT, false).where().eq(RoleDailyCount.DATE, date).query();
-            } else if (RoleDailyCount.SEX_MOE.equals(sex) || RoleDailyCount.SEX_LIGHT.equals(sex)) {
-                list = queryBuilder.orderBy(RoleDailyCount.MAX_COUNT, false).where().eq(RoleDailyCount.DATE, date).
-                        and().eq(RoleDailyCount.SEX, sex).query();
-            }
-            if (list != null)
-                for (RoleDailyCount item : list
-                        ) {
-                    Log.i("kklv", "name:" + item.getName() + ";id:" + item.getId() + ";maxCount:" + item.getMaxCount());
-                }
-            return list;
+            List<RoleDailyCount> list = queryBuilder.orderBy(RoleDailyCount.MAX_COUNT, false).where().eq(RoleDailyCount.DATE, date).query();
+            if (list != null && list.size() > 0)
+                return list;
         } catch (SQLException e) {
             e.printStackTrace();
         }

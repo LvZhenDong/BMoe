@@ -67,7 +67,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
         bindId(view);
         initView();
-        //TODO 选择萌燃
         mChart.getData(mParamsMap);
         return view;
     }
@@ -153,7 +152,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             public void afterTextChanged(Editable s) {
                 mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET.getText() + ""));
                 mProgressDialog.show();
-                //TODO 选择萌燃
                 mChart.getData(mParamsMap);
                 Toast.makeText(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""),
                         Toast.LENGTH_SHORT).show();
