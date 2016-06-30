@@ -14,8 +14,14 @@ import java.io.Serializable;
  */
 @DatabaseTable
 public class DataBean implements Serializable {
+    /**
+     * 手动设置id时候的增量，防止出现下面这种情况
+     * roleDailyCount的id为1000，dataBean的time为10，所以现在它的id为100010；
+     * 如果另一个roleDailyCount的id为10000，dataBean的time为00，所以现在它的id也为100010
+     */
+    public static final int idIncrement = 0XFFF;
     @DatabaseField(id = true)
-    private int id; //手动设置id，roleDailyCount的id+""+(DataBean的time+0XFFF)
+    private int id; //手动设置id，roleDailyCount的id+""+(DataBean的time+idIncrement)
     @DatabaseField
     private String time;
     @DatabaseField

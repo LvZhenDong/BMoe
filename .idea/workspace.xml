@@ -121,7 +121,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1dba688a-db18-435e-9f70-9fe026e3af11" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/database/RoleDailyCountDao.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/database/RoleDailyCountDao.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/object/DataBean.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/object/DataBean.java" />
     </list>
@@ -187,7 +186,7 @@
             <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/database/RoleDailyCountDao.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="51" column="63" selection-start-line="51" selection-start-column="63" selection-end-line="51" selection-end-column="63" />
+                  <caret line="51" column="74" selection-start-line="51" selection-start-column="74" selection-end-line="51" selection-end-column="74" />
                   <folding />
                 </state>
               </provider>
@@ -196,13 +195,13 @@
           <file leaf-file-name="DataBean.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/object/DataBean.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.21230398">
-                  <caret line="17" column="69" selection-start-line="17" selection-start-column="69" selection-end-line="17" selection-end-column="69" />
+                <state vertical-scroll-proportion="0.41254523">
+                  <caret line="19" column="53" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
                   <folding>
-                    <element signature="e#969#970#0" expanded="true" />
-                    <element signature="e#1015#1016#0" expanded="true" />
-                    <element signature="e#1064#1065#0" expanded="true" />
-                    <element signature="e#1101#1102#0" expanded="true" />
+                    <element signature="e#1204#1205#0" expanded="true" />
+                    <element signature="e#1250#1251#0" expanded="true" />
+                    <element signature="e#1299#1300#0" expanded="true" />
+                    <element signature="e#1336#1337#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -1929,8 +1928,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/fragment/LineChartFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/data/DataHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/database/DataBeanDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/object/DataBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/database/RoleDailyCountDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/object/DataBean.java" />
       </list>
     </option>
   </component>
@@ -2937,20 +2936,20 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/database/RoleDailyCountDao.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="63" selection-start-line="51" selection-start-column="63" selection-end-line="51" selection-end-column="63" />
+          <caret line="51" column="74" selection-start-line="51" selection-start-column="74" selection-end-line="51" selection-end-column="74" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/object/DataBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21230398">
-          <caret line="17" column="69" selection-start-line="17" selection-start-column="69" selection-end-line="17" selection-end-column="69" />
+        <state vertical-scroll-proportion="0.41254523">
+          <caret line="19" column="53" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
           <folding>
-            <element signature="e#969#970#0" expanded="true" />
-            <element signature="e#1015#1016#0" expanded="true" />
-            <element signature="e#1064#1065#0" expanded="true" />
-            <element signature="e#1101#1102#0" expanded="true" />
+            <element signature="e#1204#1205#0" expanded="true" />
+            <element signature="e#1250#1251#0" expanded="true" />
+            <element signature="e#1299#1300#0" expanded="true" />
+            <element signature="e#1336#1337#0" expanded="true" />
           </folding>
         </state>
       </provider>
