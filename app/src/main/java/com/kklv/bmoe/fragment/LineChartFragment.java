@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack {
@@ -238,5 +239,10 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         if(result){
             mMoeAndLightRB.setChecked(true);
         }
+    }
+
+    @Override
+    public void showGroup(Set<String> groups) {
+
     }
 }

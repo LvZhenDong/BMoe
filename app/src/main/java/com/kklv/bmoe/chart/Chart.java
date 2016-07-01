@@ -1,6 +1,8 @@
 package com.kklv.bmoe.chart;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -17,8 +19,12 @@ import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.ListUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author LvZhenDong
@@ -219,12 +225,30 @@ public class Chart extends BaseChart {
         return xVals;
     }
 
+
+    private Set<String> getGroups(List<RoleDailyCount> list) {
+        //TODO 还需要排序
+        TreeSet<String> groups = new TreeSet<>();
+        for (RoleDailyCount item : list) {
+            if (!TextUtils.isEmpty(item.getGroup())) {
+                groups.add(item.getGroup());
+            }
+        }
+
+        return groups;
+    }
+
     @Override
     public <T> void onSuccess(final List<T> result) {
 
         if (result != null && result.size() > 0) {
             mRoleDailyCountList = (List<RoleDailyCount>) result;
             mCallBack.onLoadCompleted(true);
+            Set<String> groups = getGroups(mRoleDailyCountList);
+            if (groups != null && groups.size() > 0)
+                for (String item : groups) {
+                    Log.i(TAG, item);
+                }
             setData(mRoleDailyCountList);
         } else {
             mCallBack.onLoadCompleted(false);

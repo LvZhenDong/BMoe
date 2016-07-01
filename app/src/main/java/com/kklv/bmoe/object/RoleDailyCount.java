@@ -30,6 +30,7 @@ public class RoleDailyCount implements Serializable {
      * sex : 性别，0女1男
      * data : 时间-票数
      * maxCount : 得到的最大票数，可以用于排序
+     * group: 15-12-12开始是A1,15-12-20开始是1-A
      */
     @DatabaseField(id = true)
     private int id;

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
-import android.os.MessageQueue;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -90,7 +89,7 @@ public class DataHelper {
      * @param bangumi
      */
     public void getCampRank(String bangumi) {
-        String url = HttpUrl.RANK + "?bangumi=" + EncodeChinese(bangumi);
+        String url = HttpUrl.RANK + "?bangumi=" + encodeChinese(bangumi);
         GsonRequest gsonRequest = new GsonRequest<List<RoleInfo>>(Request.Method.GET, url,
                 new TypeToken<List<RoleInfo>>() {
                 }.getType(), new Response.Listener<List<RoleInfo>>() {
@@ -265,7 +264,7 @@ public class DataHelper {
      * @return
      * @throws UnsupportedEncodingException
      */
-    public static String EncodeChinese(String str) {
+    public static String encodeChinese(String str) {
         try {
             return java.net.URLEncoder.encode(str, "utf-8");
         } catch (UnsupportedEncodingException e) {

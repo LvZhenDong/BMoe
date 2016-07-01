@@ -3,6 +3,7 @@ package com.kklv.bmoe.chart;
 import com.kklv.bmoe.data.DataHelper;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Chart的基类
@@ -37,6 +38,11 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
          */
         void onLoadCompleted(boolean result);
 
+        /**
+         * 用于显示分组
+         * @param groups
+         */
+        void showGroup(Set<String> groups);
     }
 
     /**
