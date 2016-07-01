@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 
 public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack {
@@ -45,9 +46,13 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
     private EditText mDatePickerET;
     private ImageButton mFullScreenIBtn, mLeftIBtn, mRightIBtn;
-    private RadioGroup mSexRG;
+    //选择萌燃
     private RadioButton mMoeRB, mLightRB, mMoeAndLightRB;
-    private int checkedId = R.id.rb_moe_light;
+    private int checkedSexId = R.id.rb_moe_light;
+    //选择分组
+    private RadioGroup mGroupRG;
+    private RadioButton mGroupAllRB, mGroupOneRB, mGroupTwoRB, mGroupThreeRB, mGroupFourRB;
+    private int checkedGroupId = R.id.rb_group_all;
 
     private ProgressDialog mProgressDialog;
 
@@ -58,10 +63,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
     private Map<String, String> mParamsMap = new HashMap<>();
 
-    /**
-     * 类似于06-04-12这样的日期
-     */
-//    private String mDateStr;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,10 +80,15 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mFullScreenIBtn = (ImageButton) view.findViewById(R.id.ibtn_full_screen);
         mLeftIBtn = (ImageButton) view.findViewById(R.id.ibtn_left);
         mRightIBtn = (ImageButton) view.findViewById(R.id.ibtn_right);
-        mSexRG = (RadioGroup) view.findViewById(R.id.rg_sex);
         mMoeRB = (RadioButton) view.findViewById(R.id.rb_moe);
         mLightRB = (RadioButton) view.findViewById(R.id.rb_light);
         mMoeAndLightRB = (RadioButton) view.findViewById(R.id.rb_moe_light);
+        mGroupRG = (RadioGroup) view.findViewById(R.id.rg_group);
+        mGroupAllRB = (RadioButton) view.findViewById(R.id.rb_group_all);
+        mGroupOneRB = (RadioButton) view.findViewById(R.id.rb_group_one);
+        mGroupTwoRB = (RadioButton) view.findViewById(R.id.rb_group_two);
+        mGroupThreeRB = (RadioButton) view.findViewById(R.id.rb_group_three);
+        mGroupFourRB = (RadioButton) view.findViewById(R.id.rb_group_four);
     }
 
     private void initView() {
@@ -174,20 +180,34 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mLeftIBtn.setOnClickListener(mChartRankListener);
         mRightIBtn.setOnClickListener(mChartRankListener);
 
-        initRadioGroup();
+        initSexRadioGroup();
+        initGroupRadioGroup();
     }
 
-    private void initRadioGroup() {
+    private void initSexRadioGroup() {
         mMoeRB.setOnClickListener(mMoeLightListener);
         mLightRB.setOnClickListener(mMoeLightListener);
         mMoeAndLightRB.setOnClickListener(mMoeLightListener);
     }
 
+    private void initGroupRadioGroup() {
+        mGroupAllRB.setOnClickListener(mGroupListener);
+        mGroupOneRB.setOnClickListener(mGroupListener);
+        mGroupTwoRB.setOnClickListener(mGroupListener);
+        mGroupThreeRB.setOnClickListener(mGroupListener);
+        mGroupFourRB.setOnClickListener(mGroupListener);
+    }
+
+    /**
+     * Sex的监听
+     */
     private View.OnClickListener mMoeLightListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (v.getId() == checkedId) return;
-            switch (v.getId()) {
+            //TODO 感觉写的一点也不优雅
+            int id = v.getId();
+            if (id == checkedSexId) return;
+            switch (id) {
                 case R.id.rb_moe:
                     mChart.showMoe("0");
                     break;
@@ -198,7 +218,36 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                     mChart.showMoe("");
                     break;
             }
-            checkedId = v.getId();
+            checkedSexId = id;
+        }
+    };
+
+    /**
+     * Group的监听
+     */
+    private View.OnClickListener mGroupListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //TODO 感觉写的一点也不优雅
+            int id = v.getId();
+            if (id == checkedGroupId) return;
+            switch (id) {
+                case R.id.rb_group_all:
+
+                    break;
+                case R.id.rb_group_one:
+
+                    break;
+                case R.id.rb_group_two:
+
+                    break;
+                case R.id.rb_group_three:
+
+                    break;
+                case R.id.rb_group_four:
+
+                    break;
+            }
         }
     };
 
@@ -245,12 +294,21 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mProgressDialog.dismiss();
         if (result) {
             mMoeAndLightRB.setChecked(true);
-            checkedId = R.id.rb_moe_light;
+            checkedSexId = R.id.rb_moe_light;
         }
     }
 
     @Override
-    public void showGroup(Set<String> groups) {
-
+    public void showGroup(List<String> list) {
+        //TODO 什么时候改为根据groups.size()来增加radioButton的个数
+        if (list != null && list.size() == 4){
+            mGroupRG.setVisibility(View.VISIBLE);
+            mGroupOneRB.setText(list.get(0));
+            mGroupTwoRB.setText(list.get(1));
+            mGroupThreeRB.setText(list.get(2));
+            mGroupFourRB.setText(list.get(3));
+        }else {
+            mGroupRG.setVisibility(View.GONE);
+        }
     }
 }

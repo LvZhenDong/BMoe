@@ -243,12 +243,14 @@ public class Chart extends BaseChart {
 
         if (result != null && result.size() > 0) {
             mRoleDailyCountList = (List<RoleDailyCount>) result;
+
+            Set<String> set = getGroups(mRoleDailyCountList);
+            if (set != null && set.size() > 0){
+                mCallBack.showGroup(new ArrayList(set));
+            }else {
+                mCallBack.showGroup(null);
+            }
             mCallBack.onLoadCompleted(true);
-            Set<String> groups = getGroups(mRoleDailyCountList);
-            if (groups != null && groups.size() > 0)
-                for (String item : groups) {
-                    Log.i(TAG, item);
-                }
             setData(mRoleDailyCountList);
         } else {
             mCallBack.onLoadCompleted(false);

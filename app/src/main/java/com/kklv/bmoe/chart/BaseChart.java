@@ -40,9 +40,9 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
 
         /**
          * 用于显示分组
-         * @param groups
+         * @param list
          */
-        void showGroup(Set<String> groups);
+        void showGroup(List<String> list);
     }
 
     /**

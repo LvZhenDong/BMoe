@@ -21,6 +21,7 @@
     <string name="camp_wait_percent">复活率</string>
     <string name="camp_fail_percent">淘汰率</string>
     <string name="draw_chart">绘制</string>
+    <string name="all">全部</string>
 
 
 </resources>

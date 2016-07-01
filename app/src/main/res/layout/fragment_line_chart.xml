@@ -9,16 +9,16 @@
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_weight="2">
 
     </com.github.mikephil.charting.charts.LineChart>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_weight="1"
-        android:layout_margin="10dp">
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1">
 
         <EditText
             android:id="@+id/et_date"
@@ -27,35 +27,35 @@
 
         <ImageButton
             android:id="@+id/ibtn_left"
-            android:layout_below="@id/et_date"
+            style="@style/RoundButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            style="@style/RoundButton"
+            android:layout_below="@id/et_date"
             android:src="@drawable/ic_keyboard_arrow_left_white_48dp"/>
 
         <ImageButton
             android:id="@+id/ibtn_right"
-            android:layout_alignTop="@id/ibtn_left"
-            android:layout_toRightOf="@id/ibtn_left"
+            style="@style/RoundButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            style="@style/RoundButton"
+            android:layout_alignTop="@id/ibtn_left"
+            android:layout_toRightOf="@id/ibtn_left"
             android:src="@drawable/ic_keyboard_arrow_right_white_48dp"/>
 
         <ImageButton
             android:id="@+id/ibtn_full_screen"
+            style="@style/RectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            style="@style/RectButton"
             android:src="@drawable/ic_zoom_out_map_white_48dp"/>
 
         <RadioGroup
             android:id="@+id/rg_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_toRightOf="@id/et_date">
+            android:layout_toRightOf="@id/et_date"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/rb_moe"
@@ -68,8 +68,44 @@
                 android:layout_height="wrap_content"/>
 
             <RadioButton
-                android:checked="true"
                 android:id="@+id/rb_moe_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"/>
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/rg_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/rb_group_all"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all"/>
+            <RadioButton
+                android:id="@+id/rb_group_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/rb_group_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/rb_group_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/rb_group_four"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RadioGroup>
