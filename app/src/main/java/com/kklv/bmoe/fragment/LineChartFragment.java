@@ -47,6 +47,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private ImageButton mFullScreenIBtn, mLeftIBtn, mRightIBtn;
     private RadioGroup mSexRG;
     private RadioButton mMoeRB, mLightRB, mMoeAndLightRB;
+    private int checkedId = R.id.rb_moe_light;
 
     private ProgressDialog mProgressDialog;
 
@@ -177,23 +178,29 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     }
 
     private void initRadioGroup() {
-        mSexRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rb_moe:
-                        mChart.showMoe("0");
-                        break;
-                    case R.id.rb_light:
-                        mChart.showMoe("1");
-                        break;
-                    case R.id.rb_moe_light:
-                        mChart.showMoe("");
-                        break;
-                }
-            }
-        });
+        mMoeRB.setOnClickListener(mMoeLightListener);
+        mLightRB.setOnClickListener(mMoeLightListener);
+        mMoeAndLightRB.setOnClickListener(mMoeLightListener);
     }
+
+    private View.OnClickListener mMoeLightListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == checkedId) return;
+            switch (v.getId()) {
+                case R.id.rb_moe:
+                    mChart.showMoe("0");
+                    break;
+                case R.id.rb_light:
+                    mChart.showMoe("1");
+                    break;
+                case R.id.rb_moe_light:
+                    mChart.showMoe("");
+                    break;
+            }
+            checkedId = v.getId();
+        }
+    };
 
     private View.OnClickListener mChartRankListener = new View.OnClickListener() {
         @Override
@@ -236,8 +243,9 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     @Override
     public void onLoadCompleted(boolean result) {
         mProgressDialog.dismiss();
-        if(result){
+        if (result) {
             mMoeAndLightRB.setChecked(true);
+            checkedId = R.id.rb_moe_light;
         }
     }
 
