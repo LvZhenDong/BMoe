@@ -121,7 +121,8 @@ public class DataHelper {
 
         //如果数据库还在进行写操作，就不从数据库读取数据，而改从服务器读取数据
         synchronized (DataHelper.class) {
-            if (!isAddingToDataBase) {
+            if (!mSubThreadHandler.hasMessages(DB_HANDLER_THREAD_WHAT_ADD) && !isAddingToDataBase) {
+                //如果队列里没有有message且没有数据库写操作
                 mSubThreadHandler.sendMessage(msg);
             } else {
                 Log.i(TAG,"isAddingToDataBase");
@@ -202,6 +203,7 @@ public class DataHelper {
         Log.i(TAG, "begin handlerQuery");
         final List<RoleDailyCount> databaseResult = new RoleDailyCountDao(mContext).
                 getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE));
+        Log.i(TAG, "after handlerQuery");
         if (databaseResult != null && databaseResult.size() > 0) {
             mUIHandler.post(new Runnable() {
                 @Override

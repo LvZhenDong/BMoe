@@ -93,6 +93,7 @@ public class Chart extends BaseChart {
         }
         mSplitLists = ListUtils.split(list, SPLIT_LENGTH);
         mShowingSplitListId = 0;//必须清0
+
         drawChart(mSplitLists.get(mShowingSplitListId));
     }
 
@@ -129,7 +130,7 @@ public class Chart extends BaseChart {
         List<RoleDailyCount> sexList = new ArrayList<>();
         if ("".equals(sex)) {    //萌燃
             setData(mRoleDailyCountList);
-        } else if (sex != null) {
+        } else if (sex != null && mRoleDailyCountList != null && mRoleDailyCountList.size() > 0) {
             for (RoleDailyCount item : mRoleDailyCountList) {
                 if (item.getSex().equals(sex)) sexList.add(item);
             }
@@ -220,18 +221,20 @@ public class Chart extends BaseChart {
 
     @Override
     public <T> void onSuccess(final List<T> result) {
-        mCallBack.onLoadCompleted();
+
         if (result != null && result.size() > 0) {
             mRoleDailyCountList = (List<RoleDailyCount>) result;
+            mCallBack.onLoadCompleted(true);
             setData(mRoleDailyCountList);
         } else {
+            mCallBack.onLoadCompleted(false);
             Toast.makeText(mContext, R.string.no_data, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onFailure(Exception error) {
-        mCallBack.onLoadCompleted();
+        mCallBack.onLoadCompleted(false);
         Toast.makeText(mContext, R.string.net_error, Toast.LENGTH_SHORT).show();
 
     }

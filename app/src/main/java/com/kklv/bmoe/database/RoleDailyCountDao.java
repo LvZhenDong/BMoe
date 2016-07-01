@@ -90,10 +90,12 @@ public class RoleDailyCountDao {
     public List<RoleDailyCount> getRoleDailyCounts(String date) {
 
         QueryBuilder<RoleDailyCount, Integer> queryBuilder = mRoleDailyCountDaoOpe.queryBuilder();
+        Where<RoleDailyCount,Integer> where=queryBuilder.where();
         try {
-
-            //TODO 为什么把maxCount改为主键就成功了？ 现在不用主键也可以了，莫名其妙就好了，无语
-            List<RoleDailyCount> list = queryBuilder.orderBy(RoleDailyCount.MAX_COUNT, false).where().eq(RoleDailyCount.DATE, date).query();
+            List<RoleDailyCount> list = queryBuilder.orderBy(RoleDailyCount.MAX_COUNT, false).where().eq(RoleDailyCount.DATE, date).query();    //方法一：比方法二快0.25s左右
+//            where.eq(RoleDailyCount.DATE, date);      //方法二
+//            queryBuilder.orderBy(RoleDailyCount.MAX_COUNT, false);
+//            List<RoleDailyCount> list=queryBuilder.query();
             if (list != null && list.size() > 0)
                 return list;
         } catch (SQLException e) {

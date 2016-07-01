@@ -30,10 +30,13 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     }
 
     public interface ChartCallBack {
+
         /**
          * 加载数据完成
+         * @param result true:成功；false:失败
          */
-        void onLoadCompleted();
+        void onLoadCompleted(boolean result);
+
     }
 
     /**

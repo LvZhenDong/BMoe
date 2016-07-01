@@ -67,7 +67,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
         bindId(view);
         initView();
-        mChart.getData(mParamsMap);
+//        mChart.getData(mParamsMap);
         return view;
     }
 
@@ -233,7 +233,10 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     }
 
     @Override
-    public void onLoadCompleted() {
+    public void onLoadCompleted(boolean result) {
         mProgressDialog.dismiss();
+        if(result){
+            mMoeAndLightRB.setChecked(true);
+        }
     }
 }
