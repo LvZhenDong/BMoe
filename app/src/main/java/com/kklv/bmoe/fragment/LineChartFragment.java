@@ -209,13 +209,13 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             if (id == checkedSexId) return;
             switch (id) {
                 case R.id.rb_moe:
-                    mChart.showMoe("0");
+                    mChart.showMoe(RoleDailyCount.SEX_MOE);
                     break;
                 case R.id.rb_light:
-                    mChart.showMoe("1");
+                    mChart.showMoe(RoleDailyCount.SEX_LIGHT);
                     break;
                 case R.id.rb_moe_light:
-                    mChart.showMoe("");
+                    mChart.showMoe(RoleDailyCount.SEX_ALL);
                     break;
             }
             checkedSexId = id;
@@ -228,26 +228,18 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private View.OnClickListener mGroupListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 感觉写的一点也不优雅
             int id = v.getId();
             if (id == checkedGroupId) return;
             switch (id) {
                 case R.id.rb_group_all:
-
+                    mChart.showGroup(RoleDailyCount.GROUP_ALL);
                     break;
-                case R.id.rb_group_one:
-
-                    break;
-                case R.id.rb_group_two:
-
-                    break;
-                case R.id.rb_group_three:
-
-                    break;
-                case R.id.rb_group_four:
-
+                default:
+                    RadioButton rb = (RadioButton) v;
+                    mChart.showGroup(rb.getText() + "");
                     break;
             }
+            checkedGroupId = id;
         }
     };
 
@@ -292,23 +284,33 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     @Override
     public void onLoadCompleted(boolean result) {
         mProgressDialog.dismiss();
-        if (result) {
-            mMoeAndLightRB.setChecked(true);
-            checkedSexId = R.id.rb_moe_light;
-        }
+    }
+
+    @Override
+    public void resetSexRG() {
+        mMoeAndLightRB.setChecked(true);
+        checkedSexId = R.id.rb_moe_light;
+    }
+
+    @Override
+    public void resetGroupRG() {
+        mGroupAllRB.setChecked(true);
+        checkedGroupId = R.id.rb_group_all;
     }
 
     @Override
     public void showGroup(List<String> list) {
         //TODO 什么时候改为根据groups.size()来增加radioButton的个数
-        if (list != null && list.size() == 4){
+        if (list != null && list.size() == 4) {
             mGroupRG.setVisibility(View.VISIBLE);
             mGroupOneRB.setText(list.get(0));
             mGroupTwoRB.setText(list.get(1));
             mGroupThreeRB.setText(list.get(2));
             mGroupFourRB.setText(list.get(3));
-        }else {
+        } else {
             mGroupRG.setVisibility(View.GONE);
         }
     }
+
+
 }

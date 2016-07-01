@@ -43,6 +43,9 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
          * @param list
          */
         void showGroup(List<String> list);
+
+        void resetSexRG();
+        void resetGroupRG();
     }
 
     /**

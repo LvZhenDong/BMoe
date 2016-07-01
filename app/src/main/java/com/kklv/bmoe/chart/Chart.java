@@ -48,6 +48,9 @@ public class Chart extends BaseChart {
     private List<List<RoleDailyCount>> mSplitLists;
     private int mShowingSplitListId = 0;
 
+    private String mSexChecked = RoleDailyCount.SEX_ALL;
+    private String mGroupChecked = RoleDailyCount.GROUP_ALL;
+
     public List<RoleDailyCount> getSplitList() {
         if (mSplitLists != null && mSplitLists.size() > 0) {
             return mSplitLists.get(mShowingSplitListId);
@@ -90,17 +93,41 @@ public class Chart extends BaseChart {
 
     /**
      * 设置图表数据
-     *
-     * @param list
      */
-    public void setData(List<RoleDailyCount> list) {
-        if (list == null || list.size() <= 0) {
+    public void setData() {
+        if (mRoleDailyCountList == null || mRoleDailyCountList.size() <= 0) {
             return;
         }
-        mSplitLists = ListUtils.split(list, SPLIT_LENGTH);
+        List<RoleDailyCount> sexAndGroupList = getSexAndGroupList();
+        if (sexAndGroupList == null || sexAndGroupList.size() <= 0) {
+            return;
+        }
+        mSplitLists = ListUtils.split(sexAndGroupList, SPLIT_LENGTH);
         mShowingSplitListId = 0;//必须清0
 
         drawChart(mSplitLists.get(mShowingSplitListId));
+    }
+
+    private List<RoleDailyCount> getSexAndGroupList() {
+        List<RoleDailyCount> sexList = new ArrayList<>();
+        if (RoleDailyCount.SEX_ALL.equals(mSexChecked)) {
+            sexList = mRoleDailyCountList;
+        } else {
+            for (RoleDailyCount item : mRoleDailyCountList) {
+                if (mSexChecked.equals(item.getSex())) sexList.add(item);
+            }
+        }
+
+        List<RoleDailyCount> sexAndGroupList = new ArrayList<>();
+        if (RoleDailyCount.GROUP_ALL.equals(mGroupChecked)) {
+            sexAndGroupList = sexList;
+        } else {
+            for (RoleDailyCount item : sexList) {
+                if (mGroupChecked.equals(item.getGroup())) sexAndGroupList.add(item);
+            }
+        }
+
+        return sexAndGroupList;
     }
 
     /**
@@ -133,15 +160,18 @@ public class Chart extends BaseChart {
      * @param sex "":萌燃;"1":萌;"2":燃
      */
     public void showMoe(String sex) {
-        List<RoleDailyCount> sexList = new ArrayList<>();
-        if ("".equals(sex)) {    //萌燃
-            setData(mRoleDailyCountList);
-        } else if (sex != null && mRoleDailyCountList != null && mRoleDailyCountList.size() > 0) {
-            for (RoleDailyCount item : mRoleDailyCountList) {
-                if (item.getSex().equals(sex)) sexList.add(item);
-            }
-            setData(sexList);
-        }
+        mSexChecked = sex;
+        setData();
+    }
+
+    /**
+     * 选择分组
+     *
+     * @param group
+     */
+    public void showGroup(String group) {
+        mGroupChecked = group;
+        setData();
     }
 
     /**
@@ -227,7 +257,7 @@ public class Chart extends BaseChart {
 
 
     private Set<String> getGroups(List<RoleDailyCount> list) {
-        //TODO 还需要排序
+
         TreeSet<String> groups = new TreeSet<>();
         for (RoleDailyCount item : list) {
             if (!TextUtils.isEmpty(item.getGroup())) {
@@ -245,13 +275,17 @@ public class Chart extends BaseChart {
             mRoleDailyCountList = (List<RoleDailyCount>) result;
 
             Set<String> set = getGroups(mRoleDailyCountList);
-            if (set != null && set.size() > 0){
+            if (set != null && set.size() > 0) {
                 mCallBack.showGroup(new ArrayList(set));
-            }else {
+            } else {
                 mCallBack.showGroup(null);
             }
             mCallBack.onLoadCompleted(true);
-            setData(mRoleDailyCountList);
+            mCallBack.resetSexRG();
+            mCallBack.resetGroupRG();
+            mSexChecked = RoleDailyCount.SEX_ALL;
+            mGroupChecked = RoleDailyCount.GROUP_ALL;
+            setData();
         } else {
             mCallBack.onLoadCompleted(false);
             Toast.makeText(mContext, R.string.no_data, Toast.LENGTH_SHORT).show();
@@ -270,4 +304,10 @@ public class Chart extends BaseChart {
         mDataHelper.mRoleDailyCountRequest.cancel();
     }
 
+    public void setRoleDailyCountList(List<RoleDailyCount> roleDailyCountList) {
+        if (roleDailyCountList == null || roleDailyCountList.size() <= 0){
+            return;
+        }
+        mRoleDailyCountList = roleDailyCountList;
+    }
 }

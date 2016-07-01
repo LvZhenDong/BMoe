@@ -19,8 +19,10 @@ public class RoleDailyCount implements Serializable {
     public static final String DATE = "date";
     public static final String MAX_COUNT = "maxCount";
 
+    public static final String SEX_ALL = "ALL";
     public static final String SEX_MOE = "0";
     public static final String SEX_LIGHT = "1";
+    public static final String GROUP_ALL = "ALL";
     /**
      * id :
      * name :
