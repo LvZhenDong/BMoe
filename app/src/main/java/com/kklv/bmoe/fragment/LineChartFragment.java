@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -24,7 +23,8 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
-import com.kklv.bmoe.chart.Chart;
+import com.kklv.bmoe.chart.OneHourTicketsCountChart;
+import com.kklv.bmoe.chart.TotalTicketsCountChart;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.StringUtils;
 
@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack {
     private LineChart mLineChart;
-    private Chart mChart;
+    private BaseChart mChart;
 
 
     private EditText mDatePickerET;
@@ -85,7 +85,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private void initView() {
 
         initProgressDialog();
-        mChart = new Chart(getActivity(), mLineChart);
+//        mChart = new TotalTicketsCountChart(getActivity(), mLineChart);
+        mChart=new OneHourTicketsCountChart(getActivity(),mLineChart);
         mChart.registerChartCallBack(this);
 
         mDatePickerET.setInputType(InputType.TYPE_NULL);

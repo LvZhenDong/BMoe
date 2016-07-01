@@ -34,21 +34,22 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     /**
      * Y轴上的动画时间
      */
-    protected static final int ANIMATEY_TIME = 2000;
+    private static final int ANIMATEY_TIME = 2000;
     /**
      * 将List<RoleDailyCount>分割为 SPLIT_LENGTH 长的 List<List<RoleDailyCount>> 集合；
      * 即：chart每次最多显示 SPLIT_LENGTH 条曲线；
      * 注意：现在最大设置16，因为我只设置了16种颜色
      */
-    protected static final int SPLIT_LENGTH = 16;
+    private static final int SPLIT_LENGTH = 16;
+    protected String mChartDescription;
 
-    protected LineChart mLineChart;
-    protected Context mContext;
-    protected DataHelper mDataHelper;
+    private LineChart mLineChart;
+    private Context mContext;
+    private DataHelper mDataHelper;
     /**
      * 回调Fragment
      */
-    protected ChartCallBack mCallBack;
+    private ChartCallBack mCallBack;
 
     /**
      * 内存里的主数据
@@ -234,7 +235,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
 
     /**************************Chart相关---开始****************************/
     protected void initLineChart() {
-        mLineChart.setDescription(mContext.getString(R.string.count_line_chart));
+        mLineChart.setDescription(mChartDescription);
 //        mLineChart.setDescriptionPosition(440,100);
         mLineChart.setNoDataText(mContext.getString(R.string.data_loading));
         mLineChart.setDescriptionTextSize(20.0f);
@@ -273,7 +274,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         if (list == null) {
             return;
         }
-        mLineChart.setDescription(mContext.getString(R.string.count_line_chart) +
+        mLineChart.setDescription(mChartDescription +
                 getRankString(mShowingSplitListId));
         List<ILineDataSet> dataSets = new ArrayList<>();
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
@@ -287,6 +288,25 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         mLineChart.animateY(ANIMATEY_TIME);
         mLineChart.notifyDataSetChanged();
         mLineChart.invalidate();
+    }
+
+
+    /**
+     * 设置折线颜色和样式
+     * @param set
+     * @param color
+     */
+    protected void setSetType(LineDataSet set,int color){
+        //            set.enableDashedLine(10f, 5f, 0f);       //设置虚线
+//            set.enableDashedHighlightLine(10f, 5f, 0f);
+        set.setColor(color);
+        set.setCircleColor(color);
+        set.setValueTextColor(color);
+        set.setLineWidth(1f);
+        set.setCircleRadius(3f);
+        set.setDrawCircleHole(false);  //点是实心的
+        set.setValueTextSize(9f);
+        set.setDrawFilled(false);  //单纯的line，line下面不覆盖颜色
     }
 
     /**************************Chart相关---结束****************************/

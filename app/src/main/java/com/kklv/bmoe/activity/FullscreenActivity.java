@@ -10,7 +10,8 @@ import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
-import com.kklv.bmoe.chart.Chart;
+import com.kklv.bmoe.chart.BaseChart;
+import com.kklv.bmoe.chart.TotalTicketsCountChart;
 import com.kklv.bmoe.object.RoleDailyCount;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class FullscreenActivity extends AppCompatActivity {
     public static final String CAMP_LIST = "campList";
 
     private LineChart mLineChart;
-    private Chart mChart;
+    private BaseChart mChart;
 
     private List<RoleDailyCount> mCampList;
 
@@ -32,15 +33,10 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mChart = new Chart(this, mLineChart);
+        mChart = new TotalTicketsCountChart(this, mLineChart);
         mCampList = (List<RoleDailyCount>) getIntent().getSerializableExtra(CAMP_LIST);
         mChart.setBasicList(mCampList);
         mChart.setData();
-//        if(mCampList == null){  //没有数据就从网络加载
-//            mChart.getData();
-//        }else {
-//            mChart.setData(mCampList);
-//        }
     }
 
     /**

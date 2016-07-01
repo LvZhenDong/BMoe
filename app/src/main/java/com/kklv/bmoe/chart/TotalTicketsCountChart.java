@@ -27,19 +27,22 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
+ * 总票数折线图
+ *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/7 11:45
  */
-public class Chart extends BaseChart {
-    private static final String TAG = "Chart";
+public class TotalTicketsCountChart extends BaseChart {
+    private static final String TAG = "TotalTicketsCountChart";
 
-    public Chart(Context context, LineChart lineChart) {
-        super(context,lineChart);
+    public TotalTicketsCountChart(Context context, LineChart lineChart) {
+        super(context, lineChart);
+        mChartDescription = context.getString(R.string.total_tickets_count_chart);
     }
 
     /**
-     * 生成一条折线
+     * 生成一条总票数折线
      *
      * @param roleDailyCount
      * @param color          折线颜色
@@ -50,23 +53,13 @@ public class Chart extends BaseChart {
         LineDataSet set;
         List<DataBean> list = new ArrayList<>();
         list.addAll(roleDailyCount.getData());
-        List<Entry> yVals = new ArrayList<Entry>();
+        List<Entry> yVals = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             yVals.add(new Entry(new Float(list.get(i).getCount()), i));
         }
 
-
         set = new LineDataSet(yVals, roleDailyCount.getName());
-//            set.enableDashedLine(10f, 5f, 0f);       //设置虚线
-//            set.enableDashedHighlightLine(10f, 5f, 0f);
-        set.setColor(color);
-        set.setCircleColor(color);
-        set.setValueTextColor(color);
-        set.setLineWidth(1f);
-        set.setCircleRadius(3f);
-        set.setDrawCircleHole(false);  //点是实心的
-        set.setValueTextSize(9f);
-        set.setDrawFilled(false);  //单纯的line，line下面不覆盖颜色
+        setSetType(set, color);
 
         return set;
     }

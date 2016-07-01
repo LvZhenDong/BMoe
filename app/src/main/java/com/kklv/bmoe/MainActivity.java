@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kklv.bmoe.activity.BaseActivity;
-import com.kklv.bmoe.chart.Chart;
 import com.kklv.bmoe.fragment.CampFragment;
 import com.kklv.bmoe.fragment.LineChartFragment;
 
@@ -130,7 +129,7 @@ public class MainActivity extends BaseActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.menu_debug_null_point_exception:
-//                Chart debug=null;   //调试蒲公英
+//                TotalTicketsCountChart debug=null;   //调试蒲公英
 //                debug.getData("SFSD");
                 break;
 
