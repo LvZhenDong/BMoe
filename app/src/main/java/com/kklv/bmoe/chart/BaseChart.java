@@ -13,6 +13,7 @@ import java.util.Set;
  * created at 2016/6/23 11:28
  */
 public abstract class BaseChart implements DataHelper.DataHelperCallBack {
+    protected static final int ANIMATEY_TIME = 2000;
     protected ChartCallBack mCallBack;
 
     /**

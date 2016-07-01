@@ -27,16 +27,12 @@ import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.chart.Chart;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.StringUtils;
-import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
-import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 
 public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack {
@@ -55,11 +51,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private int checkedGroupId = R.id.rb_group_all;
 
     private ProgressDialog mProgressDialog;
-
-    private RadialMenuWidget pieMenu;
-    private RadialMenuItem centerItem, menuUpItem, menuDownItem, menuLeftItem;
-    public RadialMenuItem firstChildItem, secondChildItem, thirdChildItem;
-    private List<RadialMenuItem> children = new ArrayList<>();
 
     private Map<String, String> mParamsMap = new HashMap<>();
 
@@ -92,38 +83,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     }
 
     private void initView() {
-        pieMenu = new RadialMenuWidget(getActivity());
-        pieMenu.setAnimationSpeed(0L);
-        pieMenu.setSourceLocation(200, 200);
-        pieMenu.setIconSize(15, 30);
-        pieMenu.setTextSize(13);
-        pieMenu.setOutlineColor(Color.WHITE, 225);
-        pieMenu.setInnerRingColor(0x0000ff, 180);
-        pieMenu.setDisabledColor(0xff0000, 0xff);
-        pieMenu.setOuterRingColor(0x00ff00, 0xff);
-        pieMenu.setSelectedColor(Color.GRAY, 255);
 
-        centerItem = new RadialMenuItem("center", "asdf");
-        menuDownItem = new RadialMenuItem("down", "fghs");
-        menuUpItem = new RadialMenuItem("up", "erfgge");
-        menuLeftItem = new RadialMenuItem("left", "left");
-
-        firstChildItem = new RadialMenuItem("kklv", "sd");
-        secondChildItem = new RadialMenuItem("kklvs", "sdf");
-        thirdChildItem = new RadialMenuItem("sdf", "sdfsd");
-        children.add(firstChildItem);
-        children.add(secondChildItem);
-        children.add(thirdChildItem);
-        menuDownItem.setMenuChildren(children);
-        pieMenu.setCenterCircle(centerItem);
-        pieMenu.addMenuEntry(new ArrayList<RadialMenuItem>() {
-            {
-                add(menuDownItem);
-                add(menuUpItem);
-                add(menuLeftItem);
-            }
-        });
-        /***************************************************************************/
         initProgressDialog();
         mChart = new Chart(getActivity(), mLineChart);
         mChart.registerChartCallBack(this);
@@ -174,7 +134,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                 intent.putExtra(FullscreenActivity.CAMP_LIST,
                         (ArrayList<RoleDailyCount>) mChart.getSplitList());
                 startActivity(intent);
-//                pieMenu.show(mFullScreenIBtn);
             }
         });
         mLeftIBtn.setOnClickListener(mChartRankListener);

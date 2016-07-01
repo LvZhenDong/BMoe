@@ -33,7 +33,6 @@ import java.util.TreeSet;
  */
 public class Chart extends BaseChart {
     private static final String TAG = "Chart";
-    private static final int ANIMATEY_TIME = 2000;
     /**
      * 将List<RoleDailyCount>分割为 SPLIT_LENGTH 长的 List<List<RoleDailyCount>> 集合；
      * 即：chart每次最多显示 SPLIT_LENGTH 条曲线；
