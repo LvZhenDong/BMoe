@@ -15,7 +15,7 @@ import java.util.Comparator;
  * created at 2016/6/2 15:41
  */
 @DatabaseTable
-public class RoleDailyCount implements Serializable {
+public class RoleDailyCount extends BaseCount implements Serializable {
     public static final String DATE = "date";
     public static final String MAX_COUNT = "maxCount";
 

@@ -13,7 +13,6 @@ import com.kklv.bmoe.R;
 import com.kklv.bmoe.chart.Chart;
 import com.kklv.bmoe.object.RoleDailyCount;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +34,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private void initView() {
         mChart = new Chart(this, mLineChart);
         mCampList = (List<RoleDailyCount>) getIntent().getSerializableExtra(CAMP_LIST);
-        mChart.setRoleDailyCountList(mCampList);
+        mChart.setBasicList(mCampList);
         mChart.setData();
 //        if(mCampList == null){  //没有数据就从网络加载
 //            mChart.getData();

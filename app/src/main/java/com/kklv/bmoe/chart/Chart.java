@@ -33,22 +33,14 @@ import java.util.TreeSet;
  */
 public class Chart extends BaseChart {
     private static final String TAG = "Chart";
-    /**
-     * 将List<RoleDailyCount>分割为 SPLIT_LENGTH 长的 List<List<RoleDailyCount>> 集合；
-     * 即：chart每次最多显示 SPLIT_LENGTH 条曲线；
-     * 注意：现在最大设置16，因为我只设置了16种颜色
-     */
-    private static final int SPLIT_LENGTH = 16;
-    private LineChart mLineChart;
-    private DataHelper mDataHelper;
-    private Context mContext;
 
+    private LineChart mLineChart;
+
+    /**
+     * 内存里的主数据
+     */
     private List<RoleDailyCount> mRoleDailyCountList;
     private List<List<RoleDailyCount>> mSplitLists;
-    private int mShowingSplitListId = 0;
-
-    private String mSexChecked = RoleDailyCount.SEX_ALL;
-    private String mGroupChecked = RoleDailyCount.GROUP_ALL;
 
     public List<RoleDailyCount> getSplitList() {
         if (mSplitLists != null && mSplitLists.size() > 0) {
@@ -58,19 +50,10 @@ public class Chart extends BaseChart {
     }
 
     public Chart(Context context, LineChart lineChart) {
-        this.mContext = context;
+        super(context);
+
         this.mLineChart = lineChart;
-        mDataHelper = new DataHelper(mContext);
-        mDataHelper.registerCallBack(this);
-
         initLineChart();
-    }
-
-    public void getData(Map<String, String> map) {
-        if (map == null) {
-            return;
-        }
-        mDataHelper.getRoleDailyCount(map);
     }
 
     private void initLineChart() {
@@ -90,9 +73,8 @@ public class Chart extends BaseChart {
         XAxis xAxis = mLineChart.getXAxis();
     }
 
-    /**
-     * 设置图表数据
-     */
+
+    @Override
     public void setData() {
         if (mRoleDailyCountList == null || mRoleDailyCountList.size() <= 0) {
             return;
@@ -150,27 +132,6 @@ public class Chart extends BaseChart {
             mShowingSplitListId++;
             drawChart(mSplitLists.get(mShowingSplitListId));
         }
-
-    }
-
-    /**
-     * 选择萌、燃、萌燃
-     *
-     * @param sex "":萌燃;"1":萌;"2":燃
-     */
-    public void showMoe(String sex) {
-        mSexChecked = sex;
-        setData();
-    }
-
-    /**
-     * 选择分组
-     *
-     * @param group
-     */
-    public void showGroup(String group) {
-        mGroupChecked = group;
-        setData();
     }
 
     /**
@@ -254,31 +215,13 @@ public class Chart extends BaseChart {
         return xVals;
     }
 
-
-    private Set<String> getGroups(List<RoleDailyCount> list) {
-
-        TreeSet<String> groups = new TreeSet<>();
-        for (RoleDailyCount item : list) {
-            if (!TextUtils.isEmpty(item.getGroup())) {
-                groups.add(item.getGroup());
-            }
-        }
-
-        return groups;
-    }
-
     @Override
     public <T> void onSuccess(final List<T> result) {
 
         if (result != null && result.size() > 0) {
             mRoleDailyCountList = (List<RoleDailyCount>) result;
 
-            Set<String> set = getGroups(mRoleDailyCountList);
-            if (set != null && set.size() > 0) {
-                mCallBack.showGroup(new ArrayList(set));
-            } else {
-                mCallBack.showGroup(null);
-            }
+            mCallBack.showGroup(getGroups(mRoleDailyCountList));
             mCallBack.onLoadCompleted(true);
             mCallBack.resetSexRG();
             mCallBack.resetGroupRG();
@@ -292,21 +235,18 @@ public class Chart extends BaseChart {
     }
 
     @Override
-    public void onFailure(Exception error) {
-        mCallBack.onLoadCompleted(false);
-        Toast.makeText(mContext, R.string.net_error, Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
     public void cancelRequest() {
         mDataHelper.mRoleDailyCountRequest.cancel();
     }
 
-    public void setRoleDailyCountList(List<RoleDailyCount> roleDailyCountList) {
+    @Override
+    public <T> void setBasicList(List<T> roleDailyCountList) {
         if (roleDailyCountList == null || roleDailyCountList.size() <= 0){
             return;
         }
-        mRoleDailyCountList = roleDailyCountList;
+
+        if(roleDailyCountList.get(0) instanceof RoleDailyCount)
+            mRoleDailyCountList = (List<RoleDailyCount>) roleDailyCountList;
     }
+
 }
