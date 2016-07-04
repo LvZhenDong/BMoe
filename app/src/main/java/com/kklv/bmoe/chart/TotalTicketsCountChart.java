@@ -37,31 +37,17 @@ public class TotalTicketsCountChart extends BaseChart {
     private static final String TAG = "TotalTicketsCountChart";
 
     public TotalTicketsCountChart(Context context, LineChart lineChart) {
-        super(context, lineChart);
-        mChartDescription = context.getString(R.string.total_tickets_count_chart);
+        super(context, lineChart,R.string.total_tickets_count_chart);
     }
 
-    /**
-     * 生成一条总票数折线
-     *
-     * @param roleDailyCount
-     * @param color          折线颜色
-     * @return
-     */
     @Override
-    protected LineDataSet createLineDataSet(RoleDailyCount roleDailyCount, int color) {
-        LineDataSet set;
-        List<DataBean> list = new ArrayList<>();
-        list.addAll(roleDailyCount.getData());
+    protected List<Entry> getYVals(List<DataBean> list) {
         List<Entry> yVals = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             yVals.add(new Entry(new Float(list.get(i).getCount()), i));
         }
 
-        set = new LineDataSet(yVals, roleDailyCount.getName());
-        setSetType(set, color);
-
-        return set;
+        return yVals;
     }
 
 }

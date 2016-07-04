@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -54,20 +55,21 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     /**
      * 内存里的主数据
      */
-    protected List<RoleDailyCount> mRoleDailyCountList;
+    private List<RoleDailyCount> mRoleDailyCountList;
     /**
      * 按SPLIT_LENGTH分割后的list
      */
-    protected List<List<RoleDailyCount>> mSplitLists;
-    protected int mShowingSplitListId = 0;
-    protected String mSexChecked = RoleDailyCount.SEX_ALL;
-    protected String mGroupChecked = RoleDailyCount.GROUP_ALL;
+    private List<List<RoleDailyCount>> mSplitLists;
+    private int mShowingSplitListId = 0;
+    private String mSexChecked = RoleDailyCount.SEX_ALL;
+    private String mGroupChecked = RoleDailyCount.GROUP_ALL;
 
-    public BaseChart(Context context, LineChart lineChart){
+    public BaseChart(Context context, LineChart lineChart,int description){
         mContext = context;
         mDataHelper = new DataHelper(mContext);
         mDataHelper.registerCallBack(this);
         this.mLineChart = lineChart;
+        this.mChartDescription=mContext.getString(description);
         initLineChart();
     }
 
@@ -171,7 +173,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
      * @param list
      * @return
      */
-    protected final List<String> getGroups(List<RoleDailyCount> list) {
+    private final List<String> getGroups(List<RoleDailyCount> list) {
 
         TreeSet<String> groups = new TreeSet<>();
         for (RoleDailyCount item : list) {
@@ -234,7 +236,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     /**************************UI控制---结束****************************/
 
     /**************************Chart相关---开始****************************/
-    protected void initLineChart() {
+    private void initLineChart() {
         mLineChart.setDescription(mChartDescription);
 //        mLineChart.setDescriptionPosition(440,100);
         mLineChart.setNoDataText(mContext.getString(R.string.data_loading));
@@ -280,7 +282,9 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
         for (RoleDailyCount item : list) {
             int i = list.indexOf(item);
-            dataSets.add(createLineDataSet(item, colors[i]));
+            LineDataSet set=createLineDataSet(item);
+            setSetType(set,colors[i]);
+            dataSets.add(set);
         }
         LineData data = new LineData(getXVals(list.get(0)), dataSets);
         // set data
@@ -296,7 +300,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
      * @param set
      * @param color
      */
-    protected void setSetType(LineDataSet set,int color){
+    private void setSetType(LineDataSet set,int color){
         //            set.enableDashedLine(10f, 5f, 0f);       //设置虚线
 //            set.enableDashedHighlightLine(10f, 5f, 0f);
         set.setColor(color);
@@ -370,10 +374,22 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     }
 
     /**
-     * 绘制Y轴相关，子类需要根据需求来实现
+     * 绘制Y轴相关
      * @param roleDailyCount
-     * @param color
      * @return
      */
-    protected abstract LineDataSet createLineDataSet(RoleDailyCount roleDailyCount, int color);
+    private LineDataSet createLineDataSet(RoleDailyCount roleDailyCount){
+        List<DataBean> list = new ArrayList<>();
+        list.addAll(roleDailyCount.getData());
+        List<Entry> yVals=getYVals(list);
+
+        return new LineDataSet(yVals,roleDailyCount.getName());
+    }
+
+    /**
+     * 得到Y值
+     * @param list
+     * @return
+     */
+    protected abstract List<Entry> getYVals(List<DataBean> list);
 }
