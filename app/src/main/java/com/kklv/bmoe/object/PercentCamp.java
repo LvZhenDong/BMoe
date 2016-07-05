@@ -54,7 +54,7 @@ public class PercentCamp {
      * @param value
      * @return
      */
-    private double formatPercent(double value) {
+    public static double formatPercent(double value) {
         BigDecimal bigDecimal = new BigDecimal(value);
         return bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }

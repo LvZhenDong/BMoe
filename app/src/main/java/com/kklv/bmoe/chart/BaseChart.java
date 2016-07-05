@@ -13,7 +13,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.data.DataHelper;
-import com.kklv.bmoe.object.BaseCount;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.ListUtils;
@@ -21,7 +20,6 @@ import com.kklv.bmoe.utils.ListUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -32,6 +30,7 @@ import java.util.TreeSet;
  * created at 2016/6/23 11:28
  */
 public abstract class BaseChart implements DataHelper.DataHelperCallBack {
+    private static final String TAG = "BaseChart";
     /**
      * Y轴上的动画时间
      */
@@ -42,6 +41,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
      * 注意：现在最大设置16，因为我只设置了16种颜色
      */
     private static final int SPLIT_LENGTH = 16;
+
     protected String mChartDescription;
 
     private LineChart mLineChart;
@@ -55,26 +55,27 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     /**
      * 内存里的主数据
      */
-    private List<RoleDailyCount> mRoleDailyCountList;
+    protected List<RoleDailyCount> mRoleDailyCountList;
     /**
      * 按SPLIT_LENGTH分割后的list
      */
-    private List<List<RoleDailyCount>> mSplitLists;
-    private int mShowingSplitListId = 0;
+    protected List<List<RoleDailyCount>> mSplitLists;
+    protected int mShowingSplitListId = 0;
     private String mSexChecked = RoleDailyCount.SEX_ALL;
     private String mGroupChecked = RoleDailyCount.GROUP_ALL;
 
-    public BaseChart(Context context, LineChart lineChart,int description){
+    public BaseChart(Context context, LineChart lineChart, int description) {
         mContext = context;
         mDataHelper = new DataHelper(mContext);
         mDataHelper.registerCallBack(this);
         this.mLineChart = lineChart;
-        this.mChartDescription=mContext.getString(description);
+        this.mChartDescription = mContext.getString(description);
         initLineChart();
     }
 
     /**
      * 开始从数据库读取数据
+     *
      * @param map
      */
     public final void getData(Map<String, String> map) {
@@ -103,6 +104,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
 
     /**
      * 根据RadioButton得到List<RoleDailyCount>
+     *
      * @return
      */
     private List<RoleDailyCount> getSexAndGroupList() {
@@ -130,20 +132,22 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     /**************************set或者get数据---开始****************************/
     /**
      * 设置基本数据
+     *
      * @param dataList
      * @param <T>
      */
-    public  <T> void setBasicList(List<T> dataList){
-        if (dataList == null || dataList.size() <= 0){
+    public <T> void setBasicList(List<T> dataList) {
+        if (dataList == null || dataList.size() <= 0) {
             return;
         }
 
-        if(dataList.get(0) instanceof RoleDailyCount)
+        if (dataList.get(0) instanceof RoleDailyCount)
             mRoleDailyCountList = (List<RoleDailyCount>) dataList;
     }
 
     /**
      * 得到当前正在显示的数据
+     *
      * @return
      */
     public List<RoleDailyCount> getSplitList() {
@@ -170,10 +174,11 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
 
     /**
      * 得到当天的分组名称
+     *
      * @param list
      * @return
      */
-    private final List<String> getGroups(List<RoleDailyCount> list) {
+    protected final List<String> getGroups(List<RoleDailyCount> list) {
 
         TreeSet<String> groups = new TreeSet<>();
         for (RoleDailyCount item : list) {
@@ -182,9 +187,9 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
             }
         }
 
-        if(groups != null && groups.size() > 0){
+        if (groups != null && groups.size() > 0) {
             return new ArrayList(groups);
-        }else{
+        } else {
             return null;
         }
     }
@@ -235,7 +240,9 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     }
     /**************************UI控制---结束****************************/
 
-    /**************************Chart相关---开始****************************/
+    /**************************
+     * Chart相关---开始
+     ****************************/
     private void initLineChart() {
         mLineChart.setDescription(mChartDescription);
 //        mLineChart.setDescriptionPosition(440,100);
@@ -252,13 +259,14 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
 
         XAxis xAxis = mLineChart.getXAxis();
     }
+
     /**
      * 根据一条折线数据生成X轴
      *
      * @param one 一个角色当天的数据
      * @return
      */
-    private List<String> getXVals(RoleDailyCount one) {
+    protected List<String> getXVals(RoleDailyCount one) {
         List<DataBean> list = new ArrayList<>();
         list.addAll(one.getData());
         List<String> xVals = new ArrayList<>();
@@ -270,6 +278,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
 
     /**
      * 绘制Chart
+     *
      * @param list
      */
     private void drawChart(List<RoleDailyCount> list) {
@@ -282,8 +291,8 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
         for (RoleDailyCount item : list) {
             int i = list.indexOf(item);
-            LineDataSet set=createLineDataSet(item);
-            setSetType(set,colors[i]);
+            LineDataSet set = createLineDataSet(item);
+            setSetType(set, colors[i]);
             dataSets.add(set);
         }
         LineData data = new LineData(getXVals(list.get(0)), dataSets);
@@ -297,10 +306,11 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
 
     /**
      * 设置折线颜色和样式
+     *
      * @param set
      * @param color
      */
-    private void setSetType(LineDataSet set,int color){
+    private void setSetType(LineDataSet set, int color) {
         //            set.enableDashedLine(10f, 5f, 0f);       //设置虚线
 //            set.enableDashedHighlightLine(10f, 5f, 0f);
         set.setColor(color);
@@ -313,23 +323,42 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         set.setDrawFilled(false);  //单纯的line，line下面不覆盖颜色
     }
 
-    /**************************Chart相关---结束****************************/
+    /**
+     * 绘制一条Y轴
+     *
+     * @param roleDailyCount
+     * @return
+     */
+    private LineDataSet createLineDataSet(RoleDailyCount roleDailyCount) {
+        List<DataBean> list = new ArrayList<>();
+        list.addAll(roleDailyCount.getData());
+        List<Entry> yVals = getYVals(list);
+
+        return new LineDataSet(yVals, roleDailyCount.getName());
+    }
+
+    /**************************
+     * Chart相关---结束
+     ****************************/
 
     public interface ChartCallBack {
 
         /**
          * 加载数据完成
+         *
          * @param result true:成功；false:失败
          */
         void onLoadCompleted(boolean result);
 
         /**
          * 用于显示分组
+         *
          * @param list
          */
         void showGroup(List<String> list);
 
         void resetSexRG();
+
         void resetGroupRG();
     }
 
@@ -343,10 +372,9 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     }
 
     @Override
-    public  <T> void onSuccess(List<T> result){
+    public <T> void onSuccess(List<T> result) {
         if (result != null && result.size() > 0) {
             mRoleDailyCountList = (List<RoleDailyCount>) result;
-
             mCallBack.showGroup(getGroups(mRoleDailyCountList));
             mCallBack.onLoadCompleted(true);
             mCallBack.resetSexRG();
@@ -361,7 +389,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     }
 
     @Override
-    public void onFailure(Exception error){
+    public void onFailure(Exception error) {
         mCallBack.onLoadCompleted(false);
         Toast.makeText(mContext, R.string.net_error, Toast.LENGTH_SHORT).show();
     }
@@ -369,27 +397,18 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     /**
      * 取消网络请求
      */
-    public void cancelRequest(){
+    public void cancelRequest() {
         mDataHelper.mRoleDailyCountRequest.cancel();
     }
 
-    /**
-     * 绘制Y轴相关
-     * @param roleDailyCount
-     * @return
-     */
-    private LineDataSet createLineDataSet(RoleDailyCount roleDailyCount){
-        List<DataBean> list = new ArrayList<>();
-        list.addAll(roleDailyCount.getData());
-        List<Entry> yVals=getYVals(list);
-
-        return new LineDataSet(yVals,roleDailyCount.getName());
-    }
 
     /**
      * 得到Y值
+     *
      * @param list
      * @return
      */
     protected abstract List<Entry> getYVals(List<DataBean> list);
+
+
 }
