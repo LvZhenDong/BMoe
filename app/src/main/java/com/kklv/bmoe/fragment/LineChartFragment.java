@@ -23,9 +23,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
-import com.kklv.bmoe.chart.OneHourTicketsCountChart;
 import com.kklv.bmoe.chart.OneHourTicketsPercentChart;
-import com.kklv.bmoe.chart.TotalTicketsCountChart;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.StringUtils;
 
@@ -39,7 +37,6 @@ import java.util.Map;
 public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack {
     private LineChart mLineChart;
     private BaseChart mChart;
-
 
     private EditText mDatePickerET;
     private ImageButton mFullScreenIBtn, mLeftIBtn, mRightIBtn;
@@ -192,15 +189,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         public void onClick(View v) {
             int id = v.getId();
             if (id == checkedGroupId) return;
-            switch (id) {
-                case R.id.rb_group_all:
-                    mChart.showGroup(RoleDailyCount.GROUP_ALL);
-                    break;
-                default:
-                    RadioButton rb = (RadioButton) v;
-                    mChart.showGroup(rb.getText() + "");
-                    break;
-            }
+            RadioButton rb = (RadioButton) v;
+            mChart.showGroup(rb.getText() + "");
             checkedGroupId = id;
         }
     };
@@ -266,6 +256,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         //用RadioButton数组来实现
         if (list != null && list.size() == 4) {
             mGroupRG.setVisibility(View.VISIBLE);
+            mGroupAllRB.setText(RoleDailyCount.GROUP_ALL);
             mGroupOneRB.setText(list.get(0));
             mGroupTwoRB.setText(list.get(1));
             mGroupThreeRB.setText(list.get(2));

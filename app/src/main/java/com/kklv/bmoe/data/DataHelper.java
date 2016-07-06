@@ -18,8 +18,8 @@ import com.kklv.bmoe.constant.HttpUrl;
 import com.kklv.bmoe.database.RoleDailyCountDao;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.DataBean;
-import com.kklv.bmoe.object.RoleInfo;
 import com.kklv.bmoe.object.RoleDailyCount;
+import com.kklv.bmoe.object.RoleInfo;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;

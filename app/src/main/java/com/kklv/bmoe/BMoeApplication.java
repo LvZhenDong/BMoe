@@ -3,6 +3,7 @@ package com.kklv.bmoe;
 import android.app.Application;
 
 import com.pgyersdk.crash.PgyCrashManager;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * @author LvZhenDong
@@ -15,5 +16,6 @@ public class BMoeApplication extends Application {
         super.onCreate();
 
         PgyCrashManager.register(this);
+        LeakCanary.install(this);
     }
 }

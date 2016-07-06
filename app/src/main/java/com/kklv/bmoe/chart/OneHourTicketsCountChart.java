@@ -4,10 +4,8 @@ import android.content.Context;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.object.DataBean;
-import com.kklv.bmoe.object.RoleDailyCount;
 
 import java.util.ArrayList;
 import java.util.List;

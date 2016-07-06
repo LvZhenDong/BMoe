@@ -1,6 +1,5 @@
 package com.kklv.bmoe.object;
 
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -22,7 +21,7 @@ public class RoleDailyCount extends BaseCount implements Serializable {
     public static final String SEX_ALL = "ALL";
     public static final String SEX_MOE = "0";
     public static final String SEX_LIGHT = "1";
-    public static final String GROUP_ALL = "ALL";
+    public static final String GROUP_ALL = "全部";
     /**
      * id :
      * name :

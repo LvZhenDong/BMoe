@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.fragment.CampFragment;
 import com.kklv.bmoe.fragment.LineChartFragment;
+import com.pgyersdk.update.PgyUpdateManager;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -31,6 +32,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TODO 自定义更新对话框
+        PgyUpdateManager.register(this);
         bindId();
         initView();
 

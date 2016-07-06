@@ -8,8 +8,8 @@ android {
         applicationId "com.kklv.bmoe"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -35,4 +35,5 @@ dependencies {
     compile 'com.pgyersdk:sdk:2.2.2'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
 }
