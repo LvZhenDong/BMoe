@@ -1,10 +1,12 @@
 package com.kklv.bmoe.chart;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleDailyCount;
@@ -40,9 +42,18 @@ public class OneHourTicketsPercentChart extends BaseChart {
     }
 
     @Override
-    protected List<Entry> getYVals(List<DataBean> list) {
-        //TODO 怎么来传入正确的List<RoleDailyCount>
-        List<Integer> totalList = getOneHourTotalCountsList(mSplitLists.get(mShowingSplitListId));
+    protected LineDataSet createLineDataSet(RoleDailyCount roleDailyCount) {
+        List<DataBean> list = new ArrayList<>();
+        list.addAll(roleDailyCount.getData());
+        String group =roleDailyCount.getGroup();
+        List<Entry> yVals = getYVals(list,roleDailyCount.getSex()+(TextUtils.isEmpty(group) ? "" :group));//不然是"1null"或者"0null"
+
+        return new LineDataSet(yVals, roleDailyCount.getName());
+    }
+
+    protected List<Entry> getYVals(List<DataBean> list,String tag) {
+        List<Integer> totalList = mSexAndGroupsMap.get(tag);
+        if (ListUtils.isEmpty(totalList)) return null;
         List<Entry> yVals = new ArrayList<>();
 
         for (int i = 0; i < list.size() - 1; i++) {
@@ -57,28 +68,6 @@ public class OneHourTicketsPercentChart extends BaseChart {
         }
 
         return yVals;
-    }
-
-    /**
-     * 得到一个每小时的总票数的list
-     *
-     * @param roleDailyCounts
-     * @return
-     */
-    private List<Integer> getOneHourTotalCountsList(List<RoleDailyCount> roleDailyCounts) {
-        List<Integer> totalList = new ArrayList<>();
-        for (int i = 1; i < roleDailyCounts.get(0).getData().size(); i++) {
-            int total = 0;
-            for (int j = 0; j < roleDailyCounts.size(); j++) {
-                List<DataBean> list = new ArrayList<>();
-                list.addAll(roleDailyCounts.get(j).getData());
-                total += (Integer.parseInt(list.get(i).getCount())
-                        - Integer.parseInt(list.get(i - 1).getCount()));
-            }
-            totalList.add(total);
-            Log.i(TAG, "total:" + total);
-        }
-        return totalList;
     }
 
 

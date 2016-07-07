@@ -2,6 +2,7 @@ package com.kklv.bmoe.chart;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -18,6 +19,7 @@ import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.ListUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -64,6 +66,19 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
     private String mSexChecked = RoleDailyCount.SEX_ALL;
     private String mGroupChecked = RoleDailyCount.GROUP_ALL;
 
+    /**
+     * 不分group时萌组每小时总票数
+     */
+    protected List<Integer> mMoeTotalCounts;
+    /**
+     * 不分group时萌组每小时总票数
+     */
+    protected List<Integer> mLightTotalCounts;
+    /**
+     * 分组后每小时总票数
+     */
+    protected Map<String, List<Integer>> mSexAndGroupsMap = new HashMap<>();
+
     public BaseChart(Context context, LineChart lineChart, int description) {
         mContext = context;
         mDataHelper = new DataHelper(mContext);
@@ -92,7 +107,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         if (mRoleDailyCountList == null || mRoleDailyCountList.size() <= 0) {
             return;
         }
-        List<RoleDailyCount> sexAndGroupList = getSexAndGroupList();
+        List<RoleDailyCount> sexAndGroupList = selectRoleDailyCounts(mSexChecked, mGroupChecked);
         if (sexAndGroupList == null || sexAndGroupList.size() <= 0) {
             return;
         }
@@ -100,33 +115,6 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         mShowingSplitListId = 0;//必须清0
 
         drawChart(mSplitLists.get(mShowingSplitListId));
-    }
-
-    /**
-     * 根据RadioButton得到List<RoleDailyCount>
-     *
-     * @return
-     */
-    private List<RoleDailyCount> getSexAndGroupList() {
-        List<RoleDailyCount> sexList = new ArrayList<>();
-        if (RoleDailyCount.SEX_ALL.equals(mSexChecked)) {
-            sexList = mRoleDailyCountList;
-        } else {
-            for (RoleDailyCount item : mRoleDailyCountList) {
-                if (mSexChecked.equals(item.getSex())) sexList.add(item);
-            }
-        }
-
-        List<RoleDailyCount> sexAndGroupList = new ArrayList<>();
-        if (RoleDailyCount.GROUP_ALL.equals(mGroupChecked)) {
-            sexAndGroupList = sexList;
-        } else {
-            for (RoleDailyCount item : sexList) {
-                if (mGroupChecked.equals(item.getGroup())) sexAndGroupList.add(item);
-            }
-        }
-
-        return sexAndGroupList;
     }
 
     /**************************set或者get数据---开始****************************/
@@ -160,6 +148,35 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
 
     /**************************工具---开始****************************/
     /**
+     * 根据sex和group得到List<RoleDailyCount>
+     *
+     * @param sex
+     * @param group
+     * @return
+     */
+    protected List<RoleDailyCount> selectRoleDailyCounts(String sex, String group) {
+        List<RoleDailyCount> sexList = new ArrayList<>();
+        if (RoleDailyCount.SEX_ALL.equals(sex)) {
+            sexList = mRoleDailyCountList;
+        } else {
+            for (RoleDailyCount item : mRoleDailyCountList) {
+                if (sex.equals(item.getSex())) sexList.add(item);
+            }
+        }
+
+        List<RoleDailyCount> sexAndGroupList = new ArrayList<>();
+        if (RoleDailyCount.GROUP_ALL.equals(group)) {
+            sexAndGroupList = sexList;
+        } else {
+            for (RoleDailyCount item : sexList) {
+                if (group.equals(item.getGroup())) sexAndGroupList.add(item);
+            }
+        }
+
+        return sexAndGroupList;
+    }
+
+    /**
      * 根据组数得到这一组开始和结束的排名字符串
      *
      * @param showingSplitListId
@@ -192,6 +209,69 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         } else {
             return null;
         }
+    }
+
+    private void getTotalList() {
+        mSexAndGroupsMap = new HashMap<>();
+        List<String> groupsNames = getGroups(mRoleDailyCountList);
+        if (ListUtils.isEmpty(groupsNames)) {  //未分组
+            //获取萌组总每小时总票数
+            List<RoleDailyCount> moeList = selectRoleDailyCounts(RoleDailyCount.SEX_MOE,
+                    RoleDailyCount.GROUP_ALL);
+            if (!ListUtils.isEmpty(moeList)) {
+                mSexAndGroupsMap.put(RoleDailyCount.SEX_MOE + "", getOneHourTotalCountsList(moeList));
+            }
+
+            //获取燃组每小时总票数
+            List<RoleDailyCount> lightList = selectRoleDailyCounts(RoleDailyCount.SEX_LIGHT,
+                    RoleDailyCount.GROUP_ALL);
+            if (!ListUtils.isEmpty(lightList)) {
+                mSexAndGroupsMap.put(RoleDailyCount.SEX_LIGHT + "", getOneHourTotalCountsList(lightList));
+            }
+        } else {  //已经分组，每小时总票数要在组内单独算，而且要分sex
+
+            //萌组的group：每小时总票数
+            for (String item : groupsNames) {
+                List<RoleDailyCount> moeList = selectRoleDailyCounts(RoleDailyCount.SEX_MOE,
+                        item);
+                if (!ListUtils.isEmpty(moeList)) {
+                    mSexAndGroupsMap.put(RoleDailyCount.SEX_MOE + item,
+                            getOneHourTotalCountsList(moeList));
+                }
+            }
+            //燃组的group：每小时总票数
+            for (String item : groupsNames) {
+                List<RoleDailyCount> lightList = selectRoleDailyCounts(RoleDailyCount.SEX_LIGHT,
+                        item);
+                if (!ListUtils.isEmpty(lightList)) {
+                    mSexAndGroupsMap.put(RoleDailyCount.SEX_LIGHT + item,
+                            getOneHourTotalCountsList(lightList));
+                }
+            }
+
+        }
+    }
+
+    /**
+     * 得到一个每小时的总票数的list
+     *
+     * @param roleDailyCounts
+     * @return
+     */
+    private List<Integer> getOneHourTotalCountsList(List<RoleDailyCount> roleDailyCounts) {
+        List<Integer> totalList = new ArrayList<>();
+        for (int i = 1; i < roleDailyCounts.get(0).getData().size(); i++) {
+            int total = 0;
+            for (int j = 0; j < roleDailyCounts.size(); j++) {
+                List<DataBean> list = new ArrayList<>();
+                list.addAll(roleDailyCounts.get(j).getData());
+                total += (Integer.parseInt(list.get(i).getCount())
+                        - Integer.parseInt(list.get(i - 1).getCount()));
+            }
+            totalList.add(total);
+            Log.i(TAG, "total:" + total);
+        }
+        return totalList;
     }
     /**************************工具---结束****************************/
 
@@ -329,13 +409,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
      * @param roleDailyCount
      * @return
      */
-    private LineDataSet createLineDataSet(RoleDailyCount roleDailyCount) {
-        List<DataBean> list = new ArrayList<>();
-        list.addAll(roleDailyCount.getData());
-        List<Entry> yVals = getYVals(list);
-
-        return new LineDataSet(yVals, roleDailyCount.getName());
-    }
+    protected abstract LineDataSet createLineDataSet(RoleDailyCount roleDailyCount);
 
     /**************************
      * Chart相关---结束
@@ -381,6 +455,8 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
             mCallBack.resetGroupRG();
             mSexChecked = RoleDailyCount.SEX_ALL;
             mGroupChecked = RoleDailyCount.GROUP_ALL;
+
+            getTotalList();
             setData();
         } else {
             mCallBack.onLoadCompleted(false);
@@ -408,7 +484,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
      * @param list
      * @return
      */
-    protected abstract List<Entry> getYVals(List<DataBean> list);
+//    protected abstract List<Entry> getYVals(List<DataBean> list);
 
 
 }

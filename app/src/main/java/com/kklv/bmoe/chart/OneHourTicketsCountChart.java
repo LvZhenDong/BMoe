@@ -4,8 +4,11 @@ import android.content.Context;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.object.DataBean;
+import com.kklv.bmoe.object.RoleDailyCount;
+import com.kklv.bmoe.utils.ListUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +27,33 @@ public class OneHourTicketsCountChart extends BaseChart {
     }
 
     @Override
+    protected List<String> getXVals(RoleDailyCount one) {
+
+        List<String> xVals = super.getXVals(one);
+        if (!ListUtils.isEmpty(xVals)) {
+            xVals.remove(0);
+        }
+
+        return xVals;
+    }
+
     protected List<Entry> getYVals(List<DataBean> list) {
         List<Entry> yVals = new ArrayList<>();
 
         int lastTimeCount = 0;
-        for (int i = 0; i < list.size(); i++) {
-            yVals.add(new Entry(new Float(list.get(i).getCount()) - lastTimeCount, i));
+        for (int i = 1; i < list.size(); i++) {
+            yVals.add(new Entry(new Float(list.get(i).getCount()) - lastTimeCount, i-1));
             lastTimeCount = Integer.parseInt(list.get(i).getCount());
         }
         return yVals;
+    }
+
+    @Override
+    protected LineDataSet createLineDataSet(RoleDailyCount roleDailyCount) {
+        List<DataBean> list = new ArrayList<>();
+        list.addAll(roleDailyCount.getData());
+        List<Entry> yVals = getYVals(list);
+
+        return new LineDataSet(yVals, roleDailyCount.getName());
     }
 }

@@ -23,7 +23,9 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
+import com.kklv.bmoe.chart.OneHourTicketsCountChart;
 import com.kklv.bmoe.chart.OneHourTicketsPercentChart;
+import com.kklv.bmoe.chart.TotalTicketsCountChart;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.StringUtils;
 
