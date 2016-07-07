@@ -23,7 +23,6 @@ import java.util.List;
 public class OneHourTicketsPercentChart extends BaseChart {
 
     private static final String TAG = "HourTicketsPercentChart";
-    List<Integer> totalList;
 
     public OneHourTicketsPercentChart(Context context, LineChart lineChart) {
         super(context, lineChart, R.string.one_hour_tickets_percent_chart);
@@ -42,9 +41,8 @@ public class OneHourTicketsPercentChart extends BaseChart {
 
     @Override
     protected List<Entry> getYVals(List<DataBean> list) {
-        totalList = new ArrayList<>();
         //TODO 怎么来传入正确的List<RoleDailyCount>
-        getOneHourTotalCountsList(mSplitLists.get(mShowingSplitListId));
+        List<Integer> totalList = getOneHourTotalCountsList(mSplitLists.get(mShowingSplitListId));
         List<Entry> yVals = new ArrayList<>();
 
         for (int i = 0; i < list.size() - 1; i++) {
@@ -57,6 +55,7 @@ public class OneHourTicketsPercentChart extends BaseChart {
             }
             yVals.add(new Entry(new Float(percent * 100), i));
         }
+
         return yVals;
     }
 
@@ -66,8 +65,8 @@ public class OneHourTicketsPercentChart extends BaseChart {
      * @param roleDailyCounts
      * @return
      */
-    private void getOneHourTotalCountsList(List<RoleDailyCount> roleDailyCounts) {
-
+    private List<Integer> getOneHourTotalCountsList(List<RoleDailyCount> roleDailyCounts) {
+        List<Integer> totalList = new ArrayList<>();
         for (int i = 1; i < roleDailyCounts.get(0).getData().size(); i++) {
             int total = 0;
             for (int j = 0; j < roleDailyCounts.size(); j++) {
@@ -79,6 +78,7 @@ public class OneHourTicketsPercentChart extends BaseChart {
             totalList.add(total);
             Log.i(TAG, "total:" + total);
         }
+        return totalList;
     }
 
 

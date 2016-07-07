@@ -2,6 +2,7 @@ package com.kklv.bmoe;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -15,7 +16,17 @@ public class BMoeApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        //注册蒲公英Crash
         PgyCrashManager.register(this);
+        //注册LeakCanary
         LeakCanary.install(this);
+        //注册Stetho
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(
+                                Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(
+                                Stetho.defaultInspectorModulesProvider(this))
+                        .build());
     }
 }
