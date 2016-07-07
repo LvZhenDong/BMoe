@@ -211,7 +211,7 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
         }
     }
 
-    private void getTotalList() {
+    protected void getTotalList() {
         mSexAndGroupsMap = new HashMap<>();
         List<String> groupsNames = getGroups(mRoleDailyCountList);
         if (ListUtils.isEmpty(groupsNames)) {  //未分组
@@ -456,7 +456,6 @@ public abstract class BaseChart implements DataHelper.DataHelperCallBack {
             mSexChecked = RoleDailyCount.SEX_ALL;
             mGroupChecked = RoleDailyCount.GROUP_ALL;
 
-            getTotalList();
             setData();
         } else {
             mCallBack.onLoadCompleted(false);

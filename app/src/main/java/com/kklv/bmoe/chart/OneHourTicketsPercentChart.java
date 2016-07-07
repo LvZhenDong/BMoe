@@ -70,5 +70,9 @@ public class OneHourTicketsPercentChart extends BaseChart {
         return yVals;
     }
 
-
+    @Override
+    public void setData() {
+        getTotalList();
+        super.setData();
+    }
 }
