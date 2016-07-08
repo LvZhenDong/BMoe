@@ -11,7 +11,8 @@ import android.view.View;
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.chart.BaseChart;
-import com.kklv.bmoe.chart.TotalTicketsCountChart;
+import com.kklv.bmoe.chart.OneHourTicketsPercentSetCreator;
+import com.kklv.bmoe.chart.TotalTicketsCountSetCreator;
 import com.kklv.bmoe.object.RoleDailyCount;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mChart = new TotalTicketsCountChart(this, mLineChart);
+        mChart = new BaseChart(this,mLineChart, new TotalTicketsCountSetCreator());
         mCampList = (List<RoleDailyCount>) getIntent().getSerializableExtra(CAMP_LIST);
         mChart.setBasicList(mCampList);
         mChart.setData();

@@ -23,9 +23,9 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
-import com.kklv.bmoe.chart.OneHourTicketsCountChart;
-import com.kklv.bmoe.chart.OneHourTicketsPercentChart;
-import com.kklv.bmoe.chart.TotalTicketsCountChart;
+import com.kklv.bmoe.chart.OneHourTicketsCountSetCreator;
+import com.kklv.bmoe.chart.OneHourTicketsPercentSetCreator;
+import com.kklv.bmoe.chart.TotalTicketsCountSetCreator;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.StringUtils;
 
@@ -85,9 +85,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private void initView() {
 
         initProgressDialog();
-//        mChart = new TotalTicketsCountChart(getActivity(), mLineChart);
-//        mChart=new OneHourTicketsCountChart(getActivity(),mLineChart);
-        mChart=new OneHourTicketsPercentChart(getActivity(),mLineChart);
+        mChart=new BaseChart(getActivity(),mLineChart,new OneHourTicketsPercentSetCreator());
         mChart.registerChartCallBack(this);
 
         mDatePickerET.setInputType(InputType.TYPE_NULL);
