@@ -60,12 +60,12 @@ public class RoleDailyCount extends BaseCount implements Serializable {
         this.group = group;
     }
 
-    public String getId() {
-        return id + "";
+    public int getId() {
+        return id;
     }
 
-    public void setId(String id) {
-        this.id = Integer.parseInt(id);
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -108,12 +108,12 @@ public class RoleDailyCount extends BaseCount implements Serializable {
         this.sex = sex;
     }
 
-    public String getMaxCount() {
-        return maxCount + "";
+    public int getMaxCount() {
+        return maxCount;
     }
 
-    public void setMaxCount(String maxCount) {
-        this.maxCount = Integer.parseInt(maxCount);
+    public void setMaxCount(int maxCount) {
+        this.maxCount = maxCount;
     }
 
     public Collection<DataBean> getData() {
@@ -129,7 +129,7 @@ public class RoleDailyCount extends BaseCount implements Serializable {
         @Override
         public int compare(RoleDailyCount lhs, RoleDailyCount rhs) {
             //按从大到小排序
-            return Integer.parseInt(rhs.getMaxCount()) - Integer.parseInt(lhs.getMaxCount());
+            return rhs.getMaxCount() - lhs.getMaxCount();
         }
     }
 

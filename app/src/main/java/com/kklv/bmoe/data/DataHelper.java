@@ -296,7 +296,7 @@ public class DataHelper {
                 List<DataBean> dataBeanList = new ArrayList<>();
                 dataBeanList.addAll(item.getData());
                 if (dataBeanList != null && dataBeanList.size() > 0) {
-                    String maxCount = dataBeanList.get(dataBeanList.size() - 1).getCount();
+                    int maxCount = dataBeanList.get(dataBeanList.size() - 1).getCount();
                     item.setMaxCount(maxCount);
                 }
             }

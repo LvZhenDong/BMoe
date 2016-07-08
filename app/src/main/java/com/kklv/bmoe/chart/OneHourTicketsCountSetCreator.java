@@ -35,7 +35,7 @@ public class OneHourTicketsCountSetCreator extends LineDataSetCreator{
         int lastTimeCount = 0;
         for (int i = 1; i < list.size(); i++) {
             yVals.add(new Entry(new Float(list.get(i).getCount()) - lastTimeCount, i-1));
-            lastTimeCount = Integer.parseInt(list.get(i).getCount());
+            lastTimeCount = list.get(i).getCount();
         }
         return yVals;
     }

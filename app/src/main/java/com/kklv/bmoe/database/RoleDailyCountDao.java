@@ -44,8 +44,9 @@ public class RoleDailyCountDao {
             for (DataBean item : roleDailyCount.getData()) {
                 item.setRoleDailyCount(roleDailyCount);
                 //手动设置id，roleDailyCount的id+""+(DataBean的time+idIncrement)
-                item.setId(Integer.parseInt(roleDailyCount.getId())+""
-                        + (Integer.parseInt(item.getTime())+DataBean.idIncrement));
+//                item.setId(Integer.parseInt(roleDailyCount.getId()+""
+//                        + (item.getTime()+DataBean.idIncrement)));
+                item.setId(roleDailyCount.getId()*100+item.getTime());
 //                list.add(item);//方法二
                 new DataBeanDao(mContext).add(item);//方法一
             }

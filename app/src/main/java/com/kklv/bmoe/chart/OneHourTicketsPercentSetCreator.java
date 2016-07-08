@@ -43,8 +43,8 @@ public class OneHourTicketsPercentSetCreator extends LineDataSetCreator {
             float percent = 0.0f;
             float den = totalList.get(i);
             if (den > 0) {
-                float mem = Integer.parseInt(list.get(i + 1).getCount())
-                        - Integer.parseInt(list.get(i).getCount());
+                float mem = list.get(i + 1).getCount()
+                        - list.get(i).getCount();
                 percent = mem / den;
             }
             yVals.add(new Entry(new Float(percent * 100), i));

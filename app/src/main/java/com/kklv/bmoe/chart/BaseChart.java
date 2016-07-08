@@ -18,6 +18,7 @@ import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.ListUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +101,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * 设置图表数据
      */
     public void setData() {
+
         if (mRoleDailyCountList == null || mRoleDailyCountList.size() <= 0) {
             return;
         }
@@ -207,7 +209,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
         }
     }
 
-    private void getTotalList() {
+    private void setSexAndGroupsMap() {
         Map<String, List<Integer>>  sexAndGroupsMap = new HashMap<>();
         List<String> groupsNames = getGroups(mRoleDailyCountList);
         if (ListUtils.isEmpty(groupsNames)) {  //未分组
@@ -256,18 +258,19 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * @return
      */
     private List<Integer> getOneHourTotalCountsList(List<RoleDailyCount> roleDailyCounts) {
-        List<Integer> totalList = new ArrayList<>();
-        for (int i = 1; i < roleDailyCounts.get(0).getData().size(); i++) {
-            int total = 0;
-            for (int j = 0; j < roleDailyCounts.size(); j++) {
-                List<DataBean> list = new ArrayList<>();
-                list.addAll(roleDailyCounts.get(j).getData());
-                total += (Integer.parseInt(list.get(i).getCount())
-                        - Integer.parseInt(list.get(i - 1).getCount()));
+
+        Integer[] total=new Integer[24];
+        for(int i=0;i<roleDailyCounts.size();i++){
+            RoleDailyCount item=roleDailyCounts.get(i);
+
+            List<DataBean> list = new ArrayList<>();
+            list.addAll(item.getData());
+            for(int j=1;j<list.size();j++){
+                if(i == 0)total[j-1]=0;//初始化数组
+                total[j-1] += list.get(j).getCount()-list.get(j-1).getCount();
             }
-            totalList.add(total);
-            Log.i(TAG, "total:" + total);
         }
+        List<Integer> totalList= Arrays.asList(total);
         return totalList;
     }
     /**************************工具---结束****************************/
@@ -348,7 +351,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
         list.addAll(one.getData());
         List<String> xVals = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-            xVals.add(list.get(i).getTime());
+            xVals.add(list.get(i).getTime()+"");
         }
         //TODO 有点问题，这只是表示从1开始
         if(xStartIndex > 0 && !ListUtils.isEmpty(xVals)){
@@ -450,7 +453,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
             mSexChecked = RoleDailyCount.SEX_ALL;
             mGroupChecked = RoleDailyCount.GROUP_ALL;
 
-            getTotalList();
+            setSexAndGroupsMap();
             setData();
         } else {
             mCallBack.onLoadCompleted(false);
