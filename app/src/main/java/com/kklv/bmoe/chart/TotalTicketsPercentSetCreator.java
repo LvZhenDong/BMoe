@@ -12,16 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *每小时得票率
- * 
+ *总得票率
+ *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
- * created at 2016/7/8 9:22
+ * created at 2016/7/11 9:05
  */
-public class OneHourTicketsPercentSetCreator extends LineDataSetCreator {
-
-    public OneHourTicketsPercentSetCreator() {
-        super("每小时得票率折线图", 1);
+public class TotalTicketsPercentSetCreator extends LineDataSetCreator {
+    public TotalTicketsPercentSetCreator() {
+        super("总得票率折线图", 1);
     }
 
     @Override
@@ -35,7 +34,7 @@ public class OneHourTicketsPercentSetCreator extends LineDataSetCreator {
     }
 
     private List<Entry> getYVals(List<DataBean> list, String tag) {
-        List<Integer> totalList = mOneHourSexAndGroupsMap.get(tag);
+        List<Integer> totalList = mTotalSexAndGroupsMap.get(tag);
         if (ListUtils.isEmpty(totalList)) return null;
         List<Entry> yVals = new ArrayList<>();
 
@@ -43,8 +42,7 @@ public class OneHourTicketsPercentSetCreator extends LineDataSetCreator {
             float percent = 0.0f;
             float den = totalList.get(i);
             if (den > 0) {
-                float mem = list.get(i + 1).getCount()
-                        - list.get(i).getCount();
+                float mem = list.get(i + 1).getCount();
                 percent = mem / den;
             }
             yVals.add(new Entry(new Float(percent * 100), i));

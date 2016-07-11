@@ -85,10 +85,11 @@
 
             <RadioButton
                 android:id="@+id/rb_group_all"
-                android:checked="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="@string/all"/>
+
             <RadioButton
                 android:id="@+id/rb_group_one"
                 android:layout_width="wrap_content"
@@ -106,6 +107,36 @@
 
             <RadioButton
                 android:id="@+id/rb_group_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/rg_creator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/rb_total_tickets_count_creator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/rb_one_hour_tickets_count_creator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/rb_one_hour_tickets_percent_creator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/rb_total_tickets_percent_creator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RadioGroup>

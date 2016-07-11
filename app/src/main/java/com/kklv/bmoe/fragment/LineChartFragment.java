@@ -26,6 +26,7 @@ import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.chart.OneHourTicketsCountSetCreator;
 import com.kklv.bmoe.chart.OneHourTicketsPercentSetCreator;
 import com.kklv.bmoe.chart.TotalTicketsCountSetCreator;
+import com.kklv.bmoe.chart.TotalTicketsPercentSetCreator;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.StringUtils;
 
@@ -48,7 +49,10 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     //选择分组
     private RadioGroup mGroupRG;
     private RadioButton mGroupAllRB, mGroupOneRB, mGroupTwoRB, mGroupThreeRB, mGroupFourRB;
-    private int checkedGroupId = R.id.rb_group_all;
+    private int checkedGroupRBId = R.id.rb_group_all;
+    //选择图表类型
+    private RadioGroup mCreatorRG;
+    private int checkedCreatorRBId = R.id.rb_total_tickets_count_creator;
 
     private ProgressDialog mProgressDialog;
 
@@ -80,12 +84,13 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mGroupTwoRB = (RadioButton) view.findViewById(R.id.rb_group_two);
         mGroupThreeRB = (RadioButton) view.findViewById(R.id.rb_group_three);
         mGroupFourRB = (RadioButton) view.findViewById(R.id.rb_group_four);
+        mCreatorRG = (RadioGroup) view.findViewById(R.id.rg_creator);
     }
 
     private void initView() {
 
         initProgressDialog();
-        mChart=new BaseChart(getActivity(),mLineChart,new OneHourTicketsPercentSetCreator());
+        mChart = new BaseChart(getActivity(), mLineChart, new TotalTicketsCountSetCreator());
         mChart.registerChartCallBack(this);
 
         mDatePickerET.setInputType(InputType.TYPE_NULL);
@@ -139,6 +144,29 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mLeftIBtn.setOnClickListener(mChartRankListener);
         mRightIBtn.setOnClickListener(mChartRankListener);
 
+        mCreatorRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId != checkedCreatorRBId) {
+                    checkedCreatorRBId = checkedId;
+
+                    switch (checkedId) {
+                        case R.id.rb_total_tickets_count_creator:
+                            mChart.setChartType(BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
+                            break;
+                        case R.id.rb_one_hour_tickets_count_creator:
+                            mChart.setChartType(BaseChart.CREATOR_ONE_HOUR_TICKETS_COUNT);
+                            break;
+                        case R.id.rb_one_hour_tickets_percent_creator:
+                            mChart.setChartType(BaseChart.CREATOR_ONE_HOUR_TICKETS_PERCENT);
+                            break;
+                        case R.id.rb_total_tickets_percent_creator:
+                            mChart.setChartType(BaseChart.CREATOR_TOTAL_TICKETS_PERCENT);
+                            break;
+                    }
+                }
+            }
+        });
         initSexRadioGroup();
         initGroupRadioGroup();
     }
@@ -188,10 +216,10 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         @Override
         public void onClick(View v) {
             int id = v.getId();
-            if (id == checkedGroupId) return;
+            if (id == checkedGroupRBId) return;
             RadioButton rb = (RadioButton) v;
             mChart.showGroup(rb.getText() + "");
-            checkedGroupId = id;
+            checkedGroupRBId = id;
         }
     };
 
@@ -247,7 +275,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     @Override
     public void resetGroupRG() {
         mGroupAllRB.setChecked(true);
-        checkedGroupId = R.id.rb_group_all;
+        checkedGroupRBId = R.id.rb_group_all;
     }
 
     @Override

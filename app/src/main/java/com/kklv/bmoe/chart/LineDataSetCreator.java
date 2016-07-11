@@ -21,9 +21,13 @@ public abstract class LineDataSetCreator {
      */
     private int mXStartIndex;
     /**
-     * 分组后每小时总票数
+     * 分组后每小时票数
      */
-    protected Map<String,List<Integer>> mSexAndGroupsMap=new HashMap<>();
+    protected static Map<String,List<Integer>> mOneHourSexAndGroupsMap =new HashMap<>();
+    /**
+     * 分组后总票数
+     */
+    protected static Map<String,List<Integer>> mTotalSexAndGroupsMap=new HashMap<>();
 
     public LineDataSetCreator(String description,int xStartIndex){
         this.mDescription=description;
@@ -38,8 +42,12 @@ public abstract class LineDataSetCreator {
         return mXStartIndex;
     }
 
-    public void setSexAndGroupsMap(Map<String, List<Integer>> sexAndGroupsMap) {
-        mSexAndGroupsMap = sexAndGroupsMap;
+    public void setOneHourSexAndGroupsMap(Map<String, List<Integer>> oneHourSexAndGroupsMap) {
+        mOneHourSexAndGroupsMap = oneHourSexAndGroupsMap;
+    }
+
+    public void setTotalSexAndGroupsMap(Map<String, List<Integer>> totalSexAndGroupsMap) {
+        mTotalSexAndGroupsMap = totalSexAndGroupsMap;
     }
 
     abstract LineDataSet createLineDataSet(RoleDailyCount roleDailyCount);

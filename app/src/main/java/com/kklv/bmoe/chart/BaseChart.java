@@ -2,7 +2,6 @@ package com.kklv.bmoe.chart;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -33,6 +32,10 @@ import java.util.TreeSet;
  */
 public class BaseChart implements DataHelper.DataHelperCallBack {
     private static final String TAG = "BaseChart";
+    public static final int CREATOR_TOTAL_TICKETS_COUNT = 0;
+    public static final int CREATOR_ONE_HOUR_TICKETS_COUNT = 1;
+    public static final int CREATOR_ONE_HOUR_TICKETS_PERCENT = 2;
+    public static final int CREATOR_TOTAL_TICKETS_PERCENT = 3;
 
     private LineDataSetCreator mLineDataSetCreator;
     /**
@@ -72,16 +75,30 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
         mDataHelper.registerCallBack(this);
         this.mLineChart = lineChart;
 //        this.mChartDescription = mContext.getString(description);
-        this.mLineDataSetCreator=creator;
+        this.mLineDataSetCreator = creator;
         initLineChart();
     }
 
     /**
      * 切换Chart
+     *
      * @param creator
      */
-    public void setChartType(LineDataSetCreator creator){
-        this.mLineDataSetCreator=creator;
+    public void setChartType(int creator) {
+        switch (creator) {
+            case CREATOR_TOTAL_TICKETS_COUNT:
+                mLineDataSetCreator = new TotalTicketsCountSetCreator();
+                break;
+            case CREATOR_ONE_HOUR_TICKETS_COUNT:
+                mLineDataSetCreator = new OneHourTicketsCountSetCreator();
+                break;
+            case CREATOR_ONE_HOUR_TICKETS_PERCENT:
+                mLineDataSetCreator = new OneHourTicketsPercentSetCreator();
+                break;
+            case CREATOR_TOTAL_TICKETS_PERCENT:
+                mLineDataSetCreator = new TotalTicketsPercentSetCreator();
+                break;
+        }
         drawChart(mSplitLists.get(mShowingSplitListId));
     }
 
@@ -210,21 +227,24 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
     }
 
     private void setSexAndGroupsMap() {
-        Map<String, List<Integer>>  sexAndGroupsMap = new HashMap<>();
+        Map<String, List<Integer>> oneHourSexAndGroupsMap = new HashMap<>();
+        Map<String, List<Integer>> totalSexAndGroupsMap = new HashMap<>();
         List<String> groupsNames = getGroups(mRoleDailyCountList);
         if (ListUtils.isEmpty(groupsNames)) {  //未分组
             //获取萌组总每小时总票数
             List<RoleDailyCount> moeList = selectRoleDailyCounts(RoleDailyCount.SEX_MOE,
                     RoleDailyCount.GROUP_ALL);
             if (!ListUtils.isEmpty(moeList)) {
-                sexAndGroupsMap.put(RoleDailyCount.SEX_MOE + "", getOneHourTotalCountsList(moeList));
+                oneHourSexAndGroupsMap.put(RoleDailyCount.SEX_MOE + "", getOneHourCountsList(moeList));
+                totalSexAndGroupsMap.put(RoleDailyCount.SEX_MOE + "", getTotalCountsList(moeList));
             }
 
             //获取燃组每小时总票数
             List<RoleDailyCount> lightList = selectRoleDailyCounts(RoleDailyCount.SEX_LIGHT,
                     RoleDailyCount.GROUP_ALL);
             if (!ListUtils.isEmpty(lightList)) {
-                sexAndGroupsMap.put(RoleDailyCount.SEX_LIGHT + "", getOneHourTotalCountsList(lightList));
+                oneHourSexAndGroupsMap.put(RoleDailyCount.SEX_LIGHT + "", getOneHourCountsList(lightList));
+                totalSexAndGroupsMap.put(RoleDailyCount.SEX_LIGHT + "", getTotalCountsList(lightList));
             }
         } else {  //已经分组，每小时总票数要在组内单独算，而且要分sex
 
@@ -233,8 +253,10 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
                 List<RoleDailyCount> moeList = selectRoleDailyCounts(RoleDailyCount.SEX_MOE,
                         item);
                 if (!ListUtils.isEmpty(moeList)) {
-                    sexAndGroupsMap.put(RoleDailyCount.SEX_MOE + item,
-                            getOneHourTotalCountsList(moeList));
+                    oneHourSexAndGroupsMap.put(RoleDailyCount.SEX_MOE + item,
+                            getOneHourCountsList(moeList));
+                    totalSexAndGroupsMap.put(RoleDailyCount.SEX_MOE + item,
+                            getTotalCountsList(moeList));
                 }
             }
             //燃组的group：每小时总票数
@@ -242,35 +264,54 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
                 List<RoleDailyCount> lightList = selectRoleDailyCounts(RoleDailyCount.SEX_LIGHT,
                         item);
                 if (!ListUtils.isEmpty(lightList)) {
-                    sexAndGroupsMap.put(RoleDailyCount.SEX_LIGHT + item,
-                            getOneHourTotalCountsList(lightList));
+                    oneHourSexAndGroupsMap.put(RoleDailyCount.SEX_LIGHT + item,
+                            getOneHourCountsList(lightList));
+                    totalSexAndGroupsMap.put(RoleDailyCount.SEX_LIGHT + item,
+                            getTotalCountsList(lightList));
                 }
             }
 
         }
-        mLineDataSetCreator.setSexAndGroupsMap(sexAndGroupsMap);
+        mLineDataSetCreator.setOneHourSexAndGroupsMap(oneHourSexAndGroupsMap);
+        mLineDataSetCreator.setTotalSexAndGroupsMap(totalSexAndGroupsMap);
     }
 
     /**
-     * 得到一个每小时的总票数的list
+     * 得到一个每小时的票数的list
      *
      * @param roleDailyCounts
      * @return
      */
-    private List<Integer> getOneHourTotalCountsList(List<RoleDailyCount> roleDailyCounts) {
+    private List<Integer> getOneHourCountsList(List<RoleDailyCount> roleDailyCounts) {
 
-        Integer[] total=new Integer[24];
-        for(int i=0;i<roleDailyCounts.size();i++){
-            RoleDailyCount item=roleDailyCounts.get(i);
+        Integer[] total = new Integer[24];
+        for (int i = 0; i < roleDailyCounts.size(); i++) {
+            RoleDailyCount item = roleDailyCounts.get(i);
 
             List<DataBean> list = new ArrayList<>();
             list.addAll(item.getData());
-            for(int j=1;j<list.size();j++){
-                if(i == 0)total[j-1]=0;//初始化数组
-                total[j-1] += list.get(j).getCount()-list.get(j-1).getCount();
+            for (int j = 1; j < list.size(); j++) {
+                if (i == 0) total[j - 1] = 0;//初始化数组
+                total[j - 1] += list.get(j).getCount() - list.get(j - 1).getCount();
             }
         }
-        List<Integer> totalList= Arrays.asList(total);
+        List<Integer> totalList = Arrays.asList(total);
+        return totalList;
+    }
+
+    private List<Integer> getTotalCountsList(List<RoleDailyCount> roleDailyCounts) {
+        Integer[] total = new Integer[24];
+        for (int i = 0; i < roleDailyCounts.size(); i++) {
+            RoleDailyCount item = roleDailyCounts.get(i);
+
+            List<DataBean> list = new ArrayList<>();
+            list.addAll(item.getData());
+            for (int j = 1; j < list.size(); j++) {
+                if (i == 0) total[j - 1] = 0;//初始化数组
+                total[j - 1] += list.get(j).getCount();
+            }
+        }
+        List<Integer> totalList = Arrays.asList(total);
         return totalList;
     }
     /**************************工具---结束****************************/
@@ -346,15 +387,14 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * @param one 一个角色当天的数据
      * @return
      */
-    private List<String> getXVals(RoleDailyCount one,int xStartIndex) {
+    private List<String> getXVals(RoleDailyCount one, int xStartIndex) {
         List<DataBean> list = new ArrayList<>();
         list.addAll(one.getData());
         List<String> xVals = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-            xVals.add(list.get(i).getTime()+"");
+            xVals.add(list.get(i).getTime() + "");
         }
-        //TODO 有点问题，这只是表示从1开始
-        if(xStartIndex > 0 && !ListUtils.isEmpty(xVals)){
+        for (int i = 0; i < xStartIndex; i++) {
             xVals.remove(0);
         }
         return xVals;
@@ -375,11 +415,11 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
         for (RoleDailyCount item : list) {
             int i = list.indexOf(item);
-            LineDataSet set=mLineDataSetCreator.createLineDataSet(item);
+            LineDataSet set = mLineDataSetCreator.createLineDataSet(item);
             setSetType(set, colors[i]);
             dataSets.add(set);
         }
-        LineData data = new LineData(getXVals(list.get(0),mLineDataSetCreator.getXStartIndex()),
+        LineData data = new LineData(getXVals(list.get(0), mLineDataSetCreator.getXStartIndex()),
                 dataSets);
         // set data
         mLineChart.setData(data);
