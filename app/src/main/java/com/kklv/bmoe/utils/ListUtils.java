@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/6/16.
+ *List工具类
+ * 
+ * @author LvZhenDong
+ * @email lvzhendong1993@gmail.com
+ * created at 2016/7/11 16:45
  */
 public class ListUtils {
     /**
@@ -17,7 +21,7 @@ public class ListUtils {
      */
     public static <T> List<List<T>> split(List<T> resList, int count) {
 
-        if (resList == null || count < 1)
+        if (ListUtils.isEmpty(resList) || count < 1)
             return null;
         List<List<T>> ret = new ArrayList<List<T>>();
         int size = resList.size();

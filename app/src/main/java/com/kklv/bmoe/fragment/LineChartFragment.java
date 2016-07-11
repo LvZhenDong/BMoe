@@ -45,7 +45,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private int checkedSexId = R.id.rb_moe_light;
     //选择分组
     private RadioGroup mGroupRG;
-    private RadioButton mGroupAllRB, mGroupOneRB, mGroupTwoRB, mGroupThreeRB, mGroupFourRB;
+    private RadioButton mGroupAllRB;
     private int checkedGroupRBId = R.id.rb_group_all;
     //选择图表类型
     private RadioGroup mCreatorRG;
@@ -77,10 +77,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         mMoeAndLightRB = (RadioButton) view.findViewById(R.id.rb_moe_light);
         mGroupRG = (RadioGroup) view.findViewById(R.id.rg_group);
         mGroupAllRB = (RadioButton) view.findViewById(R.id.rb_group_all);
-        mGroupOneRB = (RadioButton) view.findViewById(R.id.rb_group_one);
-        mGroupTwoRB = (RadioButton) view.findViewById(R.id.rb_group_two);
-        mGroupThreeRB = (RadioButton) view.findViewById(R.id.rb_group_three);
-        mGroupFourRB = (RadioButton) view.findViewById(R.id.rb_group_four);
         mCreatorRG = (RadioGroup) view.findViewById(R.id.rg_creator);
     }
 
@@ -135,7 +131,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                 Intent intent = new Intent(getActivity(), FullscreenActivity.class);
                 intent.putExtra(FullscreenActivity.KEY_ROLE_DAILY_LIST,
                         (ArrayList<RoleDailyCount>) mChart.getSplitList());
-                intent.putExtra(FullscreenActivity.KEY_CREATOR_TYPE,mChart.getCreatorType());
+                intent.putExtra(FullscreenActivity.KEY_CREATOR_TYPE, mChart.getCreatorType());
                 startActivity(intent);
             }
         });
@@ -177,10 +173,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
     private void initGroupRadioGroup() {
         mGroupAllRB.setOnClickListener(mGroupListener);
-        mGroupOneRB.setOnClickListener(mGroupListener);
-        mGroupTwoRB.setOnClickListener(mGroupListener);
-        mGroupThreeRB.setOnClickListener(mGroupListener);
-        mGroupFourRB.setOnClickListener(mGroupListener);
     }
 
     /**
@@ -274,15 +266,24 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
     @Override
     public void showGroup(List<String> list) {
-        //TODO 什么时候改为根据groups.size()来增加radioButton的个数
-        //用RadioButton数组来实现
-        if (!ListUtils.isEmpty(list) && list.size() == 4) {
+        if (mGroupRG.getChildCount() > 1) {
+            mGroupRG.removeViews(1, mGroupRG.getChildCount() - 1);
+        }
+
+        if (!ListUtils.isEmpty(list)) {
             mGroupRG.setVisibility(View.VISIBLE);
             mGroupAllRB.setText(RoleDailyCount.GROUP_ALL);
-            mGroupOneRB.setText(list.get(0));
-            mGroupTwoRB.setText(list.get(1));
-            mGroupThreeRB.setText(list.get(2));
-            mGroupFourRB.setText(list.get(3));
+            for (String item : list) {
+                RadioButton rb = new RadioButton(getActivity());
+                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                rb.setLayoutParams(params);
+                mGroupRG.addView(rb);
+                rb.setText(item);
+                rb.setOnClickListener(mGroupListener);
+                //TODO 颜色
+            }
+
         } else {
             mGroupRG.setVisibility(View.GONE);
         }
