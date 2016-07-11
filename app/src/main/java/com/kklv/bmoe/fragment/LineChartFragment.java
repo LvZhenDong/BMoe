@@ -24,6 +24,7 @@ import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.object.RoleDailyCount;
+import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
@@ -264,13 +265,9 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     }
 
     @Override
-    public void resetSexRG() {
+    public void resetRG() {
         mMoeAndLightRB.setChecked(true);
         checkedSexId = R.id.rb_moe_light;
-    }
-
-    @Override
-    public void resetGroupRG() {
         mGroupAllRB.setChecked(true);
         checkedGroupRBId = R.id.rb_group_all;
     }
@@ -279,7 +276,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     public void showGroup(List<String> list) {
         //TODO 什么时候改为根据groups.size()来增加radioButton的个数
         //用RadioButton数组来实现
-        if (list != null && list.size() == 4) {
+        if (!ListUtils.isEmpty(list) && list.size() == 4) {
             mGroupRG.setVisibility(View.VISIBLE);
             mGroupAllRB.setText(RoleDailyCount.GROUP_ALL);
             mGroupOneRB.setText(list.get(0));

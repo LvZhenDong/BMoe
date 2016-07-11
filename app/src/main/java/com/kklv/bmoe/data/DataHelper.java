@@ -20,6 +20,7 @@ import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.object.RoleInfo;
+import com.kklv.bmoe.utils.ListUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -145,7 +146,7 @@ public class DataHelper {
             public void onResponse(List<RoleDailyCount> response) {
                 response = setRoleDailyCountsMaxCount(response);   //拿到数据后先设置maxCount
                 RoleDailyCount.MaxCountCompare maxCountCompare = new RoleDailyCount.MaxCountCompare();
-                if (response != null && response.size() > 0)
+                if (!ListUtils.isEmpty(response))
                     Collections.sort(response, maxCountCompare); //按maxCountCompare排序
                 mCallBack.onSuccess(response);
                 Message msg = new Message();
@@ -203,7 +204,7 @@ public class DataHelper {
         final List<RoleDailyCount> databaseResult = new RoleDailyCountDao(mContext).
                 getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE));
         Log.i(TAG, "after handlerQuery");
-        if (databaseResult != null && databaseResult.size() > 0) {
+        if (!ListUtils.isEmpty(databaseResult)) {
             mUIHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -232,7 +233,7 @@ public class DataHelper {
             isAddingToDataBase = true;
         }
         List<RoleDailyCount> response = (List<RoleDailyCount>) msg.obj;
-        if (response != null && response.size() > 0) {
+        if (!ListUtils.isEmpty(response)) {
             RoleDailyCountDao roleDailyCountDao = new RoleDailyCountDao(mContext);
             //将数据添加到数据库
             roleDailyCountDao.addOrUpdateRoleDailyCounts(response);
@@ -290,7 +291,7 @@ public class DataHelper {
      * @return
      */
     public List<RoleDailyCount> setRoleDailyCountsMaxCount(List<RoleDailyCount> list) {
-        if (list != null && list.size() > 0) {
+        if (!ListUtils.isEmpty(list)) {
             for (RoleDailyCount item : list
                     ) {
                 List<DataBean> dataBeanList = new ArrayList<>();

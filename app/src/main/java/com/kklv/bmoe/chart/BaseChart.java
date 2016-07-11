@@ -32,9 +32,21 @@ import java.util.TreeSet;
  */
 public class BaseChart implements DataHelper.DataHelperCallBack {
     private static final String TAG = "BaseChart";
+    /**
+     * 总票数折线图
+     */
     public static final int CREATOR_TOTAL_TICKETS_COUNT = 0;
+    /**
+     * 每小时票数折线图
+     */
     public static final int CREATOR_ONE_HOUR_TICKETS_COUNT = 1;
+    /**
+     * 每小时得票率
+     */
     public static final int CREATOR_ONE_HOUR_TICKETS_PERCENT = 2;
+    /**
+     * 总得票率
+     */
     public static final int CREATOR_TOTAL_TICKETS_PERCENT = 3;
 
     private LineDataSetCreator mLineDataSetCreator;
@@ -59,7 +71,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
     private ChartCallBack mCallBack;
 
     /**
-     * 内存里的主数据
+     * 当天的所以RoleDailyCount数据
      */
     private List<RoleDailyCount> mRoleDailyCountList;
     /**
@@ -92,8 +104,9 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
         setChartType(creator);
         drawChart(mSplitLists.get(mShowingSplitListId));
     }
-    private void setChartType(int creator){
-        mCreatorType=creator;
+
+    private void setChartType(int creator) {
+        mCreatorType = creator;
         switch (creator) {
             case CREATOR_TOTAL_TICKETS_COUNT:
                 mLineDataSetCreator = new TotalTicketsCountSetCreator();
@@ -127,11 +140,11 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      */
     public void setData() {
 
-        if (mRoleDailyCountList == null || mRoleDailyCountList.size() <= 0) {
+        if (ListUtils.isEmpty(mRoleDailyCountList)) {
             return;
         }
         List<RoleDailyCount> sexAndGroupList = selectRoleDailyCounts(mSexChecked, mGroupChecked);
-        if (sexAndGroupList == null || sexAndGroupList.size() <= 0) {
+        if (ListUtils.isEmpty(sexAndGroupList)) {
             return;
         }
         mSplitLists = ListUtils.split(sexAndGroupList, SPLIT_LENGTH);
@@ -148,7 +161,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * @param <T>
      */
     public <T> void setBasicList(List<T> dataList) {
-        if (dataList == null || dataList.size() <= 0) {
+        if (ListUtils.isEmpty(dataList)) {
             return;
         }
 
@@ -162,7 +175,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * @return
      */
     public List<RoleDailyCount> getSplitList() {
-        if (mSplitLists != null && mSplitLists.size() > 0) {
+        if (!ListUtils.isEmpty(mSplitLists)) {
             return mSplitLists.get(mShowingSplitListId);
         }
         return null;
@@ -329,7 +342,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * 查看上一组排名的数据
      */
     public void goLeftSplitLists() {
-        if ((mSplitLists != null && mSplitLists.size() > 0) &&
+        if (!ListUtils.isEmpty(mSplitLists) &&
                 mShowingSplitListId > 0) {
             mShowingSplitListId--;
             drawChart(mSplitLists.get(mShowingSplitListId));
@@ -341,8 +354,8 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      */
     public void goRightSplitLists() {
 
-        if ((mSplitLists != null && mSplitLists.size() > 0) &&
-                mShowingSplitListId < mSplitLists.size() - 1) {
+        if (!ListUtils.isEmpty(mSplitLists) &&
+                (mShowingSplitListId < mSplitLists.size() - 1)) {
             mShowingSplitListId++;
             drawChart(mSplitLists.get(mShowingSplitListId));
         }
@@ -414,7 +427,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * @param list
      */
     private void drawChart(List<RoleDailyCount> list) {
-        if (list == null) {
+        if (ListUtils.isEmpty(list)) {
             return;
         }
         mLineChart.setDescription(mLineDataSetCreator.getDescription() +
@@ -476,9 +489,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
          */
         void showGroup(List<String> list);
 
-        void resetSexRG();
-
-        void resetGroupRG();
+        void resetRG();
     }
 
     /**
@@ -492,12 +503,11 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
 
     @Override
     public <T> void onSuccess(List<T> result) {
-        if (result != null && result.size() > 0) {
+        if (!ListUtils.isEmpty(result)) {
             mRoleDailyCountList = (List<RoleDailyCount>) result;
             mCallBack.showGroup(getGroups(mRoleDailyCountList));
             mCallBack.onLoadCompleted(true);
-            mCallBack.resetSexRG();
-            mCallBack.resetGroupRG();
+            mCallBack.resetRG();
             mSexChecked = RoleDailyCount.SEX_ALL;
             mGroupChecked = RoleDailyCount.GROUP_ALL;
 

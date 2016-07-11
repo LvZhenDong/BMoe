@@ -7,6 +7,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleDailyCount;
+import com.kklv.bmoe.utils.ListUtils;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -93,7 +94,7 @@ public class RoleDailyCountDao {
 //            where.eq(RoleDailyCount.DATE, date);      //方法二
 //            queryBuilder.orderBy(RoleDailyCount.MAX_COUNT, false);
 //            List<RoleDailyCount> list=queryBuilder.query();
-            if (list != null && list.size() > 0)
+            if (!ListUtils.isEmpty(list))
                 return list;
         } catch (SQLException e) {
             e.printStackTrace();
