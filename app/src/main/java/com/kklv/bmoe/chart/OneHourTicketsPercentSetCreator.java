@@ -34,7 +34,7 @@ public class OneHourTicketsPercentSetCreator extends LineDataSetCreator {
         return new LineDataSet(yVals, roleDailyCount.getName());
     }
 
-    private List<Entry> getYVals(List<DataBean> list, String tag) {
+    private static List<Entry> getYVals(List<DataBean> list, String tag) {
         List<Integer> totalList = mOneHourSexAndGroupsMap.get(tag);
         if (ListUtils.isEmpty(totalList)) return null;
         List<Entry> yVals = new ArrayList<>();

@@ -23,10 +23,6 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
-import com.kklv.bmoe.chart.OneHourTicketsCountSetCreator;
-import com.kklv.bmoe.chart.OneHourTicketsPercentSetCreator;
-import com.kklv.bmoe.chart.TotalTicketsCountSetCreator;
-import com.kklv.bmoe.chart.TotalTicketsPercentSetCreator;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.StringUtils;
 
@@ -90,7 +86,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private void initView() {
 
         initProgressDialog();
-        mChart = new BaseChart(getActivity(), mLineChart, new TotalTicketsCountSetCreator());
+        mChart = new BaseChart(getActivity(), mLineChart, BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
         mChart.registerChartCallBack(this);
 
         mDatePickerET.setInputType(InputType.TYPE_NULL);
@@ -136,8 +132,9 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-                intent.putExtra(FullscreenActivity.CAMP_LIST,
+                intent.putExtra(FullscreenActivity.KEY_ROLE_DAILY_LIST,
                         (ArrayList<RoleDailyCount>) mChart.getSplitList());
+                intent.putExtra(FullscreenActivity.KEY_CREATOR_TYPE,mChart.getCreatorType());
                 startActivity(intent);
             }
         });
@@ -152,16 +149,16 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
                     switch (checkedId) {
                         case R.id.rb_total_tickets_count_creator:
-                            mChart.setChartType(BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
+                            mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
                             break;
                         case R.id.rb_one_hour_tickets_count_creator:
-                            mChart.setChartType(BaseChart.CREATOR_ONE_HOUR_TICKETS_COUNT);
+                            mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_COUNT);
                             break;
                         case R.id.rb_one_hour_tickets_percent_creator:
-                            mChart.setChartType(BaseChart.CREATOR_ONE_HOUR_TICKETS_PERCENT);
+                            mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_PERCENT);
                             break;
                         case R.id.rb_total_tickets_percent_creator:
-                            mChart.setChartType(BaseChart.CREATOR_TOTAL_TICKETS_PERCENT);
+                            mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_PERCENT);
                             break;
                     }
                 }

@@ -14,6 +14,7 @@ import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.chart.OneHourTicketsCountSetCreator;
 import com.kklv.bmoe.chart.OneHourTicketsPercentSetCreator;
 import com.kklv.bmoe.chart.TotalTicketsCountSetCreator;
+import com.kklv.bmoe.chart.TotalTicketsPercentSetCreator;
 import com.kklv.bmoe.object.RoleDailyCount;
 
 import java.util.List;
@@ -23,7 +24,8 @@ import java.util.List;
  * status bar and navigation/system bar) with user interaction.
  */
 public class FullscreenActivity extends AppCompatActivity {
-    public static final String CAMP_LIST = "campList";
+    public static final String KEY_ROLE_DAILY_LIST = "roleDailyList";
+    public static final String KEY_CREATOR_TYPE="creatorType";
 
     private LineChart mLineChart;
     private BaseChart mChart;
@@ -35,8 +37,9 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mChart = new BaseChart(this,mLineChart, new OneHourTicketsPercentSetCreator());
-        mCampList = (List<RoleDailyCount>) getIntent().getSerializableExtra(CAMP_LIST);
+        int creatorType=getIntent().getIntExtra(KEY_CREATOR_TYPE,BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
+        mChart=new BaseChart(this,mLineChart,creatorType);
+        mCampList = (List<RoleDailyCount>) getIntent().getSerializableExtra(KEY_ROLE_DAILY_LIST);
         mChart.setBasicList(mCampList);
         mChart.setData();
     }

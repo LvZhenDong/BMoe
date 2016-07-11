@@ -38,6 +38,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
     public static final int CREATOR_TOTAL_TICKETS_PERCENT = 3;
 
     private LineDataSetCreator mLineDataSetCreator;
+    private int mCreatorType = CREATOR_TOTAL_TICKETS_COUNT;
     /**
      * Y轴上的动画时间
      */
@@ -69,14 +70,17 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
     private String mSexChecked = RoleDailyCount.SEX_ALL;
     private String mGroupChecked = RoleDailyCount.GROUP_ALL;
 
-    public BaseChart(Context context, LineChart lineChart, LineDataSetCreator creator) {
+    public BaseChart(Context context, LineChart lineChart, int creator) {
         mContext = context;
         mDataHelper = new DataHelper(mContext);
         mDataHelper.registerCallBack(this);
         this.mLineChart = lineChart;
-//        this.mChartDescription = mContext.getString(description);
-        this.mLineDataSetCreator = creator;
+        setChartType(creator);
         initLineChart();
+    }
+
+    public int getCreatorType() {
+        return mCreatorType;
     }
 
     /**
@@ -84,7 +88,12 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      *
      * @param creator
      */
-    public void setChartType(int creator) {
+    public void setChartTypeAndShow(int creator) {
+        setChartType(creator);
+        drawChart(mSplitLists.get(mShowingSplitListId));
+    }
+    private void setChartType(int creator){
+        mCreatorType=creator;
         switch (creator) {
             case CREATOR_TOTAL_TICKETS_COUNT:
                 mLineDataSetCreator = new TotalTicketsCountSetCreator();
@@ -99,7 +108,6 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
                 mLineDataSetCreator = new TotalTicketsPercentSetCreator();
                 break;
         }
-        drawChart(mSplitLists.get(mShowingSplitListId));
     }
 
     /**
@@ -210,7 +218,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * @param list
      * @return
      */
-    private final List<String> getGroups(List<RoleDailyCount> list) {
+    private static List<String> getGroups(List<RoleDailyCount> list) {
 
         TreeSet<String> groups = new TreeSet<>();
         for (RoleDailyCount item : list) {
@@ -282,7 +290,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * @param roleDailyCounts
      * @return
      */
-    private List<Integer> getOneHourCountsList(List<RoleDailyCount> roleDailyCounts) {
+    private static List<Integer> getOneHourCountsList(List<RoleDailyCount> roleDailyCounts) {
 
         Integer[] total = new Integer[24];
         for (int i = 0; i < roleDailyCounts.size(); i++) {
@@ -299,7 +307,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
         return totalList;
     }
 
-    private List<Integer> getTotalCountsList(List<RoleDailyCount> roleDailyCounts) {
+    private static List<Integer> getTotalCountsList(List<RoleDailyCount> roleDailyCounts) {
         Integer[] total = new Integer[24];
         for (int i = 0; i < roleDailyCounts.size(); i++) {
             RoleDailyCount item = roleDailyCounts.get(i);

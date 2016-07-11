@@ -36,7 +36,7 @@ public class TotalTicketsCountSetCreator extends LineDataSetCreator {
         return new LineDataSet(yVals, roleDailyCount.getName());
     }
 
-    private List<Entry> getYVals(List<DataBean> list) {
+    private static List<Entry> getYVals(List<DataBean> list) {
         List<Entry> yVals = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             yVals.add(new Entry(new Float(list.get(i).getCount()), i));
