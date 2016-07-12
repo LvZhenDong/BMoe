@@ -59,18 +59,18 @@
 
             <RadioButton
                 android:id="@+id/rb_moe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:text="@string/moe"
+                style="@style/SexRadioButton"/>
 
             <RadioButton
                 android:id="@+id/rb_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:text="@string/light"
+                style="@style/SexRadioButton"/>
 
             <RadioButton
                 android:id="@+id/rb_moe_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:text="@string/total"
+                style="@style/SexRadioButton"
                 android:checked="true"/>
         </RadioGroup>
 
@@ -85,8 +85,7 @@
 
             <RadioButton
                 android:id="@+id/rb_group_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/SexRadioButton"
                 android:checked="true"
                 android:text="@string/all"/>
         </RadioGroup>

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.object.RoleDailyCount;
+import com.kklv.bmoe.utils.DensityUtils;
 import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.StringUtils;
 
@@ -280,16 +282,17 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         //生成RadioButton
         if (!ListUtils.isEmpty(list)) {
             mGroupRG.setVisibility(View.VISIBLE);
-            mGroupAllRB.setText(RoleDailyCount.GROUP_ALL);
             for (String item : list) {
-                RadioButton rb = new RadioButton(getActivity());
-                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                rb.setLayoutParams(params);
-                mGroupRG.addView(rb);
+                RadioButton rb= (RadioButton) LayoutInflater.from(getActivity()).
+                        inflate(R.layout.item_radio_button,null);
+                LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                int margin= DensityUtils.dip2px(getActivity(),5);
+                params.setMargins(margin,margin,margin,margin);
                 rb.setText(item);
                 rb.setOnClickListener(mGroupListener);
-                //TODO 颜色
+                mGroupRG.addView(rb);
+                rb.setLayoutParams(params);
             }
 
         } else {

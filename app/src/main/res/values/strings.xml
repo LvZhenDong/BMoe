@@ -24,6 +24,9 @@
     <string name="camp_fail_percent">淘汰率</string>
     <string name="draw_chart">绘制</string>
     <string name="all">全部</string>
+    <string name="moe">萌</string>
+    <string name="light">燃</string>
+    <string name="total">总</string>
 
 
 </resources>

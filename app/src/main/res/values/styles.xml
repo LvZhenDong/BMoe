@@ -56,4 +56,13 @@
     <style name="RectButton" parent="Button">
         <item name="android:background">@drawable/selector_rect_btn</item>
     </style>
+
+    <style name="SexRadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/selector_sex_radio_button_color</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
 </resources>
