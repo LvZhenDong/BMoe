@@ -63,8 +63,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
         bindId(view);
         initView();
-//        mDatePickerET.setText("2015-12-12");
-//        mChart.getData(mParamsMap);
+//        mDatePickerET.setText("2015-12-12");  //自动化测试
         return view;
     }
 

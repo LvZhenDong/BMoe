@@ -432,8 +432,10 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
             return;
         }
 
-        mCallBack.setDescription(mLineDataSetCreator.getDescription() +
-                getRankString(mShowingSplitListId));
+        if(mCallBack != null){
+            mCallBack.setDescription(mLineDataSetCreator.getDescription() +
+                    getRankString(mShowingSplitListId));
+        }
         List<ILineDataSet> dataSets = new ArrayList<>();
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
         for (RoleDailyCount item : list) {
@@ -512,23 +514,31 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
     public <T> void onSuccess(List<T> result) {
         if (!ListUtils.isEmpty(result)) {
             mRoleDailyCountList = (List<RoleDailyCount>) result;
-            mCallBack.showGroup(getGroups(mRoleDailyCountList));
-            mCallBack.onLoadCompleted(true);
-            mCallBack.resetRG();
+            if(mCallBack != null){
+                mCallBack.showGroup(getGroups(mRoleDailyCountList));
+                mCallBack.onLoadCompleted(true);
+                mCallBack.resetRG();
+            }
             mSexChecked = RoleDailyCount.SEX_ALL;
             mGroupChecked = RoleDailyCount.GROUP_ALL;
 
             setSexAndGroupsMap();
             setData();
         } else {
-            mCallBack.onLoadCompleted(false);
+            if(mCallBack != null){
+                mCallBack.onLoadCompleted(false);
+            }
+
             Toast.makeText(mContext, R.string.no_data, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onFailure(Exception error) {
-        mCallBack.onLoadCompleted(false);
+        if(mCallBack != null){
+            mCallBack.onLoadCompleted(false);
+        }
+
         Toast.makeText(mContext, R.string.net_error, Toast.LENGTH_SHORT).show();
     }
 

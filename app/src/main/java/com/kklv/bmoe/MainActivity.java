@@ -33,7 +33,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         //TODO 自定义更新对话框
-        PgyUpdateManager.register(this);
+//        PgyUpdateManager.register(this);
         bindId();
         initView();
 
