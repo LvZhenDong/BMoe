@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class OneHourTicketsCountSetCreator extends LineDataSetCreator{
     public OneHourTicketsCountSetCreator() {
-        super("每小时票数折线图", 1);
+        super("每小时票数", 1);
     }
 
     @Override

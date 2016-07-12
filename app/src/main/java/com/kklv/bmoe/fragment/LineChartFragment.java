@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -62,6 +63,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
         bindId(view);
         initView();
+//        mDatePickerET.setText("2015-12-12");
 //        mChart.getData(mParamsMap);
         return view;
     }
@@ -246,7 +248,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
      *
      * @return
      */
-    private String getTodayDate() {
+    private static String getTodayDate() {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return sDateFormat.format(new java.util.Date());
     }
@@ -265,11 +267,18 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     }
 
     @Override
+    public void setDescription(String description) {
+        setParentActivityActionBarTitle(description);
+    }
+
+    @Override
     public void showGroup(List<String> list) {
+        //删除除第一个以外的RadioButton
         if (mGroupRG.getChildCount() > 1) {
             mGroupRG.removeViews(1, mGroupRG.getChildCount() - 1);
         }
 
+        //生成RadioButton
         if (!ListUtils.isEmpty(list)) {
             mGroupRG.setVisibility(View.VISIBLE);
             mGroupAllRB.setText(RoleDailyCount.GROUP_ALL);
@@ -289,5 +298,9 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         }
     }
 
+
+    private void setParentActivityActionBarTitle(String title){
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
+    }
 
 }

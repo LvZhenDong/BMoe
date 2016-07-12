@@ -21,7 +21,7 @@ import java.util.List;
 public class OneHourTicketsPercentSetCreator extends LineDataSetCreator {
 
     public OneHourTicketsPercentSetCreator() {
-        super("每小时得票率折线图", 1);
+        super("每小时得票率", 1);
     }
 
     @Override

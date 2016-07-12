@@ -18,7 +18,7 @@ import java.util.List;
 public class TotalTicketsCountSetCreator extends LineDataSetCreator {
 
     public TotalTicketsCountSetCreator() {
-        super("总票数折线图",0 );
+        super("总票数",0 );
     }
 
     /**

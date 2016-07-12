@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class TotalTicketsPercentSetCreator extends LineDataSetCreator {
     public TotalTicketsPercentSetCreator() {
-        super("总得票率折线图", 1);
+        super("总得票率", 1);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.kklv.bmoe.chart;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -102,7 +103,10 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      */
     public void setChartTypeAndShow(int creator) {
         setChartType(creator);
-        drawChart(mSplitLists.get(mShowingSplitListId));
+        if(!ListUtils.isEmpty(mSplitLists)){
+            drawChart(mSplitLists.get(mShowingSplitListId));
+        }
+
     }
 
     private void setChartType(int creator) {
@@ -386,10 +390,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      * Chart相关---开始
      ****************************/
     private void initLineChart() {
-        mLineChart.setDescription(mLineDataSetCreator.getDescription());
-//        mLineChart.setDescriptionPosition(440,100);
         mLineChart.setNoDataText(mContext.getString(R.string.data_loading));
-        mLineChart.setDescriptionTextSize(20.0f);
         mLineChart.getLegend().setWordWrapEnabled(true);    //label自动换行
         mLineChart.animateY(ANIMATEY_TIME);
         mLineChart.setMaxVisibleValueCount(Integer.MAX_VALUE);
@@ -430,7 +431,8 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
         if (ListUtils.isEmpty(list)) {
             return;
         }
-        mLineChart.setDescription(mLineDataSetCreator.getDescription() +
+
+        mCallBack.setDescription(mLineDataSetCreator.getDescription() +
                 getRankString(mShowingSplitListId));
         List<ILineDataSet> dataSets = new ArrayList<>();
         int[] colors = mContext.getResources().getIntArray(R.array.lineChart);
@@ -489,7 +491,12 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
          */
         void showGroup(List<String> list);
 
+        /**
+         * 初始化RadioGroup
+         */
         void resetRG();
+
+        void setDescription(String description);
     }
 
     /**
