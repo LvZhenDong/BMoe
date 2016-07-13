@@ -114,7 +114,8 @@ public class DataHelper {
      * @param keyWords
      */
     public void getImageUrl(String keyWords) {
-        String url = HttpUrl.BING_IMAGE_SEARCH + encodeChinese(keyWords) + "&ImageType=Photo&mkt=zh-CN&count=100&size=Medium";
+        String url = HttpUrl.BING_IMAGE_SEARCH + encodeChinese(keyWords) +
+                "&ImageType=Photo&mkt=zh-CN&count=100&size=Large";
         Log.i(TAG,"image search url:"+url);
         GsonRequest gsonRequest = new GsonRequest<>(Request.Method.GET, url,
                 new TypeToken<BingImageSearchResult>() {

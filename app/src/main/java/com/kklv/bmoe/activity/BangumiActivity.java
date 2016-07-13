@@ -1,15 +1,20 @@
 package com.kklv.bmoe.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.DraweeView;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.data.DataHelper;
 
@@ -31,6 +36,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
     EditText mEditText;
     Button mButton;
     TextView mTextView;
+    SimpleDraweeView mSimpleDraweeView;
 
     DataHelper mDataHelper;
 
@@ -53,6 +59,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         mEditText= (EditText) findViewById(R.id.et_keywords);
         mButton= (Button) findViewById(R.id.btn_search);
         mTextView= (TextView) findViewById(R.id.tv_url);
+        mSimpleDraweeView= (SimpleDraweeView) findViewById(R.id.sdv_image);
     }
 
     private void initView() {
@@ -91,7 +98,12 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     @Override
     public <T> void onSuccess(List<T> result) {
-        mTextView.setText((String)result.get(0));
+        String data=(String)result.get(0);
+        mTextView.setText(data);
+        Log.i("kklv","data:"+data);
+        Uri uri=Uri.parse(data);
+        mSimpleDraweeView.setImageURI(uri);
+
     }
 
     @Override

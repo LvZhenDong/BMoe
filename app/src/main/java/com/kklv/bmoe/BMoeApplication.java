@@ -2,6 +2,7 @@ package com.kklv.bmoe;
 
 import android.app.Application;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -15,7 +16,7 @@ public class BMoeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Fresco.initialize(this);
         //注册蒲公英Crash
         PgyCrashManager.register(this);
         //注册LeakCanary
