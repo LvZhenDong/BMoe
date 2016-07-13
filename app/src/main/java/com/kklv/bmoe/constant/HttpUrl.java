@@ -32,4 +32,6 @@ public class HttpUrl {
      * 所有阵营
      */
     public static final String ALL_CAMP = HTTP_HOME + "/camp";
+
+    public static final String BING_IMAGE_SEARCH = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=";
 }

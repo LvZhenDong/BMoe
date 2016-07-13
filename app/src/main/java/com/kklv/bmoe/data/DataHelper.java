@@ -16,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.reflect.TypeToken;
 import com.kklv.bmoe.constant.HttpUrl;
 import com.kklv.bmoe.database.RoleDailyCountDao;
+import com.kklv.bmoe.object.BingImageSearchResult;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleDailyCount;
@@ -109,6 +110,37 @@ public class DataHelper {
     }
 
     /**
+     * 必应图片搜索
+     * @param keyWords
+     */
+    public void getImageUrl(String keyWords) {
+        String url = HttpUrl.BING_IMAGE_SEARCH + encodeChinese(keyWords) + "&ImageType=Photo&mkt=zh-CN&count=100&size=Medium";
+        Log.i(TAG,"image search url:"+url);
+        GsonRequest gsonRequest = new GsonRequest<>(Request.Method.GET, url,
+                new TypeToken<BingImageSearchResult>() {
+                }.getType(), new Response.Listener<BingImageSearchResult>() {
+
+            @Override
+            public void onResponse(BingImageSearchResult response) {
+//                String result = response.getValue().get(0).getContentUrl();
+//                Log.i("kklv", "contentUrl:" + result);
+                List<String> result=new ArrayList<>();
+                result.add(response.getValue().get(0).getContentUrl());
+                Log.i("kklv", "contentUrl:" + result.get(0));
+                mCallBack.onSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.getMessage(), error);
+                mCallBack.onFailure(error);
+            }
+        });
+
+        mRequestQueue.add(gsonRequest);
+    }
+
+    /**
      * 先从数据库取数据，如果数据库没有就从网络上取
      *
      * @param map
@@ -125,7 +157,7 @@ public class DataHelper {
                 //如果队列里没有有message且没有数据库写操作
                 mSubThreadHandler.sendMessage(msg);
             } else {
-                Log.i(TAG,"isAddingToDataBase");
+                Log.i(TAG, "isAddingToDataBase");
                 getRoleDailyCountFromInterNet(mParamMap);
             }
         }

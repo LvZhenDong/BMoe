@@ -3,6 +3,7 @@ package com.kklv.bmoe.data;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -13,6 +14,8 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author LvZhenDong
@@ -65,5 +68,12 @@ public class GsonRequest<T> extends Request<T> {
         if (listener != null) {
             listener.onResponse(t);
         }
+    }
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        HashMap<String,String> headers=new HashMap<>();
+        headers.put("Ocp-Apim-Subscription-Key","1203c934bfa0485ea1f59517aff05a56");
+        return headers;
     }
 }
