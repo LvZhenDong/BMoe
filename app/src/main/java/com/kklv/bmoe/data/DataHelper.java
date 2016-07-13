@@ -115,7 +115,7 @@ public class DataHelper {
      */
     public void getImageUrl(String keyWords) {
         String url = HttpUrl.BING_IMAGE_SEARCH + encodeChinese(keyWords) +
-                "&ImageType=Photo&mkt=zh-CN&count=100&size=Large";
+                "&ImageType=Photo&mkt=zh-CN&count=100&size=Medium";
         Log.i(TAG,"image search url:"+url);
         GsonRequest gsonRequest = new GsonRequest<>(Request.Method.GET, url,
                 new TypeToken<BingImageSearchResult>() {
@@ -123,8 +123,6 @@ public class DataHelper {
 
             @Override
             public void onResponse(BingImageSearchResult response) {
-//                String result = response.getValue().get(0).getContentUrl();
-//                Log.i("kklv", "contentUrl:" + result);
                 List<String> result=new ArrayList<>();
                 result.add(response.getValue().get(0).getContentUrl());
                 Log.i("kklv", "contentUrl:" + result.get(0));

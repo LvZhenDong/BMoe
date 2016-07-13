@@ -20,7 +20,7 @@ public class BMoeApplication extends Application {
         //注册蒲公英Crash
         PgyCrashManager.register(this);
         //注册LeakCanary
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
         //注册Stetho
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)

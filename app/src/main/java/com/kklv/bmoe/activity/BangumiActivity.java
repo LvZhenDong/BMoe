@@ -3,7 +3,10 @@ package com.kklv.bmoe.activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,6 +21,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.data.DataHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,15 +33,11 @@ import java.util.List;
  */
 public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack{
     public static final String BANGUMI = "bangumi";
-    private ActionBar mActionBar;
     private String mBangumi;
 
     //调试
-    EditText mEditText;
-    Button mButton;
-    TextView mTextView;
     SimpleDraweeView mSimpleDraweeView;
-
+    RecyclerView mRecyclerView;
     DataHelper mDataHelper;
 
     @Override
@@ -48,18 +48,24 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         bindId();
         initView();
 
+        List<String> list=new ArrayList<>();
+        for(int i=0;i<40;i++){
+            list.add("");
+        }
+        BangumiRecycleViewAdapter adapter=new BangumiRecycleViewAdapter(this,list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(adapter);
+
+
         mDataHelper =new DataHelper(this);
         mDataHelper.registerCallBack(this);
         mDataHelper.getImageUrl(mBangumi);
-//        mDataHelper.getImageUrl("安卓");
     }
 
 
     private void bindId() {
-        mEditText= (EditText) findViewById(R.id.et_keywords);
-        mButton= (Button) findViewById(R.id.btn_search);
-        mTextView= (TextView) findViewById(R.id.tv_url);
         mSimpleDraweeView= (SimpleDraweeView) findViewById(R.id.sdv_image);
+        mRecyclerView= (RecyclerView) findViewById(R.id.rv_bangumi);
     }
 
     private void initView() {
@@ -67,16 +73,12 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setTitle(mBangumi);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDataHelper.getImageUrl(mEditText.getText()+"");
-            }
-        });
+        CollapsingToolbarLayout collapsingToolbarLayout=
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(mBangumi);
+
     }
 
     @Override
@@ -99,7 +101,6 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
     @Override
     public <T> void onSuccess(List<T> result) {
         String data=(String)result.get(0);
-        mTextView.setText(data);
         Log.i("kklv","data:"+data);
         Uri uri=Uri.parse(data);
         mSimpleDraweeView.setImageURI(uri);
@@ -108,6 +109,6 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     @Override
     public void onFailure(Exception error) {
-        mTextView.setText("失败");
+
     }
 }
