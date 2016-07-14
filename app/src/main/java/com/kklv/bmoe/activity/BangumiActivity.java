@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.DraweeView;
@@ -109,6 +110,6 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     @Override
     public void onFailure(Exception error) {
-
+        Toast.makeText(this,"搜索图片失败",Toast.LENGTH_SHORT).show();
     }
 }

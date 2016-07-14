@@ -129,7 +129,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1dba688a-db18-435e-9f70-9fe026e3af11" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Administrator.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Administrator.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/activity/BangumiActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/activity/BangumiActivity.java" />
     </list>
     <ignored path="BMoe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -149,49 +151,18 @@
     <favorites_list name="BMoe" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4488273">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="BangumiActivity.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/activity/BangumiActivity.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="34" column="51" selection-start-line="34" selection-start-column="51" selection-end-line="34" selection-end-column="51" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="BMoeApplication.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/BMoeApplication.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.3329453">
-                  <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="activity_bangumi.xml" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_bangumi.xml">
-              <provider editor-type-id="android-designer">
-                <state />
-              </provider>
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.44110274">
-                  <caret line="16" column="62" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="62" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="BangumiActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/activity/BangumiActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.33410943">
+              <caret line="95" column="32" selection-start-line="95" selection-start-column="32" selection-end-line="95" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -2878,14 +2849,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/activity/BangumiActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="51" selection-start-line="34" selection-start-column="51" selection-end-line="34" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_bangumi.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -2901,6 +2864,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3329453">
           <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kklv/bmoe/activity/BangumiActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33410943">
+          <caret line="95" column="32" selection-start-line="95" selection-start-column="32" selection-end-line="95" selection-end-column="32" />
           <folding />
         </state>
       </provider>
