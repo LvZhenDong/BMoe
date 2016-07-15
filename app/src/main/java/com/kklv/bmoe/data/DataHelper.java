@@ -111,19 +111,20 @@ public class DataHelper {
 
     /**
      * 必应图片搜索
+     *
      * @param keyWords
      */
     public void getImageUrl(String keyWords) {
         String url = HttpUrl.BING_IMAGE_SEARCH + encodeChinese(keyWords) +
                 "&ImageType=Photo&mkt=zh-CN&count=100&size=Medium";
-        Log.i(TAG,"image search url:"+url);
+        Log.i(TAG, "image search url:" + url);
         GsonRequest gsonRequest = new GsonRequest<>(Request.Method.GET, url,
                 new TypeToken<BingImageSearchResult>() {
                 }.getType(), new Response.Listener<BingImageSearchResult>() {
 
             @Override
             public void onResponse(BingImageSearchResult response) {
-                List<String> result=new ArrayList<>();
+                List<String> result = new ArrayList<>();
                 result.add(response.getValue().get(0).getContentUrl());
                 Log.i("kklv", "contentUrl:" + result.get(0));
                 mCallBack.onSuccess(result);
@@ -306,9 +307,9 @@ public class DataHelper {
     }
 
     public interface DataHelperCallBack {
-        public <T> void onSuccess(List<T> result);
+        <T> void onSuccess(List<T> result);
 
-        public void onFailure(Exception error);
+        void onFailure(Exception error);
     }
 
     public void registerCallBack(DataHelperCallBack callBack) {
