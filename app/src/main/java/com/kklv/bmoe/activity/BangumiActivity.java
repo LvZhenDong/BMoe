@@ -4,23 +4,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.ActionBar;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.view.DraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.adapter.BangumiRecycleViewAdapter;
 import com.kklv.bmoe.data.DataHelper;
+import com.kklv.bmoe.diskLruCache.DiskLruCacheHelper;
+import com.kklv.bmoe.object.BingImageSearchResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +30,15 @@ import java.util.List;
  * @email lvzhendong1993@gmail.com
  * created at 2016/6/13 17:43
  */
-public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack{
+public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack {
     public static final String BANGUMI = "bangumi";
+    private static final String TAG = "BangumiActivity";
     private String mBangumi;
 
+    private FloatingActionButton mFloatingActionButton;
+
+    private BingImageSearchResult mBingImageSearchResult;
+    private DiskLruCacheHelper mDiskLruCacheHelper;
     //调试
     SimpleDraweeView mSimpleDraweeView;
     RecyclerView mRecyclerView;
@@ -49,24 +52,26 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         bindId();
         initView();
 
-        List<String> list=new ArrayList<>();
-        for(int i=0;i<40;i++){
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 40; i++) {
             list.add("");
         }
-        BangumiRecycleViewAdapter adapter=new BangumiRecycleViewAdapter(this,list);
+        BangumiRecycleViewAdapter adapter = new BangumiRecycleViewAdapter(this, list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(adapter);
 
 
-        mDataHelper =new DataHelper(this);
+        mDataHelper = new DataHelper(this);
         mDataHelper.registerCallBack(this);
+        mDiskLruCacheHelper=DiskLruCacheHelper.getInstance(this);
         mDataHelper.getImageUrl(mBangumi);
     }
 
 
     private void bindId() {
-        mSimpleDraweeView= (SimpleDraweeView) findViewById(R.id.sdv_image);
-        mRecyclerView= (RecyclerView) findViewById(R.id.rv_bangumi);
+        mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_image);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_bangumi);
+        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
     }
 
     private void initView() {
@@ -76,10 +81,20 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        CollapsingToolbarLayout collapsingToolbarLayout=
+        CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mBangumi);
 
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mBingImageSearchResult != null){
+                    showImage(mBingImageSearchResult.next());
+                    mDiskLruCacheHelper.writeBingImageSearchResult2Disk(null, mBingImageSearchResult);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -101,15 +116,18 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     @Override
     public <T> void onSuccess(List<T> result) {
-        String data=(String)result.get(0);
-        Log.i("kklv","data:"+data);
-        Uri uri=Uri.parse(data);
-        mSimpleDraweeView.setImageURI(uri);
-
+        mBingImageSearchResult = (BingImageSearchResult) result.get(0);
+        showImage(mBingImageSearchResult.getIndexUrl());
     }
 
     @Override
     public void onFailure(Exception error) {
-        Toast.makeText(this,"搜索图片失败",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "搜索图片失败", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showImage(String url) {
+        Log.i(TAG, "Fresco showImage uri:" + url);
+        Uri uri = Uri.parse(url);
+        mSimpleDraweeView.setImageURI(uri);
     }
 }

@@ -1,4 +1,4 @@
-package com.kklv.bmoe.activity;
+package com.kklv.bmoe.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.kklv.bmoe.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
