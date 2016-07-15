@@ -1,5 +1,6 @@
 package com.kklv.bmoe.object;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * @email lvzhendong1993@gmail.com
  * created at 2016/7/13 11:01
  */
-public class BingImageSearchResult {
+public class BingImageSearchResult implements Serializable{
 
     /**
      * _type : Images
@@ -117,7 +118,7 @@ public class BingImageSearchResult {
         this.value = value;
     }
 
-    public static class InstrumentationBean {
+    public static class InstrumentationBean implements Serializable{
         private String pageLoadPingUrl;
 
         public String getPageLoadPingUrl() {
@@ -129,7 +130,7 @@ public class BingImageSearchResult {
         }
     }
 
-    public static class ValueBean {
+    public static class ValueBean implements Serializable{
         private String name;
         private String webSearchUrl;
         private String thumbnailUrl;
@@ -271,7 +272,7 @@ public class BingImageSearchResult {
             this.accentColor = accentColor;
         }
 
-        public static class ThumbnailBean {
+        public static class ThumbnailBean implements Serializable{
             private int width;
             private int height;
 

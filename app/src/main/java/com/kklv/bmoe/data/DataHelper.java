@@ -14,8 +14,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.reflect.TypeToken;
+import com.jakewharton.disklrucache.DiskLruCache;
 import com.kklv.bmoe.constant.HttpUrl;
 import com.kklv.bmoe.database.RoleDailyCountDao;
+import com.kklv.bmoe.diskLruCache.DiskLruCacheHelper;
 import com.kklv.bmoe.object.BingImageSearchResult;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.DataBean;
@@ -23,6 +25,11 @@ import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.object.RoleInfo;
 import com.kklv.bmoe.utils.ListUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,10 +64,13 @@ public class DataHelper {
     private Handler mSubThreadHandler;
     private Handler mUIHandler = new Handler();
 
+    private DiskLruCache mDiskLruCache;
+    private DiskLruCacheHelper mDiskLruCacheHelper=new DiskLruCacheHelper();
+
     public DataHelper(Context context) {
         mContext = context;
         mRequestQueue = Volley.newRequestQueue(mContext);
-
+        mDiskLruCache=mDiskLruCacheHelper.getDiskLruCache(mContext);
         initHandler();
     }
 
@@ -114,7 +124,28 @@ public class DataHelper {
      *
      * @param keyWords
      */
-    public void getImageUrl(String keyWords) {
+    public void getImageUrl(final String keyWords) {
+        String key=mDiskLruCacheHelper.hashKeyForDisk(encodeChinese(keyWords));
+        try {
+            DiskLruCache.Snapshot snapshot=mDiskLruCache.get(key);
+            if(snapshot != null){
+                InputStream inputStream=snapshot.getInputStream(0);
+                ObjectInputStream objectInputStream=new ObjectInputStream(inputStream);
+                BingImageSearchResult response= (BingImageSearchResult) objectInputStream.readObject();
+                if(response != null){
+                    List<String> result = new ArrayList<>();
+                    result.add(response.getValue().get(0).getContentUrl());
+                    Log.i("kklv", "contentUrl:" + result.get(0));
+                    mCallBack.onSuccess(result);
+                    Log.i("kklv","keyWords:"+keyWords+"--url:"+response.getValue().get(0).getContentUrl());
+                    return;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String url = HttpUrl.BING_IMAGE_SEARCH + encodeChinese(keyWords) +
                 "&ImageType=Photo&mkt=zh-CN&count=100&size=Medium";
         Log.i(TAG, "image search url:" + url);
@@ -124,6 +155,19 @@ public class DataHelper {
 
             @Override
             public void onResponse(BingImageSearchResult response) {
+                String key=mDiskLruCacheHelper.hashKeyForDisk(encodeChinese(keyWords));
+                try {
+                    DiskLruCache.Editor editor=mDiskLruCache.edit(key);
+                    if(editor != null){
+                        OutputStream outputStream=editor.newOutputStream(0);
+                        ObjectOutputStream objectOutputStream=new ObjectOutputStream(outputStream);
+                        objectOutputStream.writeObject(response);
+                        editor.commit();
+                        objectOutputStream.flush();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 List<String> result = new ArrayList<>();
                 result.add(response.getValue().get(0).getContentUrl());
                 Log.i("kklv", "contentUrl:" + result.get(0));
