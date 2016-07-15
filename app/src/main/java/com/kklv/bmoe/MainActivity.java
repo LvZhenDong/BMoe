@@ -132,8 +132,7 @@ public class MainActivity extends BaseActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.menu_debug_null_point_exception:
-//                TotalTicketsCountChart debug=null;   //调试蒲公英
-//                debug.getData("SFSD");
+
                 break;
 
         }
