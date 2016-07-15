@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -79,7 +80,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
@@ -91,6 +92,9 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
                 if(mBingImageSearchResult != null){
                     showImage(mBingImageSearchResult.next());
                     mDiskLruCacheHelper.writeBingImageSearchResult2Disk(null, mBingImageSearchResult);
+                }else {
+                    //没有该动画的数据就去取一次
+                    mDataHelper.getImageUrl(mBangumi);
                 }
 
             }

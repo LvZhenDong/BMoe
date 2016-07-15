@@ -27,10 +27,6 @@ public class BingImageSearchResult implements Serializable {
         this.key = key;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
     /**
      * 下一张图片Url
      */

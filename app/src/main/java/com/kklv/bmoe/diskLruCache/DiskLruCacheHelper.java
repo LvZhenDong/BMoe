@@ -16,8 +16,6 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author LvZhenDong
@@ -26,6 +24,7 @@ import java.util.List;
  */
 public class DiskLruCacheHelper {
     public static final String CACHE_NAME = "imageUrls";
+    private static final String TAG = "DiskLruCacheHelper";
 
     private static DiskLruCache mDiskLruCache;
     private static DiskLruCacheHelper instance=null;
@@ -54,7 +53,12 @@ public class DiskLruCacheHelper {
         }
     }
 
-
+    /**
+     * 获取Disk存储路径
+     * @param context
+     * @param uniqueName
+     * @return
+     */
     private static File getDiskCacheDir(Context context, String uniqueName) {
         String cachePath;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()) {
@@ -62,6 +66,7 @@ public class DiskLruCacheHelper {
         } else {
             cachePath = context.getCacheDir().getPath();
         }
+        Log.i(TAG,"存储路径："+cachePath + File.separator + uniqueName);
         return new File(cachePath + File.separator + uniqueName);
     }
 
@@ -89,6 +94,11 @@ public class DiskLruCacheHelper {
         return sb.toString();
     }
 
+    /**
+     * 将图片搜索结果写入Disk
+     * @param keywords
+     * @param response
+     */
     public void writeBingImageSearchResult2Disk(String keywords, BingImageSearchResult response) {
         if(TextUtils.isEmpty(keywords)){
             keywords=response.getKey();
@@ -110,6 +120,11 @@ public class DiskLruCacheHelper {
         }
     }
 
+    /**
+     * 从Disk读取图片搜索结果
+     * @param keywords
+     * @return
+     */
     public BingImageSearchResult readBingImageSearchResultFromDisk(String keywords) {
         BingImageSearchResult result = null;
         String key = hashKeyForDisk(keywords);
