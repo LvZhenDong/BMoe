@@ -24,6 +24,7 @@ import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.object.RoleInfo;
 import com.kklv.bmoe.utils.ListUtils;
+import com.kklv.bmoe.utils.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +42,7 @@ import java.util.Map;
  */
 public class DataHelper {
     private static final String TAG = "DataHelper";
-    public static final String DB_HANDLER_THREAD_NAME = "BMoe";
+    private static final String DB_HANDLER_THREAD_NAME = "BMoe";
     private static final int DB_HANDLER_THREAD_WHAT_ADD = 0X01;
     private static final int DB_HANDLER_THREAD_WHAT_QUERY = 0X02;
 
@@ -98,7 +99,7 @@ public class DataHelper {
      * @param bangumi
      */
     public void getCampRank(String bangumi) {
-        String url = HttpUrl.RANK + "?bangumi=" + encodeChinese(bangumi);
+        String url = HttpUrl.RANK + "?bangumi=" + StringUtils.encodeChinese(bangumi);
         GsonRequest gsonRequest = new GsonRequest<List<RoleInfo>>(Request.Method.GET, url,
                 new TypeToken<List<RoleInfo>>() {
                 }.getType(), new Response.Listener<List<RoleInfo>>() {
@@ -123,7 +124,7 @@ public class DataHelper {
      */
     public void getImageUrl(final String keyWords) {
         BingImageSearchResult response =
-                mDiskLruCacheHelper.readBingImageSearchResultFromDisk(encodeChinese(keyWords));
+                mDiskLruCacheHelper.readBingImageSearchResultFromDisk(StringUtils.encodeChinese(keyWords));
         if (response != null) {
             List<BingImageSearchResult> result = new ArrayList<>();
             result.add(response);
@@ -133,8 +134,12 @@ public class DataHelper {
         }
     }
 
+    /**
+     * 根据关键字搜索图片路径
+     * @param keyWords
+     */
     private void readBingImageSearchResultFromInternet(final String keyWords) {
-        String url = HttpUrl.BING_IMAGE_SEARCH + encodeChinese(keyWords) +
+        String url = HttpUrl.BING_IMAGE_SEARCH + StringUtils.encodeChinese(keyWords) +
                 "&ImageType=Photo&mkt=zh-CN&count=100&size=Medium";
         Log.i(TAG, "image search url:" + url);
         GsonRequest gsonRequest = new GsonRequest<>(Request.Method.GET, url,
@@ -144,10 +149,10 @@ public class DataHelper {
             @Override
             public void onResponse(BingImageSearchResult response) {
                 if (response == null) {
-                    mCallBack.onFailure(new VolleyError());
+                    mCallBack.onFailure("没有数据");
                     return;
                 }
-                mDiskLruCacheHelper.writeBingImageSearchResult2Disk(encodeChinese(keyWords), response);
+                mDiskLruCacheHelper.writeBingImageSearchResult2Disk(StringUtils.encodeChinese(keyWords), response);
                 List<BingImageSearchResult> result = new ArrayList<>();
                 result.add(response);
                 mCallBack.onSuccess(result);
@@ -156,7 +161,7 @@ public class DataHelper {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.getMessage(), error);
-                mCallBack.onFailure(error);
+                mCallBack.onFailure(error.getMessage());
             }
         });
 
@@ -214,7 +219,7 @@ public class DataHelper {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.getMessage(), error);
-                mCallBack.onFailure(error);
+                mCallBack.onFailure(error.getMessage());
             }
         });
         //TODO
@@ -313,26 +318,12 @@ public class DataHelper {
         return result;
     }
 
-    /**
-     * 对中文进行URLEncode编码，不然无法解析URL
-     *
-     * @param str
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    public static String encodeChinese(String str) {
-        try {
-            return java.net.URLEncoder.encode(str, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
+
 
     public interface DataHelperCallBack {
         <T> void onSuccess(List<T> result);
 
-        void onFailure(Exception error);
+        void onFailure(String error);
     }
 
     public void registerCallBack(DataHelperCallBack callBack) {

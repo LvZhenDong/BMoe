@@ -23,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
  * created at 2016/7/15 10:10
  */
 public class DiskLruCacheHelper {
-    public static final String CACHE_NAME = "imageUrls";
+    private static final String CACHE_NAME = "imageUrls";
     private static final String TAG = "DiskLruCacheHelper";
 
     private static DiskLruCache mDiskLruCache;
@@ -70,7 +70,7 @@ public class DiskLruCacheHelper {
         return new File(cachePath + File.separator + uniqueName);
     }
 
-    public static String hashKeyForDisk(String key) {
+    private static String hashKeyForDisk(String key) {
         String cacheKey;
         try {
             final MessageDigest mDigest = MessageDigest.getInstance("MD5");

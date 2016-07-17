@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.kklv.bmoe.R;
@@ -20,6 +19,7 @@ import com.kklv.bmoe.adapter.BangumiRecycleViewAdapter;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.diskLruCache.DiskLruCacheHelper;
 import com.kklv.bmoe.object.BingImageSearchResult;
+import com.kklv.bmoe.utils.T;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,8 +125,8 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
     }
 
     @Override
-    public void onFailure(Exception error) {
-        Toast.makeText(this, "搜索图片失败", Toast.LENGTH_SHORT).show();
+    public void onFailure(String error) {
+        T.showShort(this,error);
     }
 
     private void showImage(String url) {
