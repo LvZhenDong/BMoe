@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.kklv.bmoe.utils.L;
 
 import java.io.UnsupportedEncodingException;
 
@@ -38,13 +39,13 @@ public class HttpUtil {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i(TAG, "response:" + response);
+                        L.i(TAG, "response:" + response);
                         mHttpCallBack.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "error:" + error);
+                L.e(TAG, "error:" + error);
                 mHttpCallBack.onFailure();
             }
         });

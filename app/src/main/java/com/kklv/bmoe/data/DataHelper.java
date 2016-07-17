@@ -23,6 +23,7 @@ import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.object.RoleInfo;
+import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.StringUtils;
 
@@ -87,7 +88,7 @@ public class DataHelper {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.getMessage(), error);
+                L.e(TAG, error.getMessage());
             }
         });
         mRequestQueue.add(gsonRequest);
@@ -106,12 +107,12 @@ public class DataHelper {
             @Override
             public void onResponse(List<RoleInfo> response) {
                 List<RoleInfo> list = response;
-                Log.i(TAG, "角色数量：" + list.size());
+                L.i(TAG, "角色数量：" + list.size());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.getMessage(), error);
+                L.e(TAG, error.getMessage());
             }
         });
         mRequestQueue.add(gsonRequest);
@@ -141,7 +142,7 @@ public class DataHelper {
     private void readBingImageSearchResultFromInternet(final String keyWords) {
         String url = HttpUrl.BING_IMAGE_SEARCH + StringUtils.encodeChinese(keyWords) +
                 "&ImageType=Photo&mkt=zh-CN&count=100&size=Medium";
-        Log.i(TAG, "image search url:" + url);
+        L.i(TAG, "image search url:" + url);
         GsonRequest gsonRequest = new GsonRequest<>(Request.Method.GET, url,
                 new TypeToken<BingImageSearchResult>() {
                 }.getType(), new Response.Listener<BingImageSearchResult>() {
@@ -160,7 +161,7 @@ public class DataHelper {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.getMessage(), error);
+                L.e(TAG, error.getMessage());
                 mCallBack.onFailure(error.getMessage());
             }
         });
@@ -185,7 +186,7 @@ public class DataHelper {
                 //如果队列里没有有message且没有数据库写操作
                 mSubThreadHandler.sendMessage(msg);
             } else {
-                Log.i(TAG, "isAddingToDataBase");
+                L.i(TAG, "isAddingToDataBase");
                 getRoleDailyCountFromInterNet(mParamMap);
             }
         }
@@ -198,7 +199,7 @@ public class DataHelper {
      */
     private void getRoleDailyCountFromInterNet(final Map<String, String> map) {
         String url = HttpUrl.ROLE + getURL(map);
-        Log.i(TAG, "url:" + url);
+        L.i(TAG, "url:" + url);
         mRoleDailyCountRequest = new GsonRequest<List<RoleDailyCount>>(Request.Method.GET, url,
                 new TypeToken<List<RoleDailyCount>>() {
                 }.getType(), new Response.Listener<List<RoleDailyCount>>() {
@@ -218,7 +219,7 @@ public class DataHelper {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.getMessage(), error);
+                L.e(TAG, error.getMessage());
                 mCallBack.onFailure(error.getMessage());
             }
         });
@@ -260,10 +261,10 @@ public class DataHelper {
      * @param msg
      */
     private void handlerQuery(Message msg) {
-        Log.i(TAG, "begin handlerQuery");
+        L.i(TAG, "begin handlerQuery");
         final List<RoleDailyCount> databaseResult = new RoleDailyCountDao(mContext).
                 getRoleDailyCounts(mParamMap.get(RoleDailyCount.DATE));
-        Log.i(TAG, "after handlerQuery");
+        L.i(TAG, "after handlerQuery");
         if (!ListUtils.isEmpty(databaseResult)) {
             mUIHandler.post(new Runnable() {
                 @Override
@@ -288,7 +289,7 @@ public class DataHelper {
      * @param msg
      */
     private void handlerAdd(Message msg) {
-        Log.i(TAG, "begin handlerAdd");
+        L.i(TAG, "begin handlerAdd");
         synchronized (DataHelper.class) {
             isAddingToDataBase = true;
         }
@@ -301,7 +302,7 @@ public class DataHelper {
         synchronized (DataHelper.class) {
             isAddingToDataBase = false;
         }
-        Log.i(TAG, "after handlerAdd");
+        L.i(TAG, "after handlerAdd");
     }
 
     /**

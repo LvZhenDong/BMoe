@@ -10,6 +10,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleDailyCount;
+import com.kklv.bmoe.utils.L;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, DataBean.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
-            Log.i("TAG", "onCreate:e2");
+            L.i("TAG", "onCreate:e2");
             e.printStackTrace();
         }
     }

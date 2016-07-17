@@ -16,6 +16,7 @@ import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.adapter.CampListAdapter;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.object.Camp;
+import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.T;
 
 import java.util.List;
@@ -74,7 +75,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         if (!isAdded()) {
             return;
         }
-        Log.i(TAG, "result:" + result.size());
+        L.i(TAG, "result:" + result.size());
         if (result != null) {
             mList = (List<Camp>) result;
             if (mCampListAdapter == null) {

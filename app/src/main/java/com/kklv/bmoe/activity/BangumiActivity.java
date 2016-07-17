@@ -19,6 +19,7 @@ import com.kklv.bmoe.adapter.BangumiRecycleViewAdapter;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.diskLruCache.DiskLruCacheHelper;
 import com.kklv.bmoe.object.BingImageSearchResult;
+import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.T;
 
 import java.util.ArrayList;
@@ -130,7 +131,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
     }
 
     private void showImage(String url) {
-        Log.i(TAG, "Fresco showImage uri:" + url);
+        L.i(TAG, "Fresco showImage uri:" + url);
         Uri uri = Uri.parse(url);
         mSimpleDraweeView.setImageURI(uri);
     }
