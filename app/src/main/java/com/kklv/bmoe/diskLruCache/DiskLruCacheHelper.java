@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.kklv.bmoe.object.BingImageSearchResult;
+import com.kklv.bmoe.utils.L;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
  * created at 2016/7/15 10:10
  */
 public class DiskLruCacheHelper {
-    public static final String CACHE_NAME = "imageUrls";
+    private static final String CACHE_NAME = "imageUrls";
     private static final String TAG = "DiskLruCacheHelper";
 
     private static DiskLruCache mDiskLruCache;
@@ -66,11 +67,11 @@ public class DiskLruCacheHelper {
         } else {
             cachePath = context.getCacheDir().getPath();
         }
-        Log.i(TAG,"存储路径："+cachePath + File.separator + uniqueName);
+        L.i(TAG,"存储路径："+cachePath + File.separator + uniqueName);
         return new File(cachePath + File.separator + uniqueName);
     }
 
-    public static String hashKeyForDisk(String key) {
+    private static String hashKeyForDisk(String key) {
         String cacheKey;
         try {
             final MessageDigest mDigest = MessageDigest.getInstance("MD5");
@@ -135,7 +136,7 @@ public class DiskLruCacheHelper {
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
                 result = (BingImageSearchResult) objectInputStream.readObject();
                 if (result != null && result.getValue().size() > 0) {
-                    Log.i("kklv", "contentUrl:" + result.getValue().get(0).getContentUrl());
+                    L.i("kklv", "contentUrl:" + result.getValue().get(0).getContentUrl());
                 }
             }
         } catch (IOException e) {

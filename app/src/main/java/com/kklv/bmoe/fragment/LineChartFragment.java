@@ -19,7 +19,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
@@ -29,6 +28,7 @@ import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.DensityUtils;
 import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.StringUtils;
+import com.kklv.bmoe.utils.T;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -122,8 +122,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                 mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET.getText() + ""));
                 mProgressDialog.show();
                 mChart.getData(mParamsMap);
-                Toast.makeText(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""),
-                        Toast.LENGTH_SHORT).show();
+                T.showShort(getActivity(),StringUtils.formatDateString(mDatePickerET.getText()+""));
             }
         });
         mDatePickerET.setFocusable(false);

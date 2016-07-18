@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.kklv.bmoe.utils.L;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -50,7 +51,7 @@ public class GsonRequest<T> extends Request<T> {
         try {
             String jsonStr = new String(networkResponse.data,
                     HttpHeaderParser.parseCharset(networkResponse.headers));
-            Log.i(TAG, jsonStr);
+            L.i(TAG, jsonStr);
             if ("[]".equals(jsonStr)) {
                 jsonStr = "";
             }

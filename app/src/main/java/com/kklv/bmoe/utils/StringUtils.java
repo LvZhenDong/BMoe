@@ -1,5 +1,7 @@
 package com.kklv.bmoe.utils;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * 字符串工具类
  *
@@ -27,5 +29,21 @@ public class StringUtils {
             date = "0" + value;
         }
         return date;
+    }
+
+    /**
+     * 对中文进行URLEncode编码，不然无法解析URL
+     *
+     * @param str
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static String encodeChinese(String str) {
+        try {
+            return java.net.URLEncoder.encode(str, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

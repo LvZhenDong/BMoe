@@ -10,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.adapter.CampListAdapter;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.object.Camp;
+import com.kklv.bmoe.utils.L;
+import com.kklv.bmoe.utils.T;
 
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         if (!isAdded()) {
             return;
         }
-        Log.i(TAG, "result:" + result.size());
+        L.i(TAG, "result:" + result.size());
         if (result != null) {
             mList = (List<Camp>) result;
             if (mCampListAdapter == null) {
@@ -84,16 +85,16 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
                 mCampListAdapter.setData(mList);
             }
         } else {
-            Toast.makeText(getActivity(), R.string.no_data, Toast.LENGTH_SHORT).show();
+            com.kklv.bmoe.utils.T.showShort(getActivity(),R.string.no_data);
         }
     }
 
     @Override
-    public void onFailure(Exception error) {
+    public void onFailure(String error) {
         if (!isAdded()) {
             return;
         }
-        Toast.makeText(getActivity(), R.string.net_error, Toast.LENGTH_SHORT).show();
+        T.showShort(getActivity(),R.string.net_error);
     }
 
 }

@@ -3,7 +3,6 @@ package com.kklv.bmoe.chart;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -16,6 +15,7 @@ import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.object.DataBean;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.ListUtils;
+import com.kklv.bmoe.utils.T;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -529,17 +529,17 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
                 mCallBack.onLoadCompleted(false);
             }
 
-            Toast.makeText(mContext, R.string.no_data, Toast.LENGTH_SHORT).show();
+            com.kklv.bmoe.utils.T.showShort(mContext,R.string.no_data);
         }
     }
 
     @Override
-    public void onFailure(Exception error) {
+    public void onFailure(String error) {
         if(mCallBack != null){
             mCallBack.onLoadCompleted(false);
         }
 
-        Toast.makeText(mContext, R.string.net_error, Toast.LENGTH_SHORT).show();
+        T.showShort(mContext,R.string.net_error);
     }
 
     /**
