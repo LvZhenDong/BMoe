@@ -282,6 +282,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         if (!ListUtils.isEmpty(list)) {
             mGroupRG.setVisibility(View.VISIBLE);
             for (String item : list) {
+                if(!isAdded())return;
                 RadioButton rb= (RadioButton) LayoutInflater.from(getActivity()).
                         inflate(R.layout.item_radio_button,null);
                 LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,

@@ -10,7 +10,10 @@
             android:id="@+id/nav_camp"
             android:icon="@drawable/ic_group_white_24dp"
             android:title="@string/camp_message"/>
-
+        <item
+            android:id="@+id/nav_theme"
+            android:icon="@drawable/ic_palette_white_24dp"
+            android:title="@string/theme_choose"/>
 
     </group>
 

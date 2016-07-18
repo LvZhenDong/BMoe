@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.fragment.CampFragment;
 import com.kklv.bmoe.fragment.LineChartFragment;
+import com.kklv.bmoe.fragment.ThemeFragment;
 import com.pgyersdk.update.PgyUpdateManager;
 
 public class MainActivity extends BaseActivity {
@@ -26,6 +27,7 @@ public class MainActivity extends BaseActivity {
     private FragmentManager mFragmentManager;
     private LineChartFragment mLineChartFragment;
     private CampFragment mCampFragment;
+    private ThemeFragment mThemeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,14 @@ public class MainActivity extends BaseActivity {
                                 transaction.show(mCampFragment);
                             }
                             break;
+                        case R.id.nav_theme:
+                            if(mThemeFragment == null){
+                                mThemeFragment=new ThemeFragment();
+                                transaction.add(R.id.fl_fragment,mThemeFragment);
+                            }else{
+                                transaction.show(mThemeFragment);
+                            }
+                            break;
                     }
                     transaction.commit();
                     item.setChecked(true);
@@ -116,6 +126,9 @@ public class MainActivity extends BaseActivity {
         }
         if (mCampFragment != null) {
             transaction.hide(mCampFragment);
+        }
+        if(mThemeFragment != null){
+            transaction.hide(mThemeFragment);
         }
     }
 
