@@ -22,48 +22,48 @@ public class L {
     public static void i(String msg)
     {
         if (isDebug)
-            L.i(TAG, msg);
+            Log.i(TAG, msg);
     }
 
     public static void d(String msg)
     {
         if (isDebug)
-            L.d(TAG, msg);
+            Log.d(TAG, msg);
     }
 
     public static void e(String msg)
     {
         if (isDebug)
-            L.e(TAG, msg);
+            Log.e(TAG, msg);
     }
 
     public static void v(String msg)
     {
         if (isDebug)
-            L.v(TAG, msg);
+            Log.v(TAG, msg);
     }
     // 下面是传入自定义tag的函数
     public static void i(String tag, String msg)
     {
         if (isDebug)
-            L.i(tag, msg);
+            Log.i(tag, msg);
     }
 
     public static void d(String tag, String msg)
     {
         if (isDebug)
-            L.i(tag, msg);
+            Log.d(tag, msg);
     }
 
     public static void e(String tag, String msg)
     {
         if (isDebug)
-            L.i(tag, msg);
+            Log.e(tag, msg);
     }
 
     public static void v(String tag, String msg)
     {
         if (isDebug)
-            L.i(tag, msg);
+            Log.v(tag, msg);
     }
 }
