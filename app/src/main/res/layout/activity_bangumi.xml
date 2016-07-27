@@ -33,10 +33,11 @@
                 app:layout_collapseMode="parallax"
                 fresco:actualImageScaleType="fitXY"/>
 
-            <android.support.v7.widget.Toolbar
+            <com.bilibili.magicasakura.widgets.TintToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@color/theme_color_primary"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
         </android.support.design.widget.CollapsingToolbarLayout>

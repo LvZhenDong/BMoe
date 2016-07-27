@@ -21,8 +21,11 @@ import android.content.SharedPreferences;
 
 
 /**
- * @author xyczero
- * @time 16/5/2
+ *主题切换工具类
+ * 
+ * @author LvZhenDong
+ * @email lvzhendong1993@gmail.com
+ * created at 2016/7/27 11:50
  */
 public class ThemeHelper {
     private static final String CURRENT_THEME = "theme_current";
