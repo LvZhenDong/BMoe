@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_line_chart"
-            android:icon="@drawable/ic_equalizer_white_24dp"
             android:checked="true"
-            android:title="@string/line_chart"/>
+            android:icon="@drawable/ic_equalizer_white_24dp"
+            android:title="@string/line_chart"
+            app:drawableTint="@color/theme_color_primary"/>
         <item
             android:id="@+id/nav_camp"
             android:icon="@drawable/ic_group_white_24dp"

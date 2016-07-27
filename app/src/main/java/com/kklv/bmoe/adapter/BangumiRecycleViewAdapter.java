@@ -18,7 +18,8 @@ import java.util.List;
  * @email lvzhendong1993@gmail.com
  * created at 2016/7/13 16:53
  */
-public class BangumiRecycleViewAdapter extends RecyclerView.Adapter<BangumiRecycleViewAdapter.MyViewHolder>{
+public class BangumiRecycleViewAdapter extends
+        RecyclerView.Adapter<BangumiRecycleViewAdapter.MyViewHolder>{
     private  LayoutInflater mLayoutInflater;
     private  Context mContext;
     private List<String> mList;
@@ -30,7 +31,8 @@ public class BangumiRecycleViewAdapter extends RecyclerView.Adapter<BangumiRecyc
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(mLayoutInflater.inflate(R.layout.item_bangumi_recycle_view,parent,false));
+        return new MyViewHolder(mLayoutInflater.
+                inflate(R.layout.item_bangumi_recycle_view,parent,false));
     }
 
     @Override
