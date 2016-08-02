@@ -85,7 +85,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
                 mCampListAdapter.setData(mList);
             }
         } else {
-            com.kklv.bmoe.utils.T.showShort(getActivity(),R.string.no_data);
+            com.kklv.bmoe.utils.T.showShort(getActivity(), R.string.no_data);
         }
     }
 
@@ -94,7 +94,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         if (!isAdded()) {
             return;
         }
-        T.showShort(getActivity(),R.string.net_error);
+        T.showShort(getActivity(), R.string.net_error);
     }
 
 }

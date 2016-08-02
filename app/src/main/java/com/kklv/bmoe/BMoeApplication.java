@@ -79,7 +79,7 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
             return "orange";
         } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_FIREY) {
             return "red";
-        }else{
+        } else {
             return "pink";
         }
     }
@@ -112,7 +112,7 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
         return -1;
     }
 
-    public int getThemeColor(Context context){
-        return getThemeColorId(context,R.color.theme_color_primary,getTheme(context));
+    public int getThemeColor(Context context) {
+        return getThemeColorId(context, R.color.theme_color_primary, getTheme(context));
     }
 }

@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *每小时得票数
- * 
+ * 每小时得票数
+ *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/7/8 9:23
  */
-public class OneHourTicketsCountSetCreator extends LineDataSetCreator{
+public class OneHourTicketsCountSetCreator extends LineDataSetCreator {
     public OneHourTicketsCountSetCreator() {
         super("每小时票数", 1);
     }
@@ -34,7 +34,7 @@ public class OneHourTicketsCountSetCreator extends LineDataSetCreator{
 
         int lastTimeCount = 0;
         for (int i = 1; i < list.size(); i++) {
-            yVals.add(new Entry(new Float(list.get(i).getCount()) - lastTimeCount, i-1));
+            yVals.add(new Entry(new Float(list.get(i).getCount()) - lastTimeCount, i - 1));
             lastTimeCount = list.get(i).getCount();
         }
         return yVals;

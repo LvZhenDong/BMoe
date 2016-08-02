@@ -47,7 +47,7 @@ public class RoleDailyCountDao {
                 //手动设置id，roleDailyCount的id+""+(DataBean的time+idIncrement)
 //                item.setId(Integer.parseInt(roleDailyCount.getId()+""
 //                        + (item.getTime()+DataBean.idIncrement)));
-                item.setId(roleDailyCount.getId()*100+item.getTime());
+                item.setId(roleDailyCount.getId() * 100 + item.getTime());
 //                list.add(item);//方法二
                 new DataBeanDao(mContext).add(item);//方法一
             }
@@ -88,7 +88,7 @@ public class RoleDailyCountDao {
     public List<RoleDailyCount> getRoleDailyCounts(String date) {
 
         QueryBuilder<RoleDailyCount, Integer> queryBuilder = mRoleDailyCountDaoOpe.queryBuilder();
-        Where<RoleDailyCount,Integer> where=queryBuilder.where();
+        Where<RoleDailyCount, Integer> where = queryBuilder.where();
         try {
             List<RoleDailyCount> list = queryBuilder.orderBy(RoleDailyCount.MAX_COUNT, false).where().eq(RoleDailyCount.DATE, date).query();    //方法一：比方法二快0.25s左右
 //            where.eq(RoleDailyCount.DATE, date);      //方法二

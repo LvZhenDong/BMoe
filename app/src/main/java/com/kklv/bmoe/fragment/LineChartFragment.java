@@ -122,7 +122,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                 mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET.getText() + ""));
                 mProgressDialog.show();
                 mChart.getData(mParamsMap);
-                T.showShort(getActivity(),StringUtils.formatDateString(mDatePickerET.getText()+""));
+                T.showShort(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""));
             }
         });
         mDatePickerET.setFocusable(false);
@@ -282,13 +282,13 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         if (!ListUtils.isEmpty(list)) {
             mGroupRG.setVisibility(View.VISIBLE);
             for (String item : list) {
-                if(!isAdded())return;
-                RadioButton rb= (RadioButton) LayoutInflater.from(getActivity()).
-                        inflate(R.layout.item_radio_button,null);
-                LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                if (!isAdded()) return;
+                RadioButton rb = (RadioButton) LayoutInflater.from(getActivity()).
+                        inflate(R.layout.item_radio_button, null);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
-                int margin= DensityUtils.dip2px(getActivity(),5);
-                params.setMargins(margin,margin,margin,margin);
+                int margin = DensityUtils.dip2px(getActivity(), 5);
+                params.setMargins(margin, margin, margin, margin);
                 rb.setText(item);
                 rb.setOnClickListener(mGroupListener);
                 mGroupRG.addView(rb);
@@ -301,8 +301,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     }
 
 
-    private void setParentActivityActionBarTitle(String title){
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
+    private void setParentActivityActionBarTitle(String title) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
     }
 
 }

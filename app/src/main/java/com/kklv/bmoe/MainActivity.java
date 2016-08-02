@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
     private int[][] states = new int[][]{new int[]{-android.R.attr.state_checked},
             new int[]{android.R.attr.state_checked}};
-    int[] colors = new int[]{0,0};
+    int[] colors = new int[]{0, 0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +73,10 @@ public class MainActivity extends BaseActivity {
      * 更新NavigationView菜单icon和title的颜色
      */
     public void setNavItemColor() {
-        BMoeApplication application= (BMoeApplication) getApplication();
-        colors[0]=getResources().getColor(R.color.gray_nav_title);
-        colors[1]=getResources().getColor(application.getThemeColor(this));
-        ColorStateList csl=new ColorStateList(states,colors);
+        BMoeApplication application = (BMoeApplication) getApplication();
+        colors[0] = getResources().getColor(R.color.gray_nav_title);
+        colors[1] = getResources().getColor(application.getThemeColor(this));
+        ColorStateList csl = new ColorStateList(states, colors);
         mNavigationView.setItemTextColor(csl);
         mNavigationView.setItemIconTintList(csl);
     }

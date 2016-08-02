@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *总得票率
+ * 总得票率
  *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
@@ -27,8 +27,8 @@ public class TotalTicketsPercentSetCreator extends LineDataSetCreator {
     LineDataSet createLineDataSet(RoleDailyCount roleDailyCount) {
         List<DataBean> list = new ArrayList<>();
         list.addAll(roleDailyCount.getData());
-        String group =roleDailyCount.getGroup();
-        List<Entry> yVals = getYVals(list,roleDailyCount.getSex()+(TextUtils.isEmpty(group) ? "" :group));//不然是"1null"或者"0null"
+        String group = roleDailyCount.getGroup();
+        List<Entry> yVals = getYVals(list, roleDailyCount.getSex() + (TextUtils.isEmpty(group) ? "" : group));//不然是"1null"或者"0null"
 
         return new LineDataSet(yVals, roleDailyCount.getName());
     }

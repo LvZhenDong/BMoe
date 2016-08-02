@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class FullscreenActivity extends AppCompatActivity {
     public static final String KEY_ROLE_DAILY_LIST = "roleDailyList";
-    public static final String KEY_CREATOR_TYPE="creatorType";
+    public static final String KEY_CREATOR_TYPE = "creatorType";
 
     private LineChart mLineChart;
     private BaseChart mChart;
@@ -37,8 +37,8 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        int creatorType=getIntent().getIntExtra(KEY_CREATOR_TYPE,BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
-        mChart=new BaseChart(this,mLineChart,creatorType);
+        int creatorType = getIntent().getIntExtra(KEY_CREATOR_TYPE, BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
+        mChart = new BaseChart(this, mLineChart, creatorType);
         mCampList = (List<RoleDailyCount>) getIntent().getSerializableExtra(KEY_ROLE_DAILY_LIST);
         mChart.setBasicList(mCampList);
         mChart.setData();

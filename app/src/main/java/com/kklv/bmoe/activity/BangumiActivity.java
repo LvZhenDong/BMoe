@@ -65,7 +65,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
         mDataHelper = new DataHelper(this);
         mDataHelper.registerCallBack(this);
-        mDiskLruCacheHelper=DiskLruCacheHelper.getInstance(this);
+        mDiskLruCacheHelper = DiskLruCacheHelper.getInstance(this);
         mDataHelper.getImageUrl(mBangumi);
     }
 
@@ -90,10 +90,10 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mBingImageSearchResult != null){
+                if (mBingImageSearchResult != null) {
                     showImage(mBingImageSearchResult.next());
                     mDiskLruCacheHelper.writeBingImageSearchResult2Disk(null, mBingImageSearchResult);
-                }else {
+                } else {
                     //没有该动画的数据就去取一次
                     mDataHelper.getImageUrl(mBangumi);
                 }
@@ -127,7 +127,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     @Override
     public void onFailure(String error) {
-        T.showShort(this,error);
+        T.showShort(this, error);
     }
 
     private void showImage(String url) {

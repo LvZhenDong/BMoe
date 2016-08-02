@@ -32,15 +32,15 @@ public class ThemeRecycleViewAdapter extends
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
-    public ThemeRecycleViewAdapter(Context context){
-        this.mContext=context;
-        this.mLayoutInflater=LayoutInflater.from(mContext);
+    public ThemeRecycleViewAdapter(Context context) {
+        this.mContext = context;
+        this.mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(mLayoutInflater.
-                inflate(R.layout.item_theme_recycle_view,parent,false));
+                inflate(R.layout.item_theme_recycle_view, parent, false));
     }
 
     @Override
@@ -50,8 +50,8 @@ public class ThemeRecycleViewAdapter extends
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int theme=0;
-                switch (mThemeColors[position]){
+                int theme = 0;
+                switch (mThemeColors[position]) {
                     case R.color.pink:
                         theme = ThemeHelper.CARD_SAKURA;
                         break;
@@ -94,18 +94,18 @@ public class ThemeRecycleViewAdapter extends
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textView= (TextView) itemView.findViewById(R.id.tv_item_theme);
-            button= (Button) itemView.findViewById(R.id.btn_item_theme);
+            textView = (TextView) itemView.findViewById(R.id.tv_item_theme);
+            button = (Button) itemView.findViewById(R.id.btn_item_theme);
         }
     }
-    
-    private void setTheme(int theme){
+
+    private void setTheme(int theme) {
         if (ThemeHelper.getTheme(mContext) != theme) {
             ThemeHelper.setTheme(mContext, theme);
             ThemeUtils.refreshUI(mContext, new ThemeUtils.ExtraRefreshable() {
                         @Override
                         public void refreshGlobal(Activity activity) {
-                            MainActivity mainActivity= (MainActivity) activity;
+                            MainActivity mainActivity = (MainActivity) activity;
                             mainActivity.setNavItemColor();
                         }
 

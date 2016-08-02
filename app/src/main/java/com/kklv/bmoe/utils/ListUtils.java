@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *List工具类
- * 
+ * List工具类
+ *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/7/11 16:45
@@ -50,8 +50,8 @@ public class ListUtils {
         return ret;
     }
 
-    public static <T> boolean isEmpty(List<T> list){
-        if(list == null || list.size() <= 0){
+    public static <T> boolean isEmpty(List<T> list) {
+        if (list == null || list.size() <= 0) {
             return true;
         }
         return false;
