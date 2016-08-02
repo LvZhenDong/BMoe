@@ -107,4 +107,5 @@
     </array>
 
     <color name="black_overlay">#66000000</color>
+    <color name="gray_nav_title">#737373</color>
 </resources>

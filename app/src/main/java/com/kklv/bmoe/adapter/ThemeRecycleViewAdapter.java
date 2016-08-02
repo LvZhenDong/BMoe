@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bilibili.magicasakura.utils.ThemeUtils;
+import com.kklv.bmoe.MainActivity;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.utils.ThemeHelper;
 
@@ -104,7 +105,8 @@ public class ThemeRecycleViewAdapter extends
             ThemeUtils.refreshUI(mContext, new ThemeUtils.ExtraRefreshable() {
                         @Override
                         public void refreshGlobal(Activity activity) {
-
+                            MainActivity mainActivity= (MainActivity) activity;
+                            mainActivity.setNavItemColor();
                         }
 
                         @Override
