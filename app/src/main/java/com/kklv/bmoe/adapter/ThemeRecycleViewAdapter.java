@@ -88,7 +88,7 @@ public class ThemeRecycleViewAdapter extends
             holder.mUseTV.setTextColor(mContext.getResources().getColor(R.color.gray_default));
         }
 
-        holder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int theme = 0;
@@ -135,12 +135,10 @@ public class ThemeRecycleViewAdapter extends
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        RelativeLayout mRelativeLayout;
         TextView mNameTV, mUseTV;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_item_theme);
             mNameTV = (TextView) itemView.findViewById(R.id.tv_item_theme_name);
             mUseTV = (TextView) itemView.findViewById(R.id.tv_item_theme_use);
         }
