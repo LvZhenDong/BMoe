@@ -2,31 +2,19 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_item_theme"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_item_theme"
+        android:id="@+id/tv_item_theme_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         tools:text="由乃粉"/>
-    <com.bilibili.magicasakura.widgets.TintRadioButton
-        android:id="@+id/rb_item_theme"
-        android:layout_width="70dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/shape_rect_border_pink"
-        android:button="@null"
-        android:gravity="center"
-        android:text="使用"/>
-    <com.bilibili.magicasakura.widgets.TintButton
-        android:id="@+id/btn_item_theme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/shape_rect_border_pink"
-        android:text="使用"/>
+    <TextView
+        android:id="@+id/tv_item_theme_use"
+        style="@style/ThemeRightTextView"
+        android:background="@drawable/shape_rect_border"/>
 
 </RelativeLayout>

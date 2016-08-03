@@ -64,7 +64,7 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
         return colorId != -1 ? getResources().getColor(colorId) : originColor;
     }
 
-    private String getTheme(Context context) {
+    public String getTheme(Context context) {
         if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_STORM) {
             return "blue";
         } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_HOPE) {
