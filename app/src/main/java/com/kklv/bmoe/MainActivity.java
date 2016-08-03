@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity {
      */
     public void setNavItemColor() {
         BMoeApplication application = (BMoeApplication) getApplication();
-        colors[0] = getResources().getColor(R.color.gray_nav_title);
+        colors[0] = getResources().getColor(R.color.gray_default);
         colors[1] = getResources().getColor(application.getThemeColor(this));
         ColorStateList csl = new ColorStateList(states, colors);
         mNavigationView.setItemTextColor(csl);

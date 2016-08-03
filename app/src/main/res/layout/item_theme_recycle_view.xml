@@ -11,14 +11,22 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         tools:text="由乃粉"/>
-
+    <com.bilibili.magicasakura.widgets.TintRadioButton
+        android:id="@+id/rb_item_theme"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/shape_rect_border_pink"
+        android:button="@null"
+        android:gravity="center"
+        android:text="使用"/>
     <com.bilibili.magicasakura.widgets.TintButton
         android:id="@+id/btn_item_theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_rect_border"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="7dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_rect_border_pink"
         android:text="使用"/>
+
 </RelativeLayout>
