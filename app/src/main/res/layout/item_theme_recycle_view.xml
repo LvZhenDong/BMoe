@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -8,13 +9,14 @@
         android:id="@+id/tv_item_theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        tools:text="由乃粉"/>
 
     <com.bilibili.magicasakura.widgets.TintButton
         android:id="@+id/btn_item_theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/theme_color_primary"
+        android:background="@drawable/shape_rect_border"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_margin="7dp"
