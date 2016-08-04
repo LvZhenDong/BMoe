@@ -11,9 +11,16 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         tools:text="由乃粉"/>
+
     <TextView
         android:id="@+id/tv_item_theme_use"
-        style="@style/ThemeRightTextView"
-        android:background="@drawable/shape_rect_border"/>
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_margin="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/shape_rect_border"
+        android:gravity="center"
+        android:text="@string/use"/>
 
 </RelativeLayout>

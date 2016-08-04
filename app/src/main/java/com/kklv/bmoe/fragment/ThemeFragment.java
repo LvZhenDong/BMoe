@@ -19,6 +19,7 @@ import com.kklv.bmoe.MainActivity;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.adapter.ThemeRecycleViewAdapter;
 import com.kklv.bmoe.utils.ThemeHelper;
+import com.kklv.bmoe.view.DividerItemDecoration;
 
 /**
  * 主题选择
@@ -47,6 +48,7 @@ public class ThemeFragment extends Fragment {
         ThemeRecycleViewAdapter adapter = new ThemeRecycleViewAdapter(getActivity(),
                 (BMoeApplication) getActivity().getApplication());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         mRecyclerView.setAdapter(adapter);
 
     }
