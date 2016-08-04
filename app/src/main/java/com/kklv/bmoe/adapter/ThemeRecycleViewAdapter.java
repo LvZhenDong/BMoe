@@ -82,8 +82,8 @@ public class ThemeRecycleViewAdapter extends
             //设置被选中的item
             holder.mUseTV.setText(mContext.getString(R.string.using));
             //根据主题颜色得到drawable
-            int backgroundId = mContext.getResources().getIdentifier("shape_rect_border_" + themeColorName, "drawable",
-                    mContext.getPackageName());
+            int backgroundId = mContext.getResources().
+                    getIdentifier("shape_rect_border_" + themeColorName, "drawable", mContext.getPackageName());
             holder.mUseTV.setBackgroundResource(backgroundId);
             holder.mUseTV.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
         } else {

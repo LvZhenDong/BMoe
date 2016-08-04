@@ -1,5 +1,6 @@
 package com.kklv.bmoe.activity;
 
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,8 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -40,16 +39,21 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
     /**
      * 主题颜色
      */
-    public static int THEME_COLOR_ID = R.color.pink;
-    private String mBangumi;
+    private static int sThemeColorId = R.color.pink;
+    /**
+     * 主题颜色名称
+     */
+    private static String sThemeColorName = "pink";
 
-    private FloatingActionButton mFloatingActionButton;
+    private String mBangumi;
 
     private BingImageSearchResult mBingImageSearchResult;
     private DiskLruCacheHelper mDiskLruCacheHelper;
     //调试
     SimpleDraweeView mSimpleDraweeView;
     RecyclerView mRecyclerView;
+    private FloatingActionButton mFloatingActionButton;
+
     DataHelper mDataHelper;
 
     @Override
@@ -58,7 +62,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         setContentView(R.layout.activity_bangumi);
 
         bindId();
-        getColor();
+        getThemeColor();
         initView();
 
         List<String> list = new ArrayList<>();
@@ -76,9 +80,13 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         mDataHelper.getImageUrl(mBangumi);
     }
 
-    private void getColor(){
-        BMoeApplication application= (BMoeApplication) getApplication();
-        THEME_COLOR_ID=application.getThemeColor(this);
+    /**
+     * 获取主题颜色
+     */
+    private void getThemeColor() {
+        BMoeApplication application = (BMoeApplication) getApplication();
+        sThemeColorId = application.getThemeColor(this);
+        sThemeColorName = application.getTheme(this);
     }
 
 
@@ -98,8 +106,15 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mBangumi);
-        collapsingToolbarLayout.setContentScrimResource(THEME_COLOR_ID);
+        //设置折叠时颜色
+        collapsingToolbarLayout.setContentScrimResource(sThemeColorId);
 
+        //设置FloatingActionButton的颜色
+        mFloatingActionButton.
+                setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(sThemeColorId)));
+        int rippleColorId = getResources().
+                getIdentifier(sThemeColorName + "_trans", "color", getPackageName());
+        mFloatingActionButton.setRippleColor(getResources().getColor(rippleColorId));
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
