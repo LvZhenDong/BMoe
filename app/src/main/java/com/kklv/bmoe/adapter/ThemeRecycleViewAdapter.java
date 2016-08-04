@@ -17,6 +17,7 @@ import com.bilibili.magicasakura.utils.ThemeUtils;
 import com.kklv.bmoe.BMoeApplication;
 import com.kklv.bmoe.MainActivity;
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.utils.ThemeHelper;
 
 /**

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.kklv.bmoe.BMoeApplication;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.adapter.BangumiRecycleViewAdapter;
 import com.kklv.bmoe.data.DataHelper;
@@ -35,6 +36,11 @@ import java.util.List;
 public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack {
     public static final String BANGUMI = "bangumi";
     private static final String TAG = "BangumiActivity";
+
+    /**
+     * 主题颜色
+     */
+    public static int THEME_COLOR_ID = R.color.pink;
     private String mBangumi;
 
     private FloatingActionButton mFloatingActionButton;
@@ -52,6 +58,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         setContentView(R.layout.activity_bangumi);
 
         bindId();
+        getColor();
         initView();
 
         List<String> list = new ArrayList<>();
@@ -67,6 +74,11 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         mDataHelper.registerCallBack(this);
         mDiskLruCacheHelper = DiskLruCacheHelper.getInstance(this);
         mDataHelper.getImageUrl(mBangumi);
+    }
+
+    private void getColor(){
+        BMoeApplication application= (BMoeApplication) getApplication();
+        THEME_COLOR_ID=application.getThemeColor(this);
     }
 
 
@@ -86,6 +98,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mBangumi);
+        collapsingToolbarLayout.setContentScrimResource(THEME_COLOR_ID);
 
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

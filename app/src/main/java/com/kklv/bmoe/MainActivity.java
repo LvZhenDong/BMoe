@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.fragment.CampFragment;
 import com.kklv.bmoe.fragment.LineChartFragment;
