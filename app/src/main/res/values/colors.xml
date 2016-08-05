@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#00796B</color>
     <color name="colorAccent">#009688</color>
 
-    <color name="gray_pressed">#9E9E9E</color>
+    <color name="gray_pressed">#B6B6B6</color>
     <color name="green_camp_listview_item">#A3E9A4</color>
     <!--Material Color-->
     <color name="primary">#009688</color>
@@ -107,5 +107,6 @@
     </array>
 
     <color name="black_overlay">#66000000</color>
+    <!--文字默认灰色-->
     <color name="gray_default">#737373</color>
 </resources>
