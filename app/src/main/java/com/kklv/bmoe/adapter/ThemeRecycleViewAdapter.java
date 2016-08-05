@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,36 +72,31 @@ public class ThemeRecycleViewAdapter extends
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(mLayoutInflater.
-                inflate(R.layout.item_theme_recycle_view, parent, false));
+        View view=mLayoutInflater.inflate(R.layout.item_theme_recycle_view,parent,false);
+        //使用系统的波纹效果
+        TypedValue typedValue = new TypedValue();
+        mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
+        view.setBackgroundResource(typedValue.resourceId);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.mNameTV.setText(mThemeNames[position]);
         holder.mNameTV.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
         holder.mTintCircleView.setColor(mContext.getResources().getColor(mThemeColors[position]));
 
         if (position == selectedRB) {
-            //设置被选中的item
-            holder.mTintCircleView.setChecked(true);
-            holder.mUseTV.setText(mContext.getString(R.string.using));
-            //根据主题颜色得到drawable
-            int backgroundId = mContext.getResources().
-                    getIdentifier("shape_rect_border_" + themeColorName, "drawable", mContext.getPackageName());
-            holder.mUseTV.setBackgroundResource(backgroundId);
-            holder.mUseTV.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
+            checkItem(holder,position);
         } else {
-            //设置未被选中的item
-            holder.mTintCircleView.setChecked(false);
-            holder.mUseTV.setText(mContext.getString(R.string.use));
-            holder.mUseTV.setBackgroundResource(R.drawable.shape_rect_border);
-            holder.mUseTV.setTextColor(mContext.getResources().getColor(R.color.gray_default));
+            unCheckItem(holder,position);
         }
 
+        holder.itemView.setClickable(true);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(position == selectedRB)return;
                 int theme = 0;
                 switch (mThemeColors[position]) {
                     case R.color.pink:
@@ -128,15 +124,48 @@ public class ThemeRecycleViewAdapter extends
                         theme = ThemeHelper.CARD_FIREY;
                         break;
                 }
-                //刷新recycleView
-                notifyDataSetChanged();
+
                 setTheme(theme);
                 //更新主题颜色名称
                 themeColorName = mBMoeApplication.getTheme(mContext);
+
                 //更新被选中的item position
+                unCheckItem(holder,selectedRB);
+                notifyItemChanged(selectedRB);
+                checkItem(holder,position);
+                notifyItemChanged(position);
                 selectedRB = position;
             }
         });
+    }
+
+    /**
+     * 设置被选中的item
+     * @param holder
+     * @param position
+     */
+    private void checkItem(MyViewHolder holder,int position){
+        //设置被选中的item
+        holder.mTintCircleView.setChecked(true);
+        holder.mUseTV.setText(mContext.getString(R.string.using));
+        //根据主题颜色得到drawable
+        int backgroundId = mContext.getResources().
+                getIdentifier("shape_rect_border_" + themeColorName, "drawable", mContext.getPackageName());
+        holder.mUseTV.setBackgroundResource(backgroundId);
+        holder.mUseTV.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
+    }
+
+    /**
+     * 设置未被选中的item
+     * @param holder
+     * @param position
+     */
+    private void unCheckItem(MyViewHolder holder,int position){
+        //设置未被选中的item
+        holder.mTintCircleView.setChecked(false);
+        holder.mUseTV.setText(mContext.getString(R.string.use));
+        holder.mUseTV.setBackgroundResource(R.drawable.shape_rect_border);
+        holder.mUseTV.setTextColor(mContext.getResources().getColor(R.color.gray_default));
     }
 
     @Override

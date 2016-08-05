@@ -55,7 +55,6 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
 
-
     }
 
     private void initView() {
@@ -66,7 +65,6 @@ public class MainActivity extends BaseActivity {
         mActionBar = getSupportActionBar();
         mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         mActionBar.setDisplayHomeAsUpEnabled(true);
-
 
         setupDrawerContent(mNavigationView);
         setDefaultFragment();
@@ -179,7 +177,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //
+        //如果DrawerLayout是打开的话就关闭DrawerLayout
         if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
             mDrawerLayout.closeDrawers();
             return true;
