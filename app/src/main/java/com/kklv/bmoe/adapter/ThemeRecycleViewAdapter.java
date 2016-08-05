@@ -14,11 +14,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bilibili.magicasakura.utils.ThemeUtils;
+import com.bilibili.magicasakura.widgets.TintTextView;
 import com.kklv.bmoe.BMoeApplication;
 import com.kklv.bmoe.MainActivity;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.utils.ThemeHelper;
+import com.kklv.bmoe.view.TintCircleView;
 
 /**
  * 主题选择列表adapter
@@ -77,9 +79,11 @@ public class ThemeRecycleViewAdapter extends
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.mNameTV.setText(mThemeNames[position]);
         holder.mNameTV.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
+        holder.mTintCircleView.setColor(mContext.getResources().getColor(mThemeColors[position]));
 
         if (position == selectedRB) {
             //设置被选中的item
+            holder.mTintCircleView.setChecked(true);
             holder.mUseTV.setText(mContext.getString(R.string.using));
             //根据主题颜色得到drawable
             int backgroundId = mContext.getResources().
@@ -88,6 +92,7 @@ public class ThemeRecycleViewAdapter extends
             holder.mUseTV.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
         } else {
             //设置未被选中的item
+            holder.mTintCircleView.setChecked(false);
             holder.mUseTV.setText(mContext.getString(R.string.use));
             holder.mUseTV.setBackgroundResource(R.drawable.shape_rect_border);
             holder.mUseTV.setTextColor(mContext.getResources().getColor(R.color.gray_default));
@@ -141,11 +146,13 @@ public class ThemeRecycleViewAdapter extends
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView mNameTV, mUseTV;
+        TintCircleView mTintCircleView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             mNameTV = (TextView) itemView.findViewById(R.id.tv_item_theme_name);
             mUseTV = (TextView) itemView.findViewById(R.id.tv_item_theme_use);
+            mTintCircleView= (TintCircleView) itemView.findViewById(R.id.tcv_checked);
         }
     }
 

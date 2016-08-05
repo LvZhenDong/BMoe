@@ -5,20 +5,28 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <com.kklv.bmoe.view.TintCircleView
+        android:id="@+id/tcv_checked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_centerVertical="true"/>
+
     <TextView
         android:id="@+id/tv_item_theme_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        tools:text="由乃粉"/>
+        android:layout_toRightOf="@id/tcv_checked"
+        tools:text="一二三"/>
 
     <TextView
         android:id="@+id/tv_item_theme_use"
         android:layout_width="70dp"
         android:layout_height="30dp"
-        android:layout_margin="15dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_margin="15dp"
         android:background="@drawable/shape_rect_border"
         android:gravity="center"
         android:text="@string/use"/>
