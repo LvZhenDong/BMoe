@@ -2,7 +2,6 @@ package com.kklv.bmoe.chart;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;

@@ -311,7 +311,7 @@ public class DataHelper {
      * @param map
      * @return
      */
-    private String getURL(Map<String, String> map) {
+    private static String getURL(Map<String, String> map) {
         String result = "?";
         if (!(TextUtils.isEmpty(map.get(RoleDailyCount.DATE)))) {
             result += "&date=" + map.get(RoleDailyCount.DATE);
