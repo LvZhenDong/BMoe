@@ -102,7 +102,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      */
     public void setChartTypeAndShow(int creator) {
         setChartType(creator);
-        if(!ListUtils.isEmpty(mSplitLists)){
+        if (!ListUtils.isEmpty(mSplitLists)) {
             drawChart(mSplitLists.get(mShowingSplitListId));
         }
 
@@ -431,7 +431,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
             return;
         }
 
-        if(mCallBack != null){
+        if (mCallBack != null) {
             mCallBack.setDescription(mLineDataSetCreator.getDescription() +
                     getRankString(mShowingSplitListId));
         }
@@ -513,7 +513,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
     public <T> void onSuccess(List<T> result) {
         if (!ListUtils.isEmpty(result)) {
             mRoleDailyCountList = (List<RoleDailyCount>) result;
-            if(mCallBack != null){
+            if (mCallBack != null) {
                 mCallBack.showGroup(getGroups(mRoleDailyCountList));
                 mCallBack.onLoadCompleted(true);
                 mCallBack.resetRG();
@@ -524,21 +524,21 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
             setSexAndGroupsMap();
             setData();
         } else {
-            if(mCallBack != null){
+            if (mCallBack != null) {
                 mCallBack.onLoadCompleted(false);
             }
 
-            com.kklv.bmoe.utils.T.showShort(mContext,R.string.no_data);
+            com.kklv.bmoe.utils.T.showShort(mContext, R.string.no_data);
         }
     }
 
     @Override
     public void onFailure(String error) {
-        if(mCallBack != null){
+        if (mCallBack != null) {
             mCallBack.onLoadCompleted(false);
         }
 
-        T.showShort(mContext,R.string.net_error);
+        T.showShort(mContext, R.string.net_error);
     }
 
     /**

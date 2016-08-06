@@ -73,8 +73,8 @@ public class GsonRequest<T> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        HashMap<String,String> headers=new HashMap<>();
-        headers.put("Ocp-Apim-Subscription-Key","1203c934bfa0485ea1f59517aff05a56");
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Ocp-Apim-Subscription-Key", "1203c934bfa0485ea1f59517aff05a56");
         return headers;
     }
 }

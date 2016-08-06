@@ -28,19 +28,21 @@ public class DiskLruCacheHelper {
     private static final String TAG = "DiskLruCacheHelper";
 
     private static DiskLruCache mDiskLruCache;
-    private static DiskLruCacheHelper instance=null;
-    private DiskLruCacheHelper(Context context){
+    private static DiskLruCacheHelper instance = null;
+
+    private DiskLruCacheHelper(Context context) {
         getDiskLruCache(context);
     }
 
-    public static DiskLruCacheHelper getInstance(Context context){
-        if(instance == null){
-            instance=new DiskLruCacheHelper(context);
+    public static DiskLruCacheHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new DiskLruCacheHelper(context);
         }
         return instance;
     }
+
     private static void getDiskLruCache(Context context) {
-        if(mDiskLruCache == null){
+        if (mDiskLruCache == null) {
             File cacheDir = getDiskCacheDir(context, CACHE_NAME);
             if (!cacheDir.exists()) {
                 cacheDir.mkdir();
@@ -56,6 +58,7 @@ public class DiskLruCacheHelper {
 
     /**
      * 获取Disk存储路径
+     *
      * @param context
      * @param uniqueName
      * @return
@@ -67,7 +70,7 @@ public class DiskLruCacheHelper {
         } else {
             cachePath = context.getCacheDir().getPath();
         }
-        L.i(TAG,"存储路径："+cachePath + File.separator + uniqueName);
+        L.i(TAG, "存储路径：" + cachePath + File.separator + uniqueName);
         return new File(cachePath + File.separator + uniqueName);
     }
 
@@ -97,12 +100,13 @@ public class DiskLruCacheHelper {
 
     /**
      * 将图片搜索结果写入Disk
+     *
      * @param keywords
      * @param response
      */
     public void writeBingImageSearchResult2Disk(String keywords, BingImageSearchResult response) {
-        if(TextUtils.isEmpty(keywords)){
-            keywords=response.getKey();
+        if (TextUtils.isEmpty(keywords)) {
+            keywords = response.getKey();
         }
         response.setKey(keywords);
         String key = hashKeyForDisk(keywords);
@@ -123,6 +127,7 @@ public class DiskLruCacheHelper {
 
     /**
      * 从Disk读取图片搜索结果
+     *
      * @param keywords
      * @return
      */

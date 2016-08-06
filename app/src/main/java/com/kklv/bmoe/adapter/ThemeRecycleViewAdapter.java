@@ -1,19 +1,27 @@
 package com.kklv.bmoe.adapter;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
-import android.os.Build;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bilibili.magicasakura.utils.ThemeUtils;
+import com.bilibili.magicasakura.widgets.TintTextView;
+import com.kklv.bmoe.BMoeApplication;
+import com.kklv.bmoe.MainActivity;
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.utils.ThemeHelper;
+import com.kklv.bmoe.view.TintCircleView;
 
 /**
  * 主题选择列表adapter
@@ -24,33 +32,73 @@ import com.kklv.bmoe.utils.ThemeHelper;
  */
 public class ThemeRecycleViewAdapter extends
         RecyclerView.Adapter<ThemeRecycleViewAdapter.MyViewHolder> {
-    private static String[] mThemeNames = {"由乃粉", "荡漾紫", "海军蓝", "青川绿",
-            "这是啥", "呆毛黄", "奇迹橙", "三倍红"};
+    private static final String TAG = "ThemeRecycleViewAdapter";
+    private static String[] mThemeNames = {"由乃粉", "荡漾紫", "胖次蓝", "真琴绿",
+            "这是啥", "呆毛黄", "奇迹橙", "夏娜红"};
     private static int[] mThemeColors = {R.color.pink, R.color.purple, R.color.blue, R.color.green,
             R.color.green_light, R.color.yellow, R.color.orange, R.color.red};
+    private int selectedRB = 0;
+    private String themeColorName;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
+    private BMoeApplication mBMoeApplication;
 
-    public ThemeRecycleViewAdapter(Context context){
-        this.mContext=context;
-        this.mLayoutInflater=LayoutInflater.from(mContext);
+    public ThemeRecycleViewAdapter(Context context, BMoeApplication application) {
+        this.mContext = context;
+        this.mLayoutInflater = LayoutInflater.from(mContext);
+        this.mBMoeApplication = application;
+        initRadioButton();
+    }
+
+    /**
+     * 根据现在的主题设置第几条item被选中
+     */
+    private void initRadioButton() {
+        int colorId = mBMoeApplication.getThemeColor(mContext);
+        if (colorId == R.color.theme_color_primary) {
+            selectedRB = 0;
+            return;
+        }
+        for (int i = 0; i < mThemeColors.length; i++) {
+            if (colorId == mThemeColors[i]) {
+                selectedRB = i;
+                break;
+            }
+        }
+
+        //得到主题颜色名称
+        themeColorName = mBMoeApplication.getTheme(mContext);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(mLayoutInflater.
-                inflate(R.layout.item_theme_recycle_view,parent,false));
+        View view=mLayoutInflater.inflate(R.layout.item_theme_recycle_view,parent,false);
+        //使用系统的波纹效果
+        TypedValue typedValue = new TypedValue();
+        mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
+        view.setBackgroundResource(typedValue.resourceId);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.textView.setText(mThemeNames[position]);
-        holder.textView.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
-        holder.button.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        holder.mNameTV.setText(mThemeNames[position]);
+        holder.mNameTV.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
+        holder.mTintCircleView.setColor(mContext.getResources().getColor(mThemeColors[position]));
+
+        if (position == selectedRB) {
+            checkItem(holder,position);
+        } else {
+            unCheckItem(holder,position);
+        }
+
+        holder.itemView.setClickable(true);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int theme=0;
-                switch (mThemeColors[position]){
+                if(position == selectedRB)return;
+                int theme = 0;
+                switch (mThemeColors[position]) {
                     case R.color.pink:
                         theme = ThemeHelper.CARD_SAKURA;
                         break;
@@ -62,7 +110,6 @@ public class ThemeRecycleViewAdapter extends
                         break;
                     case R.color.green:
                         theme = ThemeHelper.CARD_WOOD;
-                        setTheme(theme);
                         break;
                     case R.color.green_light:
                         theme = ThemeHelper.CARD_LIGHT;
@@ -77,9 +124,48 @@ public class ThemeRecycleViewAdapter extends
                         theme = ThemeHelper.CARD_FIREY;
                         break;
                 }
+
                 setTheme(theme);
+                //更新主题颜色名称
+                themeColorName = mBMoeApplication.getTheme(mContext);
+
+                //更新被选中的item position
+                unCheckItem(holder,selectedRB);
+                notifyItemChanged(selectedRB);
+                checkItem(holder,position);
+                notifyItemChanged(position);
+                selectedRB = position;
             }
         });
+    }
+
+    /**
+     * 设置被选中的item
+     * @param holder
+     * @param position
+     */
+    private void checkItem(MyViewHolder holder,int position){
+        //设置被选中的item
+        holder.mTintCircleView.setChecked(true);
+        holder.mUseTV.setText(mContext.getString(R.string.using));
+        //根据主题颜色得到drawable
+        int backgroundId = mContext.getResources().
+                getIdentifier("shape_rect_border_" + themeColorName, "drawable", mContext.getPackageName());
+        holder.mUseTV.setBackgroundResource(backgroundId);
+        holder.mUseTV.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
+    }
+
+    /**
+     * 设置未被选中的item
+     * @param holder
+     * @param position
+     */
+    private void unCheckItem(MyViewHolder holder,int position){
+        //设置未被选中的item
+        holder.mTintCircleView.setChecked(false);
+        holder.mUseTV.setText(mContext.getString(R.string.use));
+        holder.mUseTV.setBackgroundResource(R.drawable.shape_rect_border);
+        holder.mUseTV.setTextColor(mContext.getResources().getColor(R.color.gray_default));
     }
 
     @Override
@@ -88,31 +174,40 @@ public class ThemeRecycleViewAdapter extends
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-        Button button;
+        TextView mNameTV, mUseTV;
+        TintCircleView mTintCircleView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textView= (TextView) itemView.findViewById(R.id.tv_item_theme);
-            button= (Button) itemView.findViewById(R.id.btn_item_theme);
+            mNameTV = (TextView) itemView.findViewById(R.id.tv_item_theme_name);
+            mUseTV = (TextView) itemView.findViewById(R.id.tv_item_theme_use);
+            mTintCircleView= (TintCircleView) itemView.findViewById(R.id.tcv_checked);
         }
     }
-    
-    private void setTheme(int theme){
+
+    /**
+     * 更新主题
+     *
+     * @param theme
+     */
+    private void setTheme(int theme) {
         if (ThemeHelper.getTheme(mContext) != theme) {
             ThemeHelper.setTheme(mContext, theme);
             ThemeUtils.refreshUI(mContext, new ThemeUtils.ExtraRefreshable() {
                         @Override
                         public void refreshGlobal(Activity activity) {
-
+                            MainActivity mainActivity = (MainActivity) activity;
+                            mainActivity.setNavItemColor();
                         }
 
                         @Override
                         public void refreshSpecificView(View view) {
-                            //TODO: will do this for each traversal
+
                         }
                     }
             );
         }
     }
+
+
 }

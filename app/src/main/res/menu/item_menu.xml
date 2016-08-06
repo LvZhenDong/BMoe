@@ -6,8 +6,7 @@
             android:id="@+id/nav_line_chart"
             android:checked="true"
             android:icon="@drawable/ic_equalizer_white_24dp"
-            android:title="@string/line_chart"
-            app:drawableTint="@color/theme_color_primary"/>
+            android:title="@string/line_chart"/>
         <item
             android:id="@+id/nav_camp"
             android:icon="@drawable/ic_group_white_24dp"

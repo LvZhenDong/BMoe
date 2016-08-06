@@ -1,5 +1,6 @@
 package com.kklv.bmoe.activity;
 
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,12 +9,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.kklv.bmoe.BMoeApplication;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.adapter.BangumiRecycleViewAdapter;
 import com.kklv.bmoe.data.DataHelper;
@@ -35,15 +35,25 @@ import java.util.List;
 public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack {
     public static final String BANGUMI = "bangumi";
     private static final String TAG = "BangumiActivity";
-    private String mBangumi;
 
-    private FloatingActionButton mFloatingActionButton;
+    /**
+     * 主题颜色
+     */
+    private static int sThemeColorId = R.color.pink;
+    /**
+     * 主题颜色名称
+     */
+    private static String sThemeColorName = "pink";
+
+    private String mBangumi;
 
     private BingImageSearchResult mBingImageSearchResult;
     private DiskLruCacheHelper mDiskLruCacheHelper;
     //调试
     SimpleDraweeView mSimpleDraweeView;
     RecyclerView mRecyclerView;
+    private FloatingActionButton mFloatingActionButton;
+
     DataHelper mDataHelper;
 
     @Override
@@ -52,6 +62,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         setContentView(R.layout.activity_bangumi);
 
         bindId();
+        getThemeColor();
         initView();
 
         List<String> list = new ArrayList<>();
@@ -65,8 +76,17 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
         mDataHelper = new DataHelper(this);
         mDataHelper.registerCallBack(this);
-        mDiskLruCacheHelper=DiskLruCacheHelper.getInstance(this);
+        mDiskLruCacheHelper = DiskLruCacheHelper.getInstance(this);
         mDataHelper.getImageUrl(mBangumi);
+    }
+
+    /**
+     * 获取主题颜色
+     */
+    private void getThemeColor() {
+        BMoeApplication application = (BMoeApplication) getApplication();
+        sThemeColorId = application.getThemeColor(this);
+        sThemeColorName = application.getTheme(this);
     }
 
 
@@ -86,14 +106,22 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mBangumi);
+        //设置折叠时颜色
+        collapsingToolbarLayout.setContentScrimResource(sThemeColorId);
 
+        //设置FloatingActionButton的颜色
+        mFloatingActionButton.
+                setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(sThemeColorId)));
+        int rippleColorId = getResources().
+                getIdentifier(sThemeColorName + "_trans", "color", getPackageName());
+        mFloatingActionButton.setRippleColor(getResources().getColor(rippleColorId));
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mBingImageSearchResult != null){
+                if (mBingImageSearchResult != null) {
                     showImage(mBingImageSearchResult.next());
                     mDiskLruCacheHelper.writeBingImageSearchResult2Disk(null, mBingImageSearchResult);
-                }else {
+                } else {
                     //没有该动画的数据就去取一次
                     mDataHelper.getImageUrl(mBangumi);
                 }
@@ -127,7 +155,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     @Override
     public void onFailure(String error) {
-        T.showShort(this,error);
+        T.showShort(this, error);
     }
 
     private void showImage(String url) {

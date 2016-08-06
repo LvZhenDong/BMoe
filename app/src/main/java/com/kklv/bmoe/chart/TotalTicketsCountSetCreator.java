@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *总票数折线图
- * 
+ * 总票数折线图
+ *
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/7/8 8:52
@@ -18,7 +18,7 @@ import java.util.List;
 public class TotalTicketsCountSetCreator extends LineDataSetCreator {
 
     public TotalTicketsCountSetCreator() {
-        super("总票数",0 );
+        super("总票数", 0);
     }
 
     /**

@@ -70,7 +70,7 @@ public class DataHelper {
         mContext = context;
         mRequestQueue = Volley.newRequestQueue(mContext);
         initHandler();
-        mDiskLruCacheHelper=DiskLruCacheHelper.getInstance(mContext);
+        mDiskLruCacheHelper = DiskLruCacheHelper.getInstance(mContext);
     }
 
     /**
@@ -137,6 +137,7 @@ public class DataHelper {
 
     /**
      * 根据关键字搜索图片路径
+     *
      * @param keyWords
      */
     private void readBingImageSearchResultFromInternet(final String keyWords) {
@@ -318,7 +319,6 @@ public class DataHelper {
         }
         return result;
     }
-
 
 
     public interface DataHelperCallBack {

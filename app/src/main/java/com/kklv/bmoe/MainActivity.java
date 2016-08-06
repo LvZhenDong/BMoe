@@ -1,6 +1,8 @@
 package com.kklv.bmoe;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,13 +10,17 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.fragment.CampFragment;
 import com.kklv.bmoe.fragment.LineChartFragment;
 import com.kklv.bmoe.fragment.ThemeFragment;
+import com.kklv.bmoe.utils.L;
+import com.kklv.bmoe.utils.ThemeHelper;
 import com.pgyersdk.update.PgyUpdateManager;
 
 public class MainActivity extends BaseActivity {
@@ -28,6 +34,10 @@ public class MainActivity extends BaseActivity {
     private LineChartFragment mLineChartFragment;
     private CampFragment mCampFragment;
     private ThemeFragment mThemeFragment;
+
+    private int[][] states = new int[][]{new int[]{-android.R.attr.state_checked},
+            new int[]{android.R.attr.state_checked}};
+    int[] colors = new int[]{0, 0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +54,11 @@ public class MainActivity extends BaseActivity {
     private void bindId() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+
     }
 
     private void initView() {
+        setNavItemColor();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -54,10 +66,21 @@ public class MainActivity extends BaseActivity {
         mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
-
         setupDrawerContent(mNavigationView);
         setDefaultFragment();
 
+    }
+
+    /**
+     * 更新NavigationView菜单icon和title的颜色
+     */
+    public void setNavItemColor() {
+        BMoeApplication application = (BMoeApplication) getApplication();
+        colors[0] = getResources().getColor(R.color.gray_default);
+        colors[1] = getResources().getColor(application.getThemeColor(this));
+        ColorStateList csl = new ColorStateList(states, colors);
+        mNavigationView.setItemTextColor(csl);
+        mNavigationView.setItemIconTintList(csl);
     }
 
     private void setDefaultFragment() {
@@ -100,10 +123,10 @@ public class MainActivity extends BaseActivity {
                             }
                             break;
                         case R.id.nav_theme:
-                            if(mThemeFragment == null){
-                                mThemeFragment=new ThemeFragment();
-                                transaction.add(R.id.fl_fragment,mThemeFragment);
-                            }else{
+                            if (mThemeFragment == null) {
+                                mThemeFragment = new ThemeFragment();
+                                transaction.add(R.id.fl_fragment, mThemeFragment);
+                            } else {
                                 transaction.show(mThemeFragment);
                             }
                             break;
@@ -127,7 +150,7 @@ public class MainActivity extends BaseActivity {
         if (mCampFragment != null) {
             transaction.hide(mCampFragment);
         }
-        if(mThemeFragment != null){
+        if (mThemeFragment != null) {
             transaction.hide(mThemeFragment);
         }
     }
@@ -150,5 +173,15 @@ public class MainActivity extends BaseActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //如果DrawerLayout是打开的话就关闭DrawerLayout
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+            mDrawerLayout.closeDrawers();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

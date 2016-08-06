@@ -64,7 +64,7 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
         return colorId != -1 ? getResources().getColor(colorId) : originColor;
     }
 
-    private String getTheme(Context context) {
+    public String getTheme(Context context) {
         if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_STORM) {
             return "blue";
         } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_HOPE) {
@@ -79,8 +79,9 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
             return "orange";
         } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_FIREY) {
             return "red";
+        } else {
+            return "pink";
         }
-        return null;
     }
 
     private
@@ -109,5 +110,9 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
                 return context.getResources().getIdentifier(theme + "_trans", "color", getPackageName());
         }
         return -1;
+    }
+
+    public int getThemeColor(Context context) {
+        return getThemeColorId(context, R.color.theme_color_primary, getTheme(context));
     }
 }

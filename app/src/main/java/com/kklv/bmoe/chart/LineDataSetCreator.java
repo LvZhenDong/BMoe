@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
- * 
  * @author LvZhenDong
  * @email lvzhendong1993@gmail.com
  * created at 2016/7/8 9:42
@@ -23,15 +21,15 @@ public abstract class LineDataSetCreator {
     /**
      * 分组后每小时票数
      */
-    protected static Map<String,List<Integer>> mOneHourSexAndGroupsMap =new HashMap<>();
+    protected static Map<String, List<Integer>> mOneHourSexAndGroupsMap = new HashMap<>();
     /**
      * 分组后总票数
      */
-    protected static Map<String,List<Integer>> mTotalSexAndGroupsMap=new HashMap<>();
+    protected static Map<String, List<Integer>> mTotalSexAndGroupsMap = new HashMap<>();
 
-    public LineDataSetCreator(String description,int xStartIndex){
-        this.mDescription=description;
-        this.mXStartIndex=xStartIndex;
+    public LineDataSetCreator(String description, int xStartIndex) {
+        this.mDescription = description;
+        this.mXStartIndex = xStartIndex;
     }
 
     public String getDescription() {
