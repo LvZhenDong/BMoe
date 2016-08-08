@@ -198,8 +198,8 @@ public class ThemeRecycleViewAdapter extends
                         @Override
                         public void refreshGlobal(Activity activity) {
                             MainActivity mainActivity = (MainActivity) activity;
-                            mainActivity.setNavItemColor();
                             mainActivity.getThemeColor();
+                            mainActivity.setNavItemColor();
                         }
 
                         @Override

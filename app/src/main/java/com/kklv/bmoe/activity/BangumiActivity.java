@@ -1,6 +1,7 @@
 package com.kklv.bmoe.activity;
 
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.adapter.BangumiRecycleViewAdapter;
@@ -34,6 +39,8 @@ import java.util.List;
 public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack {
     public static final String BANGUMI = "bangumi";
     private static final String TAG = "BangumiActivity";
+
+    private int mTotalError;
 
     private String mBangumi;
 
@@ -99,8 +106,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
             @Override
             public void onClick(View v) {
                 if (mBingImageSearchResult != null) {
-                    showImage(mBingImageSearchResult.next());
-                    mDiskLruCacheHelper.writeBingImageSearchResult2Disk(null, mBingImageSearchResult);
+                    showNext();
                 } else {
                     //没有该动画的数据就去取一次
                     mDataHelper.getImageUrl(mBangumi);
@@ -138,9 +144,39 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         T.showShort(this, error);
     }
 
+
+    private void showNext() {
+        showImage(mBingImageSearchResult.next());
+        mDiskLruCacheHelper.writeBingImageSearchResult2Disk(null, mBingImageSearchResult);
+    }
+
     private void showImage(String url) {
         L.i(TAG, "Fresco showImage uri:" + url);
-        Uri uri = Uri.parse(url);
-        mSimpleDraweeView.setImageURI(uri);
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setUri(url)
+                .setTapToRetryEnabled(true)
+                .setOldController(mSimpleDraweeView.getController())
+                .setControllerListener(mControllerListener)
+                .build();
+        mSimpleDraweeView.setController(controller);
     }
+
+    ControllerListener mControllerListener = new BaseControllerListener() {
+
+        @Override
+        public void onFinalImageSet(String id, @javax.annotation.Nullable Object imageInfo,
+                                    @javax.annotation.Nullable Animatable animatable) {
+            mTotalError = 0;
+        }
+
+        @Override
+        public void onFailure(String id, Throwable throwable) {
+            if (mTotalError >= 10) {
+                mTotalError = 0;
+                T.showShort(BangumiActivity.this, getString(R.string.load_image_error));
+            }
+            mTotalError++;
+            showNext();
+        }
+    };
 }

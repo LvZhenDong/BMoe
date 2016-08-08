@@ -28,10 +28,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                app:failureImage="@drawable/load_error"
                 app:layout_collapseMode="parallax"
-                app:placeholderImage="@drawable/placeholder_image"
-                fresco:placeholderImageScaleType="fitXY"
-                fresco:actualImageScaleType="fitXY"/>
+                app:placeholderImage="@drawable/loading"
+                fresco:actualImageScaleType="fitXY"
+                fresco:failureImageScaleType="fitXY"
+                fresco:placeholderImageScaleType="fitXY"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -55,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_keyboard_arrow_left_white_48dp"
+        android:src="@drawable/ic_autorenew_white_24dp"
         app:borderWidth="0dp"
         app:layout_anchor="@id/appbar_layout"
         app:layout_anchorGravity="bottom|right|end"/>

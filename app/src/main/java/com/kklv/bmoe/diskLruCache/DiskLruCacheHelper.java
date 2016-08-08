@@ -140,9 +140,6 @@ public class DiskLruCacheHelper {
                 InputStream inputStream = snapshot.getInputStream(0);
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
                 result = (BingImageSearchResult) objectInputStream.readObject();
-                if (result != null && result.getValue().size() > 0) {
-                    L.i("kklv", "contentUrl:" + result.getValue().get(0).getContentUrl());
-                }
             }
         } catch (IOException e) {
             e.printStackTrace();
