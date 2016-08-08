@@ -25,6 +25,10 @@ import com.pgyersdk.update.PgyUpdateManager;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
+    
+    private static final int LINE_CHART_FRAGMENT = 0;
+    private static final int CAMP_FRAGMENT = 1;
+    private static final int THEME_FRAGMENT = 2;
 
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -38,6 +42,11 @@ public class MainActivity extends BaseActivity {
     private int[][] states = new int[][]{new int[]{-android.R.attr.state_checked},
             new int[]{android.R.attr.state_checked}};
     int[] colors = new int[]{0, 0};
+
+    /**
+     * 当前显示的Fragment
+     */
+    private int showingFragment = LINE_CHART_FRAGMENT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,35 +112,18 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 if (!item.isChecked()) {
-                    FragmentTransaction transaction = mFragmentManager.beginTransaction();
-                    hideAllFragments(transaction);
                     switch (item.getItemId()) {
                         case R.id.nav_line_chart:
-                            if (mLineChartFragment == null) {
-                                mLineChartFragment = new LineChartFragment();
-                                transaction.add(R.id.fl_fragment, mLineChartFragment);
-                            } else {
-                                transaction.show(mLineChartFragment);
-                            }
+                            showFragment(LINE_CHART_FRAGMENT);
                             break;
                         case R.id.nav_camp:
-                            if (mCampFragment == null) {
-                                mCampFragment = new CampFragment();
-                                transaction.add(R.id.fl_fragment, mCampFragment);
-                            } else {
-                                transaction.show(mCampFragment);
-                            }
+                            showFragment(CAMP_FRAGMENT);
                             break;
                         case R.id.nav_theme:
-                            if (mThemeFragment == null) {
-                                mThemeFragment = new ThemeFragment();
-                                transaction.add(R.id.fl_fragment, mThemeFragment);
-                            } else {
-                                transaction.show(mThemeFragment);
-                            }
+                            showFragment(THEME_FRAGMENT);
                             break;
                     }
-                    transaction.commit();
+
                     item.setChecked(true);
                     mActionBar.setTitle(item.getTitle());
                 }
@@ -140,6 +132,47 @@ public class MainActivity extends BaseActivity {
                 return true;
             }
         });
+    }
+
+    /**
+     * 显示制定的Fragment
+     *
+     * @param fragmentType
+     */
+    private void showFragment(int fragmentType) {
+        if (showingFragment == fragmentType) return;
+
+        showingFragment = fragmentType;
+
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        hideAllFragments(transaction);
+        switch (fragmentType) {
+            case LINE_CHART_FRAGMENT:
+                if (mLineChartFragment == null) {
+                    mLineChartFragment = new LineChartFragment();
+                    transaction.add(R.id.fl_fragment, mLineChartFragment);
+                } else {
+                    transaction.show(mLineChartFragment);
+                }
+                break;
+            case CAMP_FRAGMENT:
+                if (mCampFragment == null) {
+                    mCampFragment = new CampFragment();
+                    transaction.add(R.id.fl_fragment, mCampFragment);
+                } else {
+                    transaction.show(mCampFragment);
+                }
+                break;
+            case THEME_FRAGMENT:
+                if (mThemeFragment == null) {
+                    mThemeFragment = new ThemeFragment();
+                    transaction.add(R.id.fl_fragment, mThemeFragment);
+                } else {
+                    transaction.show(mThemeFragment);
+                }
+                break;
+        }
+        transaction.commit();
     }
 
     private void hideAllFragments(FragmentTransaction transaction) {
@@ -178,8 +211,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //如果DrawerLayout是打开的话就关闭DrawerLayout
-        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
+            return true;
+        } else if(showingFragment != LINE_CHART_FRAGMENT){//回到主界面“曲线图”
+            showFragment(LINE_CHART_FRAGMENT);
+            mNavigationView.setCheckedItem(R.id.nav_line_chart);//不会触发OnNavigationItemSelectedListener
+            mActionBar.setTitle(R.string.line_chart);
             return true;
         }
         return super.onKeyDown(keyCode, event);
