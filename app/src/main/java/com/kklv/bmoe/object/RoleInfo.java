@@ -2,7 +2,6 @@ package com.kklv.bmoe.object;
 
 /**
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/2 11:56
  */
 public class RoleInfo {

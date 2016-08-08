@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/22 11:09
  */
 public class DataBeanDao {

@@ -18,7 +18,6 @@ import java.util.Map;
 
 /**
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/22 10:30
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {

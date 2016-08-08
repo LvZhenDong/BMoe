@@ -12,7 +12,6 @@ import java.util.List;
  * 总票数折线图
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/7/8 8:52
  */
 public class TotalTicketsCountSetCreator extends LineDataSetCreator {

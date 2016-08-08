@@ -13,7 +13,6 @@ import com.kklv.bmoe.R;
  *可染色、勾选的圆形View
  * 
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/8/5 9:24
  */
 public class TintCircleView extends AppCompatImageView {

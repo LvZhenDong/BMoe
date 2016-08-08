@@ -14,7 +14,6 @@ import com.pgyersdk.crash.PgyCrashManager;
 
 /**
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/12 17:24
  */
 public class BaseActivity extends AppCompatActivity {

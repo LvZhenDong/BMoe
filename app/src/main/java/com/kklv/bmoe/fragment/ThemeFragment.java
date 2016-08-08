@@ -26,7 +26,6 @@ import com.kklv.bmoe.view.DividerItemDecoration;
  * 主题选择
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/7/18 13:56
  */
 public class ThemeFragment extends Fragment {

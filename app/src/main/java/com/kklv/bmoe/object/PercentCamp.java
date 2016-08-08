@@ -6,7 +6,6 @@ import java.math.BigDecimal;
  * 计算过百分比的Camp信息
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/14 11:07
  */
 public class PercentCamp {

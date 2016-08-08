@@ -38,7 +38,6 @@ import java.util.Map;
 
 /**
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/2 11:18
  */
 public class DataHelper {

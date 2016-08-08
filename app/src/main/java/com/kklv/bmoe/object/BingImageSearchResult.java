@@ -7,7 +7,6 @@ import java.util.List;
  * 必应图片搜索返回结果
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/7/13 11:01
  */
 public class BingImageSearchResult implements Serializable {

@@ -5,7 +5,6 @@ package com.kklv.bmoe.object;
  * 包含了该阵营总参与人数、晋级人数、复活人数、淘汰人数、存活数
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/1 16:31
  */
 public class Camp {

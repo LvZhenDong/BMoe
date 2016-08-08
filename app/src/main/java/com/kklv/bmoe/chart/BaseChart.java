@@ -27,7 +27,6 @@ import java.util.TreeSet;
  * Chart的基类
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/23 11:28
  */
 public class BaseChart implements DataHelper.DataHelperCallBack {

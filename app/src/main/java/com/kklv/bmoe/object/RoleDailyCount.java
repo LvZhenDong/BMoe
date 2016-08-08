@@ -10,7 +10,6 @@ import java.util.Comparator;
 
 /**
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/2 15:41
  */
 @DatabaseTable

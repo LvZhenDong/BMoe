@@ -6,7 +6,6 @@ import java.io.UnsupportedEncodingException;
  * 字符串工具类
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/12 14:21
  */
 public class StringUtils {

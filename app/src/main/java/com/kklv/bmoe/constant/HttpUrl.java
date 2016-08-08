@@ -4,7 +4,6 @@ package com.kklv.bmoe.constant;
  * API接口地址
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/1 10:53
  */
 public class HttpUrl {

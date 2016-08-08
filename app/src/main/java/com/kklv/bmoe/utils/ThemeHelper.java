@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
  * 主题切换工具类
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/7/27 11:50
  */
 public class ThemeHelper {

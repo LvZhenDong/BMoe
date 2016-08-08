@@ -14,7 +14,6 @@ import java.util.List;
 
 /**
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/17 11:17
  */
 public class RoleDailyCountDao {

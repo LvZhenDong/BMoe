@@ -7,7 +7,6 @@ import android.util.Log;
  * 日志统一管理类
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/7/17 17:30
  */
 public class L {

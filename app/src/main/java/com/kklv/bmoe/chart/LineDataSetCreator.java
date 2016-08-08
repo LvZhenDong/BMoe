@@ -9,7 +9,6 @@ import java.util.Map;
 
 /**
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/7/8 9:42
  */
 public abstract class LineDataSetCreator {

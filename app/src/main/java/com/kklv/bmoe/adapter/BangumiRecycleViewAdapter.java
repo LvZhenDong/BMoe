@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/7/13 16:53
  */
 public class BangumiRecycleViewAdapter extends

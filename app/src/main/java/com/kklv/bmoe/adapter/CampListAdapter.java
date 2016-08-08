@@ -18,7 +18,6 @@ import java.util.List;
  * 阵营信息列表Adapter
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/13 10:47
  */
 public class CampListAdapter extends BaseAdapter {

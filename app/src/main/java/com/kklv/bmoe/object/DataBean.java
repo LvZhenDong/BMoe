@@ -9,7 +9,6 @@ import java.io.Serializable;
  * 时间-票数
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/6/22 10:38
  */
 @DatabaseTable

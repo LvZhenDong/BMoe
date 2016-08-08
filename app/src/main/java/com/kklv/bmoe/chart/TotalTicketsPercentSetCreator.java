@@ -15,7 +15,6 @@ import java.util.List;
  * 总得票率
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/7/11 9:05
  */
 public class TotalTicketsPercentSetCreator extends LineDataSetCreator {

@@ -28,7 +28,6 @@ import com.kklv.bmoe.view.TintCircleView;
  * 主题选择列表adapter
  *
  * @author LvZhenDong
- * @email lvzhendong1993@gmail.com
  * created at 2016/7/27 16:09
  */
 public class ThemeRecycleViewAdapter extends
