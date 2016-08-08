@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.kklv.bmoe.BMoeApplication;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.adapter.BangumiRecycleViewAdapter;
 import com.kklv.bmoe.data.DataHelper;
@@ -35,15 +34,6 @@ import java.util.List;
 public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack {
     public static final String BANGUMI = "bangumi";
     private static final String TAG = "BangumiActivity";
-
-    /**
-     * 主题颜色
-     */
-    private static int sThemeColorId = R.color.pink;
-    /**
-     * 主题颜色名称
-     */
-    private static String sThemeColorName = "pink";
 
     private String mBangumi;
 
@@ -80,16 +70,6 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         mDataHelper.getImageUrl(mBangumi);
     }
 
-    /**
-     * 获取主题颜色
-     */
-    private void getThemeColor() {
-        BMoeApplication application = (BMoeApplication) getApplication();
-        sThemeColorId = application.getThemeColor(this);
-        sThemeColorName = application.getTheme(this);
-    }
-
-
     private void bindId() {
         mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_image);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_bangumi);
@@ -107,13 +87,13 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mBangumi);
         //设置折叠时颜色
-        collapsingToolbarLayout.setContentScrimResource(sThemeColorId);
+        collapsingToolbarLayout.setContentScrimResource(mThemeColorId);
 
         //设置FloatingActionButton的颜色
         mFloatingActionButton.
-                setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(sThemeColorId)));
+                setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(mThemeColorId)));
         int rippleColorId = getResources().
-                getIdentifier(sThemeColorName + "_trans", "color", getPackageName());
+                getIdentifier(mThemeColorName + "_trans", "color", getPackageName());
         mFloatingActionButton.setRippleColor(getResources().getColor(rippleColorId));
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

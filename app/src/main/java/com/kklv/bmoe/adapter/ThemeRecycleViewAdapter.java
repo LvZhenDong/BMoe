@@ -20,6 +20,7 @@ import com.kklv.bmoe.BMoeApplication;
 import com.kklv.bmoe.MainActivity;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.BangumiActivity;
+import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.utils.ThemeHelper;
 import com.kklv.bmoe.view.TintCircleView;
 
@@ -41,12 +42,12 @@ public class ThemeRecycleViewAdapter extends
     private String themeColorName;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
-    private BMoeApplication mBMoeApplication;
+    private BaseActivity mBaseActivity;
 
-    public ThemeRecycleViewAdapter(Context context, BMoeApplication application) {
+    public ThemeRecycleViewAdapter(Context context, BaseActivity baseActivity) {
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(mContext);
-        this.mBMoeApplication = application;
+        this.mBaseActivity=baseActivity;
         initRadioButton();
     }
 
@@ -54,7 +55,7 @@ public class ThemeRecycleViewAdapter extends
      * 根据现在的主题设置第几条item被选中
      */
     private void initRadioButton() {
-        int colorId = mBMoeApplication.getThemeColor(mContext);
+        int colorId = mBaseActivity.mThemeColorId;
         if (colorId == R.color.theme_color_primary) {
             selectedRB = 0;
             return;
@@ -67,7 +68,7 @@ public class ThemeRecycleViewAdapter extends
         }
 
         //得到主题颜色名称
-        themeColorName = mBMoeApplication.getTheme(mContext);
+        themeColorName = mBaseActivity.mThemeColorName;
     }
 
     @Override
@@ -127,7 +128,7 @@ public class ThemeRecycleViewAdapter extends
 
                 setTheme(theme);
                 //更新主题颜色名称
-                themeColorName = mBMoeApplication.getTheme(mContext);
+                themeColorName = mBaseActivity.mThemeColorName;
 
                 //更新被选中的item position
                 unCheckItem(holder,selectedRB);
@@ -198,6 +199,7 @@ public class ThemeRecycleViewAdapter extends
                         public void refreshGlobal(Activity activity) {
                             MainActivity mainActivity = (MainActivity) activity;
                             mainActivity.setNavItemColor();
+                            mainActivity.getThemeColor();
                         }
 
                         @Override

@@ -25,7 +25,7 @@ import com.pgyersdk.update.PgyUpdateManager;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
-    
+
     private static final int LINE_CHART_FRAGMENT = 0;
     private static final int CAMP_FRAGMENT = 1;
     private static final int THEME_FRAGMENT = 2;
@@ -84,9 +84,8 @@ public class MainActivity extends BaseActivity {
      * 更新NavigationView菜单icon和title的颜色
      */
     public void setNavItemColor() {
-        BMoeApplication application = (BMoeApplication) getApplication();
         colors[0] = getResources().getColor(R.color.gray_default);
-        colors[1] = getResources().getColor(application.getThemeColor(this));
+        colors[1] = getResources().getColor(mThemeColorId);
         ColorStateList csl = new ColorStateList(states, colors);
         mNavigationView.setItemTextColor(csl);
         mNavigationView.setItemIconTintList(csl);

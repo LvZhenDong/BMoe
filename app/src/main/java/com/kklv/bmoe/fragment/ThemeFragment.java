@@ -17,6 +17,7 @@ import com.bilibili.magicasakura.utils.ThemeUtils;
 import com.kklv.bmoe.BMoeApplication;
 import com.kklv.bmoe.MainActivity;
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.adapter.ThemeRecycleViewAdapter;
 import com.kklv.bmoe.utils.ThemeHelper;
 import com.kklv.bmoe.view.DividerItemDecoration;
@@ -32,7 +33,8 @@ public class ThemeFragment extends Fragment {
     private RecyclerView mRecyclerView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_theme, container, false);
         bindId(view);
         initView();
@@ -46,7 +48,7 @@ public class ThemeFragment extends Fragment {
 
     private void initView() {
         ThemeRecycleViewAdapter adapter = new ThemeRecycleViewAdapter(getActivity(),
-                (BMoeApplication) getActivity().getApplication());
+                (BaseActivity)getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         mRecyclerView.setAdapter(adapter);
