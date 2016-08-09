@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.reflect.TypeToken;
 import com.jakewharton.disklrucache.DiskLruCache;
+import com.kklv.bmoe.R;
 import com.kklv.bmoe.constant.HttpUrl;
 import com.kklv.bmoe.database.RoleDailyCountDao;
 import com.kklv.bmoe.diskLruCache.DiskLruCacheHelper;
@@ -88,6 +89,7 @@ public class DataHelper {
             @Override
             public void onErrorResponse(VolleyError error) {
                 L.e(TAG, error.getMessage());
+                mCallBack.onFailure(mContext.getString(R.string.net_error));
             }
         });
         mRequestQueue.add(gsonRequest);
@@ -105,13 +107,14 @@ public class DataHelper {
                 }.getType(), new Response.Listener<List<RoleInfo>>() {
             @Override
             public void onResponse(List<RoleInfo> response) {
-                List<RoleInfo> list = response;
-                L.i(TAG, "角色数量：" + list.size());
+                L.i(TAG, "角色数量：" + response.size());
+                mCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 L.e(TAG, error.getMessage());
+                mCallBack.onFailure(mContext.getString(R.string.net_error));
             }
         });
         mRequestQueue.add(gsonRequest);

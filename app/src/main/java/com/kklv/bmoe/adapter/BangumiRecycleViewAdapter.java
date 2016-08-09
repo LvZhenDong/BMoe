@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.object.RoleInfo;
 
 import java.util.List;
 
@@ -19,14 +20,18 @@ public class BangumiRecycleViewAdapter extends
         RecyclerView.Adapter<BangumiRecycleViewAdapter.MyViewHolder> {
     private LayoutInflater mLayoutInflater;
     private Context mContext;
-    private List<String> mList;
+    private List<RoleInfo> mList;
 
-    public BangumiRecycleViewAdapter(Context context, List<String> list) {
+    public BangumiRecycleViewAdapter(Context context, List<RoleInfo> list) {
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(mContext);
         this.mList = list;
     }
 
+    public void setData(List<RoleInfo> list){
+        this.mList=list;
+        notifyDataSetChanged();
+    }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(mLayoutInflater.
@@ -35,7 +40,7 @@ public class BangumiRecycleViewAdapter extends
 
     @Override
     public void onBindViewHolder(BangumiRecycleViewAdapter.MyViewHolder holder, int position) {
-        holder.textView.setText("me" + position);
+        holder.textView.setText(mList.get(position).getName());
     }
 
     @Override

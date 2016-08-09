@@ -18,10 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * 
  * @author LvZhenDong
- * created at 2016/8/8 16:36
+ *         created at 2016/8/8 16:36
  */
 public class CampRecyclerViewAdapter extends
         RecyclerView.Adapter<CampRecyclerViewAdapter.CampViewHolder> {
@@ -33,7 +31,7 @@ public class CampRecyclerViewAdapter extends
     public CampRecyclerViewAdapter(Context context, List<Camp> list) {
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(mContext);
-        this.mList=list;
+        this.mList = list;
         this.mPercentCampList = getPercentCampList(list);
     }
 
@@ -81,17 +79,17 @@ public class CampRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(CampViewHolder holder, final int position) {
-        PercentCamp percentCamp=mPercentCampList.get(position);
-        Camp item=percentCamp.getCamp();
+        PercentCamp percentCamp = mPercentCampList.get(position);
+        Camp item = percentCamp.getCamp();
 
         holder.mCampNameTV.setText(item.getBangumi());
-        holder.mSucValueTV.setText(percentCamp.getPercentSuc()+"%");
+        holder.mSucValueTV.setText(percentCamp.getPercentSuc() + "%");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, BangumiActivity.class);
-                intent.putExtra(BangumiActivity.BANGUMI,mList.get(position).getBangumi());
+                Intent intent = new Intent(mContext, BangumiActivity.class);
+                intent.putExtra(BangumiActivity.BANGUMI, mList.get(position).getBangumi());
                 mContext.startActivity(intent);
             }
         });

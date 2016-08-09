@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.kklv.bmoe.adapter.CampRecyclerViewAdapter;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.utils.L;
+import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.T;
 import com.squareup.haha.perflib.Main;
 
@@ -31,7 +34,7 @@ import java.util.List;
  * 阵营信息
  *
  * @author LvZhenDong
- *         created at 2016/6/13 10:08
+ * created at 2016/6/13 10:08
  */
 public class CampFragment extends Fragment implements DataHelper.DataHelperCallBack {
     private static final String TAG = "CampFragment";
@@ -92,11 +95,12 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         }
         mSwipeRefreshLayout.setRefreshing(false);
         L.i(TAG, "result:" + result.size());
-        if (result != null) {
+        if (!ListUtils.isEmpty(result) && (result.get(0) instanceof Camp)) {
             mList = (List<Camp>) result;
             if (mCampRecyclerViewAdapter == null) {
                 mCampRecyclerViewAdapter = new CampRecyclerViewAdapter(getActivity(), mList);
                 mCampRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                mCampRV.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
                 mCampRV.setAdapter(mCampRecyclerViewAdapter);
             } else {
                 mCampRecyclerViewAdapter.setData(mList);

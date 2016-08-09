@@ -23,6 +23,7 @@ import com.kklv.bmoe.adapter.BangumiRecycleViewAdapter;
 import com.kklv.bmoe.data.DataHelper;
 import com.kklv.bmoe.diskLruCache.DiskLruCacheHelper;
 import com.kklv.bmoe.object.BingImageSearchResult;
+import com.kklv.bmoe.object.RoleInfo;
 import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.T;
 
@@ -33,7 +34,7 @@ import java.util.List;
  * 角色数据表格
  *
  * @author LvZhenDong
- * created at 2016/6/13 17:43
+ *         created at 2016/6/13 17:43
  */
 public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack {
     public static final String BANGUMI = "bangumi";
@@ -45,7 +46,8 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     private BingImageSearchResult mBingImageSearchResult;
     private DiskLruCacheHelper mDiskLruCacheHelper;
-    //调试
+    private BangumiRecycleViewAdapter mBangumiRecycleViewAdapter;
+
     SimpleDraweeView mSimpleDraweeView;
     RecyclerView mRecyclerView;
     private FloatingActionButton mFloatingActionButton;
@@ -61,19 +63,14 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         getThemeColor();
         initView();
 
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 40; i++) {
-            list.add("");
-        }
-        BangumiRecycleViewAdapter adapter = new BangumiRecycleViewAdapter(this, list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(adapter);
+
 
 
         mDataHelper = new DataHelper(this);
         mDataHelper.registerCallBack(this);
         mDiskLruCacheHelper = DiskLruCacheHelper.getInstance(this);
         mDataHelper.getImageUrl(mBangumi);
+        mDataHelper.getCampRank(mBangumi);
     }
 
     private void bindId() {
@@ -134,8 +131,19 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     @Override
     public <T> void onSuccess(List<T> result) {
-        mBingImageSearchResult = (BingImageSearchResult) result.get(0);
-        showImage(mBingImageSearchResult.getIndexUrl());
+        if(result.get(0) instanceof BingImageSearchResult){
+            mBingImageSearchResult = (BingImageSearchResult) result.get(0);
+            showImage(mBingImageSearchResult.getIndexUrl());
+        }else if(result.get(0) instanceof RoleInfo){
+            if(mBangumiRecycleViewAdapter == null){
+                mBangumiRecycleViewAdapter = new BangumiRecycleViewAdapter(this, (List<RoleInfo>) result);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                mRecyclerView.setAdapter(mBangumiRecycleViewAdapter);
+            }else{
+                mBangumiRecycleViewAdapter.setData((List<RoleInfo>)result);
+            }
+        }
+
     }
 
     @Override

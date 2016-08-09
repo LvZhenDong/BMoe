@@ -511,6 +511,7 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
     @Override
     public <T> void onSuccess(List<T> result) {
         if (!ListUtils.isEmpty(result)) {
+            if(!(result.get(0) instanceof RoleDailyCount))return;
             mRoleDailyCountList = (List<RoleDailyCount>) result;
             if (mCallBack != null) {
                 mCallBack.showGroup(getGroups(mRoleDailyCountList));
