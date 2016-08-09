@@ -50,6 +50,16 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         bindId(view);
         initView();
         getData();
+
+        /**
+         * 触发SwipeRefreshLayout
+         */
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
         return view;
     }
 
@@ -103,16 +113,5 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         }
         mSwipeRefreshLayout.setRefreshing(false);
         T.showShort(getActivity(), R.string.net_error);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        if (mSwipeRefreshLayout!=null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-            mSwipeRefreshLayout.destroyDrawingCache();
-            mSwipeRefreshLayout.clearAnimation();
-        }
     }
 }
