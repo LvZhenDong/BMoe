@@ -2,6 +2,7 @@ package com.kklv.bmoe.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.bilibili.magicasakura.utils.ThemeUtils;
 import com.kklv.bmoe.MainActivity;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.BaseActivity;
+import com.kklv.bmoe.utils.DensityUtils;
 import com.kklv.bmoe.utils.ThemeHelper;
 import com.kklv.bmoe.view.TintCircleView;
 
@@ -137,14 +139,18 @@ public class ThemeRecycleViewAdapter extends
      * @param position
      */
     private void checkItem(MyViewHolder holder,int position){
+        int checkedColor=mContext.getResources().getColor(mThemeColors[position]);
+
         //设置被选中的item
         holder.mTintCircleView.setChecked(true);
         holder.mUseTV.setText(mContext.getString(R.string.using));
-        //根据主题颜色得到drawable
-        int backgroundId = mContext.getResources().
-                getIdentifier("shape_rect_border_" + themeColorName, "drawable", mContext.getPackageName());
-        holder.mUseTV.setBackgroundResource(backgroundId);
-        holder.mUseTV.setTextColor(mContext.getResources().getColor(mThemeColors[position]));
+
+        //设置shape的stroke颜色
+        GradientDrawable gradientDrawable= (GradientDrawable) holder.mUseTV.getBackground().mutate();
+        gradientDrawable.setStroke(DensityUtils.convertDpToIntPixel(mContext.getResources().
+                        getDimension(R.dimen.rb_theme_width),mContext),checkedColor);
+
+        holder.mUseTV.setTextColor(checkedColor);
     }
 
     /**
@@ -153,11 +159,17 @@ public class ThemeRecycleViewAdapter extends
      * @param position
      */
     private void unCheckItem(MyViewHolder holder,int position){
+        int unCheckedColor=mContext.getResources().getColor(R.color.gray_default);
         //设置未被选中的item
         holder.mTintCircleView.setChecked(false);
         holder.mUseTV.setText(mContext.getString(R.string.use));
-        holder.mUseTV.setBackgroundResource(R.drawable.shape_rect_border);
-        holder.mUseTV.setTextColor(mContext.getResources().getColor(R.color.gray_default));
+
+        //设置shape的stroke颜色
+        GradientDrawable gradientDrawable= (GradientDrawable) holder.mUseTV.getBackground().mutate();
+        gradientDrawable.setStroke(DensityUtils.convertDpToIntPixel(mContext.getResources().
+                        getDimension(R.dimen.rb_theme_width),mContext),unCheckedColor);
+
+        holder.mUseTV.setTextColor(unCheckedColor);
     }
 
     @Override

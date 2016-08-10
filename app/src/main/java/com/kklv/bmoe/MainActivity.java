@@ -203,17 +203,17 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public void onBackPressed() {
         //如果DrawerLayout是打开的话就关闭DrawerLayout
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
-            return true;
+            return;
         } else if(showingFragment != LINE_CHART_FRAGMENT){//回到主界面“曲线图”
             showFragment(LINE_CHART_FRAGMENT);
             mNavigationView.setCheckedItem(R.id.nav_line_chart);//不会触发OnNavigationItemSelectedListener
             mActionBar.setTitle(R.string.line_chart);
-            return true;
+            return;
         }
-        return super.onKeyDown(keyCode, event);
+        super.onBackPressed();
     }
 }
