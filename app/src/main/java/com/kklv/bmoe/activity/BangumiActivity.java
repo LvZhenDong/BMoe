@@ -2,7 +2,6 @@ package com.kklv.bmoe.activity;
 
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Animatable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -27,7 +26,6 @@ import com.kklv.bmoe.object.RoleInfo;
 import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.T;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

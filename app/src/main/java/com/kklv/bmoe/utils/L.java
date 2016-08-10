@@ -1,6 +1,5 @@
 package com.kklv.bmoe.utils;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 /**

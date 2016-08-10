@@ -10,7 +10,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.kklv.bmoe.utils.ThemeHelper;
 import com.pgyersdk.crash.PgyCrashManager;
-import com.squareup.leakcanary.LeakCanary;
 
 /**
  * @author LvZhenDong

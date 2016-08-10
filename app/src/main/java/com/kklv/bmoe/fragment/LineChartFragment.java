@@ -1,11 +1,10 @@
 package com.kklv.bmoe.fragment;
 
-import android.app.DatePickerDialog;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
@@ -13,7 +12,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -29,6 +27,7 @@ import com.kklv.bmoe.utils.DensityUtils;
 import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.StringUtils;
 import com.kklv.bmoe.utils.T;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,8 +35,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack {
+public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack,
+        DatePickerDialog.OnDateSetListener{
     private LineChart mLineChart;
     private BaseChart mChart;
 
@@ -97,13 +96,13 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             @Override
             public void onClick(View v) {
                 String[] date = mParamsMap.get(RoleDailyCount.DATE).split("-");
-                new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        mDatePickerET.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-                    }
-                }, Integer.parseInt("20" + date[0]), Integer.parseInt(date[1]) - 1,
-                        Integer.parseInt(date[2])).show();
+
+                //日期选择器
+                DatePickerDialog datePickerDialog=DatePickerDialog.newInstance(LineChartFragment.this,
+                        Integer.parseInt("20" + date[0]), Integer.parseInt(date[1]) - 1,
+                        Integer.parseInt(date[2]));
+                datePickerDialog.vibrate(false);
+                datePickerDialog.show(getFragmentManager(),"Datepickerdialog");
             }
         });
         mDatePickerET.addTextChangedListener(new TextWatcher() {
@@ -167,6 +166,11 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         initGroupRadioGroup();
     }
 
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        //设置选择的日期
+        mDatePickerET.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+    }
     private void initSexRadioGroup() {
         mMoeRB.setOnClickListener(mMoeLightListener);
         mLightRB.setOnClickListener(mMoeLightListener);
@@ -299,7 +303,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             mGroupRG.setVisibility(View.GONE);
         }
     }
-
 
     private void setParentActivityActionBarTitle(String title) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);

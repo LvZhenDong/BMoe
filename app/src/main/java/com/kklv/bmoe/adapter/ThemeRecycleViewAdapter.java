@@ -2,24 +2,16 @@ package com.kklv.bmoe.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bilibili.magicasakura.utils.ThemeUtils;
-import com.bilibili.magicasakura.widgets.TintTextView;
-import com.kklv.bmoe.BMoeApplication;
 import com.kklv.bmoe.MainActivity;
 import com.kklv.bmoe.R;
-import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.utils.ThemeHelper;
 import com.kklv.bmoe.view.TintCircleView;

@@ -3,7 +3,6 @@ package com.kklv.bmoe.diskLruCache;
 import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.kklv.bmoe.object.BingImageSearchResult;
