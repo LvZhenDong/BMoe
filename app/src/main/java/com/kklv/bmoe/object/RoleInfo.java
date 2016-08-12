@@ -6,7 +6,7 @@ package com.kklv.bmoe.object;
  */
 public class RoleInfo {
     public static final String[] STAGE = {"没有数据", "海选", "复活", "128强", "32强", "16强",
-            "8强", "半决赛", "三四位半决赛", "决赛"};
+            "8强", "半决赛", "三四位半决赛", "决赛","表演赛"};
     public static final String[] STAT = {"没有数据", "晋级", "复活", "淘汰"};
     /**
      * id : 人物标识id
@@ -14,7 +14,7 @@ public class RoleInfo {
      * bangumi : 动画名称
      * date : 日期
      * stage : 比赛阶段 1:海选 2:复活 3:128强
-     * 4:32强 5:16强 6：8强 7:半决赛 8：三四位半决赛 9:决赛
+     * 4:32强 5:16强 6：8强 7:半决赛 8：三四位半决赛 9:决赛 10:表演赛
      * sex : 性别，0女1男
      * count : 票数
      * rank : 名次
