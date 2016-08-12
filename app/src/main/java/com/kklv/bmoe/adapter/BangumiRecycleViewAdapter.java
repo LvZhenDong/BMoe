@@ -46,10 +46,10 @@ public class BangumiRecycleViewAdapter extends
 
         holder.nameTV.setText(roleInfo.getName());
         holder.dateTV.setTextWithTag(roleInfo.getDate());
-        holder.stageTV.setTextWithTag(roleInfo.getStage()+"");
+        holder.stageTV.setTextWithTag(RoleInfo.STAGE[roleInfo.getStage()]);
         holder.countTV.setTextWithTag(roleInfo.getCount()+"");
         holder.rankTV.setTextWithTag(roleInfo.getRank()+"");
-        holder.statTV.setTextWithTag(roleInfo.getStat()+"");
+        holder.statTV.setTextWithTag(RoleInfo.STAT[roleInfo.getStat()]);
     }
 
     @Override

@@ -63,9 +63,6 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         getThemeColor();
         initView();
 
-
-
-
         mDataHelper = new DataHelper(this);
         mDataHelper.registerCallBack(this);
         mDiskLruCacheHelper = DiskLruCacheHelper.getInstance(this);

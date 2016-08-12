@@ -2,10 +2,12 @@ package com.kklv.bmoe.object;
 
 /**
  * @author LvZhenDong
- * created at 2016/6/2 11:56
+ *         created at 2016/6/2 11:56
  */
 public class RoleInfo {
-
+    public static final String[] STAGE = {"没有数据", "海选", "复活", "128强", "32强", "16强",
+            "8强", "半决赛", "三四位半决赛", "决赛"};
+    public static final String[] STAT = {"没有数据", "晋级", "复活", "淘汰"};
     /**
      * id : 人物标识id
      * name : 人物名称
@@ -16,7 +18,7 @@ public class RoleInfo {
      * sex : 性别，0女1男
      * count : 票数
      * rank : 名次
-     * stat : 晋级状态： 1晋级 2复活 3淘汰
+     * stat : 晋级状态： 1:晋级 2:复活 3:淘汰
      */
 
     private String id;
