@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.object.RoleInfo;
+import com.kklv.bmoe.view.TagTextView;
 
 import java.util.List;
 
@@ -40,7 +41,15 @@ public class BangumiRecycleViewAdapter extends
 
     @Override
     public void onBindViewHolder(BangumiRecycleViewAdapter.MyViewHolder holder, int position) {
-        holder.textView.setText(mList.get(position).getName());
+
+        RoleInfo roleInfo=mList.get(position);
+
+        holder.nameTV.setText(roleInfo.getName());
+        holder.dateTV.setTextWithTag(roleInfo.getDate());
+        holder.stageTV.setTextWithTag(roleInfo.getStage()+"");
+        holder.countTV.setTextWithTag(roleInfo.getCount()+"");
+        holder.rankTV.setTextWithTag(roleInfo.getRank()+"");
+        holder.statTV.setTextWithTag(roleInfo.getStat()+"");
     }
 
     @Override
@@ -49,11 +58,23 @@ public class BangumiRecycleViewAdapter extends
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView nameTV;
+        TagTextView dateTV,stageTV,countTV,rankTV,statTV;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.tv_item_bangumi_name);
+            bindId(itemView);
+
         }
+
+        private void bindId(View itemView){
+            nameTV= (TextView) itemView.findViewById(R.id.tv_item_role_name);
+            dateTV= (TagTextView) itemView.findViewById(R.id.tv_item_role_date);
+            stageTV= (TagTextView) itemView.findViewById(R.id.tv_item_role_stage);
+            countTV= (TagTextView) itemView.findViewById(R.id.tv_item_role_count);
+            rankTV= (TagTextView) itemView.findViewById(R.id.tv_item_role_rank);
+            statTV= (TagTextView) itemView.findViewById(R.id.tv_item_role_stat);
+        }
+
     }
 }

@@ -10,6 +10,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.kklv.bmoe.utils.ThemeHelper;
 import com.pgyersdk.crash.PgyCrashManager;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * @author LvZhenDong
@@ -23,7 +24,7 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
         //注册蒲公英Crash
         PgyCrashManager.register(this);
         //注册LeakCanary
-//        LeakCanary.install(this);
+        LeakCanary.install(this);
         //注册Stetho
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)

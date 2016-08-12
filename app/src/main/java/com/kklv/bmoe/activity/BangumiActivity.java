@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -129,13 +131,13 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     @Override
     public <T> void onSuccess(List<T> result) {
-        if(result.get(0) instanceof BingImageSearchResult){
+        if(result.get(0) instanceof BingImageSearchResult){ //返回的是图片
             mBingImageSearchResult = (BingImageSearchResult) result.get(0);
             showImage(mBingImageSearchResult.getIndexUrl());
-        }else if(result.get(0) instanceof RoleInfo){
+        }else if(result.get(0) instanceof RoleInfo){    //返回的是RoleInfo数据
             if(mBangumiRecycleViewAdapter == null){
                 mBangumiRecycleViewAdapter = new BangumiRecycleViewAdapter(this, (List<RoleInfo>) result);
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
                 mRecyclerView.setAdapter(mBangumiRecycleViewAdapter);
             }else{
                 mBangumiRecycleViewAdapter.setData((List<RoleInfo>)result);

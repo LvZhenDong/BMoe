@@ -9,4 +9,7 @@
         <attr name="metaButtonBarButtonStyle" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="TagTextView">
+        <attr name="tag" format="string"/>
+    </declare-styleable>
 </resources>

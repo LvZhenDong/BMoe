@@ -27,7 +27,7 @@ import com.kklv.bmoe.view.TintCircleView;
 public class ThemeRecycleViewAdapter extends
         RecyclerView.Adapter<ThemeRecycleViewAdapter.MyViewHolder> {
     private static final String TAG = "ThemeRecycleViewAdapter";
-    private static String[] mThemeNames = {"由乃粉", "荡漾紫", "胖次蓝", "真琴绿",
+    private static String[] mThemeNames = {"由乃粉", "荡漾紫", "智障蓝", "真琴绿",
             "这是啥", "呆毛黄", "奇迹橙", "夏娜红"};
     private static int[] mThemeColors = {R.color.pink, R.color.purple, R.color.blue, R.color.green,
             R.color.green_light, R.color.yellow, R.color.orange, R.color.red};
