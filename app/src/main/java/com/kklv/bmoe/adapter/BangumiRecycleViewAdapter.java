@@ -44,7 +44,7 @@ public class BangumiRecycleViewAdapter extends
 
         RoleInfo roleInfo=mList.get(position);
 
-        holder.nameTV.setText(roleInfo.getName());
+        holder.nameTV.setTextWithTag(roleInfo.getName());
         holder.dateTV.setTextWithTag(roleInfo.getDate());
         holder.stageTV.setTextWithTag(RoleInfo.STAGE[roleInfo.getStage()]);
         holder.countTV.setTextWithTag(roleInfo.getCount()+"");
@@ -58,8 +58,7 @@ public class BangumiRecycleViewAdapter extends
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTV;
-        TagTextView dateTV,stageTV,countTV,rankTV,statTV;
+        TagTextView nameTV,dateTV,stageTV,countTV,rankTV,statTV;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -68,7 +67,7 @@ public class BangumiRecycleViewAdapter extends
         }
 
         private void bindId(View itemView){
-            nameTV= (TextView) itemView.findViewById(R.id.tv_item_role_name);
+            nameTV= (TagTextView) itemView.findViewById(R.id.tv_item_role_name);
             dateTV= (TagTextView) itemView.findViewById(R.id.tv_item_role_date);
             stageTV= (TagTextView) itemView.findViewById(R.id.tv_item_role_stage);
             countTV= (TagTextView) itemView.findViewById(R.id.tv_item_role_count);
