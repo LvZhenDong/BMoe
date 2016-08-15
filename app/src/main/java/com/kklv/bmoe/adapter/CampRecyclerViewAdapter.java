@@ -13,6 +13,7 @@ import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.PercentCamp;
+import com.kklv.bmoe.view.TagTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,17 @@ public class CampRecyclerViewAdapter extends
         this.mLayoutInflater = LayoutInflater.from(mContext);
         this.mList = list;
         this.mPercentCampList = getPercentCampList(list);
+    }
+
+    /**
+     * 计算百分比
+     *
+     * @param member
+     * @param denominator
+     * @return
+     */
+    private static double getPercent(double member, double denominator) {
+        return denominator > 0 ? (member / denominator) * 100 : 0;
     }
 
     public void setData(List<Camp> list) {
@@ -60,17 +72,6 @@ public class CampRecyclerViewAdapter extends
         return percentCampList;
     }
 
-    /**
-     * 计算百分比
-     *
-     * @param member
-     * @param denominator
-     * @return
-     */
-    private static double getPercent(double member, double denominator) {
-        return denominator > 0 ? (member / denominator) * 100 : 0;
-    }
-
     @Override
     public CampViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new CampViewHolder(mLayoutInflater
@@ -83,7 +84,7 @@ public class CampRecyclerViewAdapter extends
         Camp item = percentCamp.getCamp();
 
         holder.mCampNameTV.setText(item.getBangumi());
-        holder.mSucValueTV.setText(percentCamp.getPercentSuc() + "%");
+        holder.mSucValueTV.setTextWithTag(percentCamp.getPercentSuc() + "%");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,12 +104,12 @@ public class CampRecyclerViewAdapter extends
     public static class CampViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView mSimpleDraweeView;
         TextView mCampNameTV;
-        TextView mSucValueTV;
+        TagTextView mSucValueTV;
 
         public CampViewHolder(View itemView) {
             super(itemView);
             mSimpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.sdv_item_head);
-            mSucValueTV = (TextView) itemView.findViewById(R.id.tv_item_suc_percent_value);
+            mSucValueTV = (TagTextView) itemView.findViewById(R.id.tv_item_suc_percent_value);
             mCampNameTV = (TextView) itemView.findViewById(R.id.tv_item_camp_name);
         }
     }

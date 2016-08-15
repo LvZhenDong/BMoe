@@ -22,7 +22,7 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
         super.onCreate();
         Fresco.initialize(this);
         //注册蒲公英Crash
-//        PgyCrashManager.register(this);
+        PgyCrashManager.register(this);
         //注册LeakCanary
 //        LeakCanary.install(this);
         //注册Stetho

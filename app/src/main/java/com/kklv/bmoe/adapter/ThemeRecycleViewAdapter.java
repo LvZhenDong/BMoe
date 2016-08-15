@@ -161,7 +161,7 @@ public class ThemeRecycleViewAdapter extends
      * @param position
      */
     private void unCheckItem(MyViewHolder holder, int position) {
-        int unCheckedColor = mContext.getResources().getColor(R.color.gray_default);
+        int unCheckedColor = mContext.getResources().getColor(R.color.text_disabled_color);
         //设置未被选中的item
         holder.mTintCircleView.setChecked(false);
         holder.mUseTV.setText(mContext.getString(R.string.use));

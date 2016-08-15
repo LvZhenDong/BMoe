@@ -18,9 +18,9 @@ import com.kklv.bmoe.R;
  */
 public class TagTextView extends TextView {
     private String mTag = "";
-    
-    private int mTagColor =getResources().getColor(R.color.gray_default);
-    private int mTextColor =getResources().getColor(R.color.gray_default);
+
+    private int mTagColor = getResources().getColor(R.color.text_primary_color);
+    private int mTextColor = getResources().getColor(R.color.text_primary_color);
 
     public TagTextView(Context context) {
         super(context);
@@ -35,6 +35,28 @@ public class TagTextView extends TextView {
         mTextColor = array.getColor(R.styleable.TagTextView_text_color, mTextColor);
 
         array.recycle();
+    }
+
+    /**
+     * 要在setTextWithTag()前执行才能生效
+     *
+     * @param tagColor
+     */
+    public void setTagColor(int tagColor) {
+        mTagColor = tagColor;
+    }
+
+    /**
+     * 要在setTextWithTag()前执行才能生效
+     *
+     * @param textColor
+     */
+    public void setMessageColor(int textColor) {
+        mTextColor = textColor;
+    }
+
+    public void setTag(String tag) {
+        mTag = tag;
     }
 
     /**
@@ -72,4 +94,5 @@ public class TagTextView extends TextView {
         String result = super.getText() + "";
         return TextUtils.isEmpty(mTag) ? result : result.substring(0,mTag.length());
     }
+
 }

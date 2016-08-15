@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/window_background"
     android:orientation="vertical">
 
     <com.github.mikephil.charting.charts.LineChart
@@ -59,19 +59,19 @@
 
             <RadioButton
                 android:id="@+id/rb_moe"
-                android:text="@string/moe"
-                style="@style/SexRadioButton"/>
+                style="@style/SexRadioButton"
+                android:text="@string/moe"/>
 
             <RadioButton
                 android:id="@+id/rb_light"
-                android:text="@string/light"
-                style="@style/SexRadioButton"/>
+                style="@style/SexRadioButton"
+                android:text="@string/light"/>
 
             <RadioButton
                 android:id="@+id/rb_moe_light"
-                android:text="@string/total"
                 style="@style/SexRadioButton"
-                android:checked="true"/>
+                android:checked="true"
+                android:text="@string/total"/>
         </RadioGroup>
 
         <RadioGroup
@@ -94,15 +94,15 @@
             android:id="@+id/rg_creator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ibtn_full_screen"
             android:layout_alignParentRight="true"
+            android:layout_below="@id/ibtn_full_screen"
             android:orientation="horizontal">
 
             <RadioButton
-                android:checked="true"
                 android:id="@+id/rb_total_tickets_count_creator"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:checked="true"/>
 
             <RadioButton
                 android:id="@+id/rb_one_hour_tickets_count_creator"

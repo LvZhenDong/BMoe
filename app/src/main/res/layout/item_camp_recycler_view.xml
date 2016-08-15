@@ -36,21 +36,13 @@
             android:textColor="@color/theme_color_primary"
             tools:text="名称"/>
 
-        <com.bilibili.magicasakura.widgets.TintTextView
-            android:id="@+id/tv_item_suc_percent_name"
+        <com.kklv.bmoe.view.TagTextView
+            android:id="@+id/tv_item_suc_percent_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_item_camp_name"
             android:layout_toRightOf="@id/sdv_item_head"
-            android:text="晋级率："/>
-
-        <com.bilibili.magicasakura.widgets.TintTextView
-            android:id="@+id/tv_item_suc_percent_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tv_item_suc_percent_name"
-            android:layout_toRightOf="@id/tv_item_suc_percent_name"
-            tools:text="85.55%"/>
+            app:tag="晋级率："/>
 
     </RelativeLayout>
 

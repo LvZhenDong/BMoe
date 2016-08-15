@@ -73,4 +73,8 @@ public class ThemeHelper {
         }
         return "THE RETURN";
     }
+
+//    public static int getThemePrimaryColor(Context context){
+//
+//    }
 }

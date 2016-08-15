@@ -6,25 +6,24 @@
 
     <!--<color name="gray_pressed">#B6B6B6</color>-->
     <color name="black_overlay">#66000000</color>
-    <!--文字默认灰色-->
+
     <color name="gray_default">#737373</color>
+
+    <!--文字颜色-->
+    <color name="text_primary_color">#DE000000</color>
+    <color name="text_secondary_color">#8A000000</color>
+    <color name="text_disabled_color">#61000000</color>
+
+    <color name="window_background">#FAFAFA</color>
+
+    <color name="black_light">#333333</color>
+
+    <color name="white_trans">#99FFFFFF</color>
 
     <!--MagicaSakura库的颜色-->
     <color name="theme_color_primary">#FB7299</color>
     <color name="theme_color_primary_dark">#B85671</color>
     <color name="theme_color_primary_trans">#99f0486c</color>
-
-    <color name="text_primary_color">#2d2d2d</color>
-    <color name="window_background">#eaeaea</color>
-
-    <color name="black_light">#333333</color>
-
-    <color name="white">#ffffff</color>
-    <color name="white_trans">#99ffffff</color>
-
-    <color name="gray_dark">#999999</color>
-    <color name="gray_trans">#44999999</color>
-    <color name="gray_light">#dcdcdc</color>
 
     <!-- theme color -->
     <color name="pink">#FB7299</color>
