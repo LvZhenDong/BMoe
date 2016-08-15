@@ -22,15 +22,18 @@ import com.kklv.bmoe.view.TintCircleView;
  * 主题选择列表adapter
  *
  * @author LvZhenDong
- * created at 2016/7/27 16:09
+ *         created at 2016/7/27 16:09
  */
 public class ThemeRecycleViewAdapter extends
         RecyclerView.Adapter<ThemeRecycleViewAdapter.MyViewHolder> {
     private static final String TAG = "ThemeRecycleViewAdapter";
+
+    /*要增加或者减少颜色需要改ThemeRecycleViewAdapter里的mThemeNames和mThemeColors、BMoeApplication
+    、ThemeHelper、colors.xml*/
     private static String[] mThemeNames = {"由乃粉", "荡漾紫", "智障蓝", "真琴绿",
-            "这是啥", "呆毛黄", "奇迹橙", "夏娜红"};
+            "灰原褐", "奇迹橙", "夏娜红"};
     private static int[] mThemeColors = {R.color.pink, R.color.purple, R.color.blue, R.color.green,
-            R.color.green_light, R.color.yellow, R.color.orange, R.color.red};
+            R.color.yellow, R.color.orange, R.color.red};
     private int selectedRB = 0;
     private String themeColorName;
     private LayoutInflater mLayoutInflater;
@@ -40,7 +43,7 @@ public class ThemeRecycleViewAdapter extends
     public ThemeRecycleViewAdapter(Context context, BaseActivity baseActivity) {
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(mContext);
-        this.mBaseActivity=baseActivity;
+        this.mBaseActivity = baseActivity;
         initRadioButton();
     }
 
@@ -66,7 +69,7 @@ public class ThemeRecycleViewAdapter extends
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=mLayoutInflater.inflate(R.layout.item_theme_recycle_view,parent,false);
+        View view = mLayoutInflater.inflate(R.layout.item_theme_recycle_view, parent, false);
         //使用系统的波纹效果
         TypedValue typedValue = new TypedValue();
         mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, typedValue, true);
@@ -81,16 +84,16 @@ public class ThemeRecycleViewAdapter extends
         holder.mTintCircleView.setColor(mContext.getResources().getColor(mThemeColors[position]));
 
         if (position == selectedRB) {
-            checkItem(holder,position);
+            checkItem(holder, position);
         } else {
-            unCheckItem(holder,position);
+            unCheckItem(holder, position);
         }
 
         holder.itemView.setClickable(true);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == selectedRB)return;
+                if (position == selectedRB) return;
                 int theme = 0;
                 switch (mThemeColors[position]) {
                     case R.color.pink:
@@ -104,9 +107,6 @@ public class ThemeRecycleViewAdapter extends
                         break;
                     case R.color.green:
                         theme = ThemeHelper.CARD_WOOD;
-                        break;
-                    case R.color.green_light:
-                        theme = ThemeHelper.CARD_LIGHT;
                         break;
                     case R.color.yellow:
                         theme = ThemeHelper.CARD_THUNDER;
@@ -124,9 +124,9 @@ public class ThemeRecycleViewAdapter extends
                 themeColorName = mBaseActivity.mThemeColorName;
 
                 //更新被选中的item position
-                unCheckItem(holder,selectedRB);
+                unCheckItem(holder, selectedRB);
                 notifyItemChanged(selectedRB);
-                checkItem(holder,position);
+                checkItem(holder, position);
                 notifyItemChanged(position);
                 selectedRB = position;
             }
@@ -135,39 +135,41 @@ public class ThemeRecycleViewAdapter extends
 
     /**
      * 设置被选中的item
+     *
      * @param holder
      * @param position
      */
-    private void checkItem(MyViewHolder holder,int position){
-        int checkedColor=mContext.getResources().getColor(mThemeColors[position]);
+    private void checkItem(MyViewHolder holder, int position) {
+        int checkedColor = mContext.getResources().getColor(mThemeColors[position]);
 
         //设置被选中的item
         holder.mTintCircleView.setChecked(true);
         holder.mUseTV.setText(mContext.getString(R.string.using));
 
         //设置shape的stroke颜色
-        GradientDrawable gradientDrawable= (GradientDrawable) holder.mUseTV.getBackground().mutate();
+        GradientDrawable gradientDrawable = (GradientDrawable) holder.mUseTV.getBackground().mutate();
         gradientDrawable.setStroke(DensityUtils.convertDpToIntPixel(mContext.getResources().
-                        getDimension(R.dimen.rb_theme_width),mContext),checkedColor);
+                getDimension(R.dimen.rb_theme_width), mContext), checkedColor);
 
         holder.mUseTV.setTextColor(checkedColor);
     }
 
     /**
      * 设置未被选中的item
+     *
      * @param holder
      * @param position
      */
-    private void unCheckItem(MyViewHolder holder,int position){
-        int unCheckedColor=mContext.getResources().getColor(R.color.gray_default);
+    private void unCheckItem(MyViewHolder holder, int position) {
+        int unCheckedColor = mContext.getResources().getColor(R.color.gray_default);
         //设置未被选中的item
         holder.mTintCircleView.setChecked(false);
         holder.mUseTV.setText(mContext.getString(R.string.use));
 
         //设置shape的stroke颜色
-        GradientDrawable gradientDrawable= (GradientDrawable) holder.mUseTV.getBackground().mutate();
+        GradientDrawable gradientDrawable = (GradientDrawable) holder.mUseTV.getBackground().mutate();
         gradientDrawable.setStroke(DensityUtils.convertDpToIntPixel(mContext.getResources().
-                        getDimension(R.dimen.rb_theme_width),mContext),unCheckedColor);
+                getDimension(R.dimen.rb_theme_width), mContext), unCheckedColor);
 
         holder.mUseTV.setTextColor(unCheckedColor);
     }
@@ -175,18 +177,6 @@ public class ThemeRecycleViewAdapter extends
     @Override
     public int getItemCount() {
         return mThemeColors.length;
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView mNameTV, mUseTV;
-        TintCircleView mTintCircleView;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            mNameTV = (TextView) itemView.findViewById(R.id.tv_item_theme_name);
-            mUseTV = (TextView) itemView.findViewById(R.id.tv_item_theme_use);
-            mTintCircleView= (TintCircleView) itemView.findViewById(R.id.tcv_checked);
-        }
     }
 
     /**
@@ -211,6 +201,18 @@ public class ThemeRecycleViewAdapter extends
                         }
                     }
             );
+        }
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView mNameTV, mUseTV;
+        TintCircleView mTintCircleView;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            mNameTV = (TextView) itemView.findViewById(R.id.tv_item_theme_name);
+            mUseTV = (TextView) itemView.findViewById(R.id.tv_item_theme_use);
+            mTintCircleView = (TintCircleView) itemView.findViewById(R.id.tcv_checked);
         }
     }
 

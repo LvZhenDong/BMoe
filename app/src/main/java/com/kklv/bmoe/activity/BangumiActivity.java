@@ -39,20 +39,33 @@ import java.util.List;
 public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack {
     public static final String BANGUMI = "bangumi";
     private static final String TAG = "BangumiActivity";
-
-    private int mTotalError;
-
-    private String mBangumi;
-
-    private BingImageSearchResult mBingImageSearchResult;
-    private DiskLruCacheHelper mDiskLruCacheHelper;
-    private BangumiRecycleViewAdapter mBangumiRecycleViewAdapter;
-
     SimpleDraweeView mSimpleDraweeView;
     RecyclerView mRecyclerView;
-    private FloatingActionButton mFloatingActionButton;
-
     DataHelper mDataHelper;
+    private int mTotalError;
+    private String mBangumi;
+    private BingImageSearchResult mBingImageSearchResult;
+    private DiskLruCacheHelper mDiskLruCacheHelper;
+    ControllerListener mControllerListener = new BaseControllerListener() {
+
+        @Override
+        public void onFinalImageSet(String id, @javax.annotation.Nullable Object imageInfo,
+                                    @javax.annotation.Nullable Animatable animatable) {
+            mTotalError = 0;
+        }
+
+        @Override
+        public void onFailure(String id, Throwable throwable) {
+            if (mTotalError >= 10) {
+                mTotalError = 0;
+                T.showShort(BangumiActivity.this, getString(R.string.load_image_error));
+            }
+            mTotalError++;
+            showNext();
+        }
+    };
+    private BangumiRecycleViewAdapter mBangumiRecycleViewAdapter;
+    private FloatingActionButton mFloatingActionButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,11 +103,11 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         collapsingToolbarLayout.setContentScrimResource(mThemeColorId);
 
         //设置FloatingActionButton的颜色
-        mFloatingActionButton.
-                setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(mThemeColorId)));
-        int rippleColorId = getResources().
-                getIdentifier(mThemeColorName + "_trans", "color", getPackageName());
-        mFloatingActionButton.setRippleColor(getResources().getColor(rippleColorId));
+//        mFloatingActionButton.
+//                setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(mThemeColorId)));
+//        int rippleColorId = getResources().
+//                getIdentifier(mThemeColorName + "_trans", "color", getPackageName());
+//        mFloatingActionButton.setRippleColor(getResources().getColor(rippleColorId));
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +161,6 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         T.showShort(this, error);
     }
 
-
     private void showNext() {
         showImage(mBingImageSearchResult.next());
         mDiskLruCacheHelper.writeBingImageSearchResult2Disk(null, mBingImageSearchResult);
@@ -164,23 +176,4 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
                 .build();
         mSimpleDraweeView.setController(controller);
     }
-
-    ControllerListener mControllerListener = new BaseControllerListener() {
-
-        @Override
-        public void onFinalImageSet(String id, @javax.annotation.Nullable Object imageInfo,
-                                    @javax.annotation.Nullable Animatable animatable) {
-            mTotalError = 0;
-        }
-
-        @Override
-        public void onFailure(String id, Throwable throwable) {
-            if (mTotalError >= 10) {
-                mTotalError = 0;
-                T.showShort(BangumiActivity.this, getString(R.string.load_image_error));
-            }
-            mTotalError++;
-            showNext();
-        }
-    };
 }

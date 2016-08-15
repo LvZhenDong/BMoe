@@ -22,9 +22,9 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
         super.onCreate();
         Fresco.initialize(this);
         //注册蒲公英Crash
-        PgyCrashManager.register(this);
+//        PgyCrashManager.register(this);
         //注册LeakCanary
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
         //注册Stetho
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
@@ -70,8 +70,6 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
             return "purple";
         } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_WOOD) {
             return "green";
-        } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_LIGHT) {
-            return "green_light";
         } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_THUNDER) {
             return "yellow";
         } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_SAND) {
