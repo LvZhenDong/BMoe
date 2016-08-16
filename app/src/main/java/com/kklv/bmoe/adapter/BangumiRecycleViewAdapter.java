@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.BaseActivity;
@@ -50,12 +49,12 @@ public class BangumiRecycleViewAdapter extends
         holder.statTV.setMessageColor(getStatTextColor(roleInfo.getStat()));
         holder.nameTV.setMessageColor(((BaseActivity) mContext).mThemeColor);
 
-        holder.nameTV.setTextWithTag(roleInfo.getName());
-        holder.dateTV.setTextWithTag(roleInfo.getDate());
-        holder.stageTV.setTextWithTag(RoleInfo.STAGE[roleInfo.getStage()]);
-        holder.countTV.setTextWithTag(roleInfo.getCount() + "");
-        holder.rankTV.setTextWithTag(roleInfo.getRank() + "");
-        holder.statTV.setTextWithTag(RoleInfo.STAT[roleInfo.getStat()]);
+        holder.nameTV.setMessage(roleInfo.getName());
+        holder.dateTV.setMessage(roleInfo.getDate());
+        holder.stageTV.setMessage(RoleInfo.STAGE[roleInfo.getStage()]);
+        holder.countTV.setMessage(roleInfo.getCount() + "");
+        holder.rankTV.setMessage(roleInfo.getRank() + "");
+        holder.statTV.setMessage(RoleInfo.STAT[roleInfo.getStat()]);
 
     }
 

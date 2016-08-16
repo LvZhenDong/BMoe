@@ -84,7 +84,7 @@ public class CampRecyclerViewAdapter extends
         Camp item = percentCamp.getCamp();
 
         holder.mCampNameTV.setText(item.getBangumi());
-        holder.mSucValueTV.setTextWithTag(percentCamp.getPercentSuc() + "%");
+        holder.mSucValueTV.setMessage(percentCamp.getPercentSuc() + "%");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

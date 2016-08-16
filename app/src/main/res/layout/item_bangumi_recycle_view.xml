@@ -20,7 +20,7 @@
         <com.kklv.bmoe.view.TagTextView
             android:id="@+id/tv_item_role_name"
             style="@style/BangumiTextView"
-            app:text_color="@color/theme_color_primary"
+            app:message_color="@color/theme_color_primary"
             app:tag="角色："/>
 
         <com.kklv.bmoe.view.TagTextView
@@ -46,8 +46,8 @@
         <com.kklv.bmoe.view.TagTextView
             android:id="@+id/tv_item_role_stat"
             style="@style/BangumiTextView"
+            app:message_color="@color/theme_color_primary_trans"
             app:tag="晋级状态："
-            app:text_color="@color/theme_color_primary_trans"
             tools:text="晋级状态：晋级"/>
 
     </LinearLayout>

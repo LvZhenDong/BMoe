@@ -12,6 +12,6 @@
     <declare-styleable name="TagTextView">
         <attr name="tag" format="string"/>
         <attr name="tag_color" format="color"/>
-        <attr name="text_color" format="color"/>
+        <attr name="message_color" format="color"/>
     </declare-styleable>
 </resources>

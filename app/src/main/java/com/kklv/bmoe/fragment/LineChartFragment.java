@@ -56,6 +56,65 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private ProgressDialog mProgressDialog;
 
     private Map<String, String> mParamsMap = new HashMap<>();
+    /**
+     * Sex的监听
+     */
+    private View.OnClickListener mMoeLightListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //TODO 感觉写的一点也不优雅
+            int id = v.getId();
+            if (id == checkedSexId) return;
+            switch (id) {
+                case R.id.rb_moe:
+                    mChart.showMoe(RoleDailyCount.SEX_MOE);
+                    break;
+                case R.id.rb_light:
+                    mChart.showMoe(RoleDailyCount.SEX_LIGHT);
+                    break;
+                case R.id.rb_moe_light:
+                    mChart.showMoe(RoleDailyCount.SEX_ALL);
+                    break;
+            }
+            checkedSexId = id;
+        }
+    };
+    /**
+     * Group的监听
+     */
+    private View.OnClickListener mGroupListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+            if (id == checkedGroupRBId) return;
+            RadioButton rb = (RadioButton) v;
+            mChart.showGroup(rb.getText() + "");
+            checkedGroupRBId = id;
+        }
+    };
+    private View.OnClickListener mChartRankListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.ibtn_left:
+                    mChart.goLeftSplitLists();
+                    break;
+                case R.id.ibtn_right:
+                    mChart.goRightSplitLists();
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 获取当天日期
+     *
+     * @return
+     */
+    private static String getTodayDate() {
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return sDateFormat.format(new java.util.Date());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +123,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
         bindId(view);
         initView();
-//        mDatePickerET.setTextWithTag("2015-12-12");  //自动化测试
+//        mDatePickerET.setMessage("2015-12-12");  //自动化测试
         return view;
     }
 
@@ -171,6 +230,7 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         //设置选择的日期
         mDatePickerET.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
     }
+
     private void initSexRadioGroup() {
         mMoeRB.setOnClickListener(mMoeLightListener);
         mLightRB.setOnClickListener(mMoeLightListener);
@@ -180,58 +240,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     private void initGroupRadioGroup() {
         mGroupAllRB.setOnClickListener(mGroupListener);
     }
-
-    /**
-     * Sex的监听
-     */
-    private View.OnClickListener mMoeLightListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //TODO 感觉写的一点也不优雅
-            int id = v.getId();
-            if (id == checkedSexId) return;
-            switch (id) {
-                case R.id.rb_moe:
-                    mChart.showMoe(RoleDailyCount.SEX_MOE);
-                    break;
-                case R.id.rb_light:
-                    mChart.showMoe(RoleDailyCount.SEX_LIGHT);
-                    break;
-                case R.id.rb_moe_light:
-                    mChart.showMoe(RoleDailyCount.SEX_ALL);
-                    break;
-            }
-            checkedSexId = id;
-        }
-    };
-
-    /**
-     * Group的监听
-     */
-    private View.OnClickListener mGroupListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            if (id == checkedGroupRBId) return;
-            RadioButton rb = (RadioButton) v;
-            mChart.showGroup(rb.getText() + "");
-            checkedGroupRBId = id;
-        }
-    };
-
-    private View.OnClickListener mChartRankListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.ibtn_left:
-                    mChart.goLeftSplitLists();
-                    break;
-                case R.id.ibtn_right:
-                    mChart.goRightSplitLists();
-                    break;
-            }
-        }
-    };
 
     private void initProgressDialog() {
         mProgressDialog = new ProgressDialog(getActivity());
@@ -245,16 +253,6 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         });
         mProgressDialog.setCancelable(true);
         mProgressDialog.setCanceledOnTouchOutside(false);
-    }
-
-    /**
-     * 获取当天日期
-     *
-     * @return
-     */
-    private static String getTodayDate() {
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return sDateFormat.format(new java.util.Date());
     }
 
     @Override
