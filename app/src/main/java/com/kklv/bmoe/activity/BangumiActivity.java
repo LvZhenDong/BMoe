@@ -26,6 +26,7 @@ import com.kklv.bmoe.diskLruCache.DiskLruCacheHelper;
 import com.kklv.bmoe.object.BingImageSearchResult;
 import com.kklv.bmoe.object.RoleInfo;
 import com.kklv.bmoe.utils.L;
+import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.T;
 
 import java.util.List;
@@ -141,6 +142,9 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 
     @Override
     public <T> void onSuccess(List<T> result) {
+        if (ListUtils.isEmpty(result)) {
+            com.kklv.bmoe.utils.T.showShort(this, R.string.no_data);
+        }
         if(result.get(0) instanceof BingImageSearchResult){ //返回的是图片
             mBingImageSearchResult = (BingImageSearchResult) result.get(0);
             showImage(mBingImageSearchResult.getIndexUrl());

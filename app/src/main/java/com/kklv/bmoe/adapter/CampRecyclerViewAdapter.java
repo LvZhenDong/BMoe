@@ -11,8 +11,13 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.BangumiActivity;
+import com.kklv.bmoe.data.DataHelper;
+import com.kklv.bmoe.diskLruCache.DiskLruCacheHelper;
+import com.kklv.bmoe.object.BingImageSearchResult;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.PercentCamp;
+import com.kklv.bmoe.utils.L;
+import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.view.TagTextView;
 
 import java.util.ArrayList;
@@ -22,18 +27,25 @@ import java.util.List;
  * @author LvZhenDong
  *         created at 2016/8/8 16:36
  */
-public class CampRecyclerViewAdapter extends
-        RecyclerView.Adapter<CampRecyclerViewAdapter.CampViewHolder> {
+public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerViewAdapter
+        .CampViewHolder> implements DataHelper.DataHelperCallBack {
+    private static final java.lang.String TAG = "CampRecyclerViewAdapter";
+
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<Camp> mList;
     private List<PercentCamp> mPercentCampList;
+    private DataHelper mDataHelper;
+    private RecyclerView mRecyclerView;
 
     public CampRecyclerViewAdapter(Context context, List<Camp> list) {
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(mContext);
         this.mList = list;
         this.mPercentCampList = getPercentCampList(list);
+        this.mDataHelper = new DataHelper(mContext);
+
+        mDataHelper.registerCallBack(this);
     }
 
     /**
@@ -74,8 +86,8 @@ public class CampRecyclerViewAdapter extends
 
     @Override
     public CampViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CampViewHolder(mLayoutInflater
-                .inflate(R.layout.item_camp_recycler_view, parent, false));
+        return new CampViewHolder(mLayoutInflater.inflate(R.layout.item_camp_recycler_view,
+                parent, false));
     }
 
     @Override
@@ -85,6 +97,9 @@ public class CampRecyclerViewAdapter extends
 
         holder.mCampNameTV.setText(item.getBangumi());
         holder.mSucValueTV.setMessage(percentCamp.getPercentSuc() + "%");
+
+        mDataHelper.getImageUrl(item.getBangumi());
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +116,29 @@ public class CampRecyclerViewAdapter extends
         return mPercentCampList.size();
     }
 
+    @Override
+    public <T> void onSuccess(List<T> result) {
+        if (ListUtils.isEmpty(result)) return;
+        if (result.get(0) instanceof BingImageSearchResult) {
+            BingImageSearchResult bingImageSearchResult = (BingImageSearchResult) result.get(0);
+            L.i(TAG, bingImageSearchResult.getKeyWords() + ":" + bingImageSearchResult
+                    .getIndexUrl());
+
+            int position = 0;
+            for (int i = 0; i < mList.size(); i++) {
+                if (mList.get(i).getBangumi().equals(bingImageSearchResult.getKeyWords())) {
+                    position = i + 1;
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(String error) {
+
+    }
+
     public static class CampViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView mSimpleDraweeView;
         TextView mCampNameTV;
@@ -113,4 +151,6 @@ public class CampRecyclerViewAdapter extends
             mCampNameTV = (TextView) itemView.findViewById(R.id.tv_item_camp_name);
         }
     }
+
+
 }

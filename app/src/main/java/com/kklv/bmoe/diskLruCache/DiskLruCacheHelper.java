@@ -43,7 +43,7 @@ public class DiskLruCacheHelper {
         if (mDiskLruCache == null) {
             File cacheDir = getDiskCacheDir(context, CACHE_NAME);
             if (!cacheDir.exists()) {
-                cacheDir.mkdir();
+                cacheDir.mkdirs();
             }
             try {
                 mDiskLruCache = DiskLruCache.open(cacheDir, BingImageSearchResult.VERSION_CODE,

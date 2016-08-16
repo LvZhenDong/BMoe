@@ -100,6 +100,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
         } else {
             com.kklv.bmoe.utils.T.showShort(getActivity(), R.string.no_data);
         }
+
     }
 
     @Override

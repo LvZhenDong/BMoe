@@ -40,18 +40,14 @@ public class DataHelper {
     private static final String DB_HANDLER_THREAD_NAME = "BMoe";
     private static final int DB_HANDLER_THREAD_WHAT_ADD = 0X01;
     private static final int DB_HANDLER_THREAD_WHAT_QUERY = 0X02;
-
+    public GsonRequest mRoleDailyCountRequest;
     /**
      * 添加数据到数据库的任务是否还在执行
      */
     private boolean isAddingToDataBase = false;
-
     private Map<String, String> mParamMap;
-
     private Context mContext;
     private RequestQueue mRequestQueue;
-    public GsonRequest mRoleDailyCountRequest;
-
     private DataHelperCallBack mCallBack;
 
     private HandlerThread mHandlerThread;
@@ -68,13 +64,27 @@ public class DataHelper {
     }
 
     /**
+     * 根据date得到url
+     *
+     * @param map
+     * @return
+     */
+    private static String getURL(Map<String, String> map) {
+        String result = "?";
+        if (!(TextUtils.isEmpty(map.get(RoleDailyCount.DATE)))) {
+            result += "&date=" + map.get(RoleDailyCount.DATE);
+        }
+        return result;
+    }
+
+    /**
      * 获取所有阵营信息--对应网页端的“阵营表格”
      */
     public void getAllCamps() {
         String url = HttpUrl.ALL_CAMP;
-        GsonRequest gsonRequest = new GsonRequest<List<Camp>>(Request.Method.GET, url,
-                new TypeToken<List<Camp>>() {
-                }.getType(), new Response.Listener<List<Camp>>() {
+        GsonRequest gsonRequest = new GsonRequest<List<Camp>>(Request.Method.GET, url, new
+                TypeToken<List<Camp>>() {
+        }.getType(), new Response.Listener<List<Camp>>() {
             @Override
             public void onResponse(List<Camp> response) {
                 mCallBack.onSuccess(response);
@@ -96,9 +106,9 @@ public class DataHelper {
      */
     public void getCampRank(String bangumi) {
         String url = HttpUrl.RANK + "?bangumi=" + StringUtils.encodeChinese(bangumi);
-        GsonRequest gsonRequest = new GsonRequest<List<RoleInfo>>(Request.Method.GET, url,
-                new TypeToken<List<RoleInfo>>() {
-                }.getType(), new Response.Listener<List<RoleInfo>>() {
+        GsonRequest gsonRequest = new GsonRequest<List<RoleInfo>>(Request.Method.GET, url, new
+                TypeToken<List<RoleInfo>>() {
+        }.getType(), new Response.Listener<List<RoleInfo>>() {
             @Override
             public void onResponse(List<RoleInfo> response) {
                 L.i(TAG, "角色数量：" + response.size());
@@ -120,9 +130,10 @@ public class DataHelper {
      * @param keyWords
      */
     public void getImageUrl(final String keyWords) {
-        BingImageSearchResult response =
-                mDiskLruCacheHelper.readBingImageSearchResultFromDisk(StringUtils.encodeChinese(keyWords));
+        BingImageSearchResult response = mDiskLruCacheHelper.readBingImageSearchResultFromDisk
+                (StringUtils.encodeChinese(keyWords));
         if (response != null) {
+            //仅仅是把结果放到List里面了而已，没有别的意思
             List<BingImageSearchResult> result = new ArrayList<>();
             result.add(response);
             mCallBack.onSuccess(result);
@@ -140,17 +151,20 @@ public class DataHelper {
         String url = HttpUrl.BING_IMAGE_SEARCH + StringUtils.encodeChinese(keyWords) +
                 "&ImageType=Photo&mkt=zh-CN&count=100&size=Medium";
         L.i(TAG, "image search url:" + url);
-        GsonRequest gsonRequest = new GsonRequest<>(Request.Method.GET, url,
-                new TypeToken<BingImageSearchResult>() {
-                }.getType(), new Response.Listener<BingImageSearchResult>() {
+        GsonRequest gsonRequest = new GsonRequest<>(Request.Method.GET, url, new
+                TypeToken<BingImageSearchResult>() {
+        }.getType(), new Response.Listener<BingImageSearchResult>() {
 
             @Override
             public void onResponse(BingImageSearchResult response) {
                 if (response == null) {
-                    mCallBack.onFailure("没有数据");
+                    mCallBack.onFailure(mContext.getString(R.string.no_data));
                     return;
                 }
-                mDiskLruCacheHelper.writeBingImageSearchResult2Disk(StringUtils.encodeChinese(keyWords), response);
+                //设置搜索关键字keywords
+                response.setKeyWords(keyWords);
+                mDiskLruCacheHelper.writeBingImageSearchResult2Disk(StringUtils.encodeChinese
+                        (keyWords), response);
                 List<BingImageSearchResult> result = new ArrayList<>();
                 result.add(response);
                 mCallBack.onSuccess(result);
@@ -199,11 +213,12 @@ public class DataHelper {
         L.i(TAG, "url:" + url);
         mRoleDailyCountRequest = new GsonRequest<List<RoleDailyCount>>(Request.Method.GET, url,
                 new TypeToken<List<RoleDailyCount>>() {
-                }.getType(), new Response.Listener<List<RoleDailyCount>>() {
+        }.getType(), new Response.Listener<List<RoleDailyCount>>() {
             @Override
             public void onResponse(List<RoleDailyCount> response) {
                 response = setRoleDailyCountsMaxCount(response);   //拿到数据后先设置maxCount
-                RoleDailyCount.MaxCountCompare maxCountCompare = new RoleDailyCount.MaxCountCompare();
+                RoleDailyCount.MaxCountCompare maxCountCompare = new RoleDailyCount
+                        .MaxCountCompare();
                 if (!ListUtils.isEmpty(response))
                     Collections.sort(response, maxCountCompare); //按maxCountCompare排序
                 mCallBack.onSuccess(response);
@@ -226,7 +241,6 @@ public class DataHelper {
 //        mRoleDailyCountRequest.setTag(mContext);
         mRequestQueue.add(mRoleDailyCountRequest);
     }
-
 
     /**
      * 初始化HandlerThread，在子线程中进行数据库操作
@@ -302,27 +316,6 @@ public class DataHelper {
         L.i(TAG, "after handlerAdd");
     }
 
-    /**
-     * 根据date得到url
-     *
-     * @param map
-     * @return
-     */
-    private static String getURL(Map<String, String> map) {
-        String result = "?";
-        if (!(TextUtils.isEmpty(map.get(RoleDailyCount.DATE)))) {
-            result += "&date=" + map.get(RoleDailyCount.DATE);
-        }
-        return result;
-    }
-
-
-    public interface DataHelperCallBack {
-        <T> void onSuccess(List<T> result);
-
-        void onFailure(String error);
-    }
-
     public void registerCallBack(DataHelperCallBack callBack) {
         this.mCallBack = callBack;
     }
@@ -346,6 +339,12 @@ public class DataHelper {
             }
         }
         return list;
+    }
+
+    public interface DataHelperCallBack {
+        <T> void onSuccess(List<T> result);
+
+        void onFailure(String error);
     }
 
 }

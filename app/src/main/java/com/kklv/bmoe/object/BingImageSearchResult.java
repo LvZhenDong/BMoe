@@ -13,10 +13,30 @@ public class BingImageSearchResult implements Serializable {
     public static final int VERSION_CODE = 3;
 
     /**
+     * 搜索时的关键字
+     */
+    private String keyWords = "";
+    /**
      * 偏移
      */
     private int index = 0;
     private String key;
+    private String _type;
+    private InstrumentationBean instrumentation;
+    private String webSearchUrl;
+    private int totalEstimatedMatches;
+    private int nextOffsetAddCount;
+    private boolean displayShoppingSourcesBadges;
+    private boolean displayRecipeSourcesBadges;
+    private List<ValueBean> value;
+
+    public String getKeyWords() {
+        return keyWords;
+    }
+
+    public void setKeyWords(String keyWords) {
+        this.keyWords = keyWords;
+    }
 
     public String getKey() {
         return key;
@@ -47,17 +67,6 @@ public class BingImageSearchResult implements Serializable {
     public String getIndexUrl() {
         return getValue().get(index).getContentUrl();
     }
-
-    private String _type;
-
-    private InstrumentationBean instrumentation;
-    private String webSearchUrl;
-    private int totalEstimatedMatches;
-    private int nextOffsetAddCount;
-    private boolean displayShoppingSourcesBadges;
-    private boolean displayRecipeSourcesBadges;
-
-    private List<ValueBean> value;
 
     public String get_type() {
         return _type;
