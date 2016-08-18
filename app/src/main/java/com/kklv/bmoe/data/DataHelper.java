@@ -7,11 +7,17 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.text.TextUtils;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.constant.HttpUrl;
@@ -28,8 +34,12 @@ import com.kklv.bmoe.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * @author LvZhenDong
@@ -178,6 +188,54 @@ public class DataHelper {
         });
 
         mRequestQueue.add(gsonRequest);
+    }
+
+    public BingImageSearchResult syncGetImageUrl(String keyWords){
+        BingImageSearchResult response = mDiskLruCacheHelper.readBingImageSearchResultFromDisk
+                (StringUtils.encodeChinese(keyWords));
+        if(response != null){
+            return response;
+        }else{
+            return syncReadBingImageSearchResultFromInternet(keyWords);
+        }
+    }
+    /**
+     * 根据关键字搜索图片路径，但是这个方法是同步的
+     *
+     * @param keyWords
+     */
+    private BingImageSearchResult syncReadBingImageSearchResultFromInternet(String keyWords){
+        BingImageSearchResult result=null;
+
+        String url = HttpUrl.BING_IMAGE_SEARCH + StringUtils.encodeChinese(keyWords) +
+                "&ImageType=Photo&mkt=zh-CN&count=100&size=Medium";
+        RequestFuture future=RequestFuture.newFuture();
+        StringRequest request=new StringRequest(url,future,future){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Ocp-Apim-Subscription-Key", "1203c934bfa0485ea1f59517aff05a56");
+                return headers;
+            }
+        };
+
+        mRequestQueue.add(request);
+
+        try {
+            String str= (String) future.get(20, TimeUnit.SECONDS);
+            Gson gson=new Gson();
+            result=gson.fromJson(str,BingImageSearchResult.class);
+            L.i(TAG,result.getIndexUrl());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            L.i(TAG,e.getCause().getMessage()+"");
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     /**

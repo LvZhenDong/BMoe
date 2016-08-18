@@ -2,7 +2,9 @@ package com.kklv.bmoe.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +20,10 @@ import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.PercentCamp;
 import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.ListUtils;
+import com.kklv.bmoe.view.AsyncSimpleDraweeView;
 import com.kklv.bmoe.view.TagTextView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,24 +32,19 @@ import java.util.List;
  *         created at 2016/8/8 16:36
  */
 public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerViewAdapter
-        .CampViewHolder> implements DataHelper.DataHelperCallBack {
+        .CampViewHolder> {
     private static final java.lang.String TAG = "CampRecyclerViewAdapter";
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<Camp> mList;
     private List<PercentCamp> mPercentCampList;
-    private DataHelper mDataHelper;
-    private RecyclerView mRecyclerView;
 
     public CampRecyclerViewAdapter(Context context, List<Camp> list) {
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(mContext);
         this.mList = list;
         this.mPercentCampList = getPercentCampList(list);
-        this.mDataHelper = new DataHelper(mContext);
-
-        mDataHelper.registerCallBack(this);
     }
 
     /**
@@ -93,13 +92,10 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
     @Override
     public void onBindViewHolder(CampViewHolder holder, final int position) {
         PercentCamp percentCamp = mPercentCampList.get(position);
-        Camp item = percentCamp.getCamp();
+        Camp item = mList.get(position);
 
         holder.mCampNameTV.setText(item.getBangumi());
         holder.mSucValueTV.setMessage(percentCamp.getPercentSuc() + "%");
-
-        mDataHelper.getImageUrl(item.getBangumi());
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +105,8 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
                 mContext.startActivity(intent);
             }
         });
+
+        loadImage(item.getBangumi(),holder.mSimpleDraweeView);
     }
 
     @Override
@@ -116,41 +114,78 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
         return mPercentCampList.size();
     }
 
-    @Override
-    public <T> void onSuccess(List<T> result) {
-        if (ListUtils.isEmpty(result)) return;
-        if (result.get(0) instanceof BingImageSearchResult) {
-            BingImageSearchResult bingImageSearchResult = (BingImageSearchResult) result.get(0);
-            L.i(TAG, bingImageSearchResult.getKeyWords() + ":" + bingImageSearchResult
-                    .getIndexUrl());
-
-            int position = 0;
-            for (int i = 0; i < mList.size(); i++) {
-                if (mList.get(i).getBangumi().equals(bingImageSearchResult.getKeyWords())) {
-                    position = i + 1;
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(String error) {
-
-    }
-
     public static class CampViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView mSimpleDraweeView;
+        AsyncSimpleDraweeView mSimpleDraweeView;
         TextView mCampNameTV;
         TagTextView mSucValueTV;
 
         public CampViewHolder(View itemView) {
             super(itemView);
-            mSimpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.sdv_item_head);
+            mSimpleDraweeView = (AsyncSimpleDraweeView) itemView.findViewById(R.id.sdv_item_head);
             mSucValueTV = (TagTextView) itemView.findViewById(R.id.tv_item_suc_percent_value);
             mCampNameTV = (TextView) itemView.findViewById(R.id.tv_item_camp_name);
         }
     }
 
+    private void loadImage(String keyWords,AsyncSimpleDraweeView imageView){
+        if(cancelBeforeTask(keyWords, imageView)){
+            SearchImageByKeyWordsTask task=new SearchImageByKeyWordsTask(imageView);
+            imageView.setTask(task);
+            task.execute(keyWords);
+        }
+    }
+
+    private boolean cancelBeforeTask(String keyWords,AsyncSimpleDraweeView imageView){
+        SearchImageByKeyWordsTask task=imageView.getTask();
+
+        if(task != null){
+            String taskKeyWords=task.keyWords;
+            if(taskKeyWords != keyWords || TextUtils.isEmpty(taskKeyWords)){
+                task.cancel(true);
+            }else{
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 搜索图片
+     */
+    public class SearchImageByKeyWordsTask extends AsyncTask<String, Void, BingImageSearchResult> {
+        private AsyncSimpleDraweeView imageView;
+        private WeakReference<AsyncSimpleDraweeView> imageViewWeakReference;
+        public String keyWords;
+        private DataHelper dataHelper;
+
+        public SearchImageByKeyWordsTask(AsyncSimpleDraweeView imageView) {
+            dataHelper = new DataHelper(mContext);
+
+            this.imageView = imageView;
+            imageViewWeakReference = new WeakReference<AsyncSimpleDraweeView>(imageView);
+        }
+
+        @Override
+        protected BingImageSearchResult doInBackground(String... params) {
+
+            return dataHelper.syncGetImageUrl(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(BingImageSearchResult result) {
+            if(isCancelled()){
+                result=null;
+            }
+
+            if(imageViewWeakReference != null && result != null){
+                AsyncSimpleDraweeView imageView=imageViewWeakReference.get();
+                SearchImageByKeyWordsTask task=imageView.getTask();
+                if(this == task && imageView != null){
+                    imageView.setImageURI(result.getIndexUrl());
+                }
+            }
+        }
+    }
 
 }

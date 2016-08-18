@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <com.kklv.bmoe.view.AsyncSimpleDraweeView
             android:id="@+id/sdv_item_head"
             android:layout_width="50dp"
             android:layout_height="50dp"

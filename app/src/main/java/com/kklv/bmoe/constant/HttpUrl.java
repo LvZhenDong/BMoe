@@ -9,6 +9,8 @@ package com.kklv.bmoe.constant;
 public class HttpUrl {
     /**
      * API接口地址
+     * 8月17号后用http就出现了问题，返回301
+     * 改为https后就好了
      */
     private static final String HTTP_HOME = "https://bmoe.uuzsama.me/api/data";
     /**
