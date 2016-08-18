@@ -10,7 +10,7 @@ public class HttpUrl {
     /**
      * API接口地址
      */
-    private static final String HTTP_HOME = "http://bmoe.uuzsama.me/api/data";
+    private static final String HTTP_HOME = "https://bmoe.uuzsama.me/api/data";
     /**
      * 角色得票
      */
