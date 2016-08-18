@@ -2,6 +2,7 @@ package com.kklv.bmoe.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -106,7 +107,14 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
             }
         });
 
-        loadImage(item.getBangumi(),holder.mSimpleDraweeView);
+        String url=item.getImeUrl();
+        if (TextUtils.isEmpty(item.getImeUrl())) {
+            loadImage(item.getBangumi(), holder.mSimpleDraweeView);
+        } else {
+            holder.mSimpleDraweeView.setImageURI(item.getImeUrl());
+        }
+
+
     }
 
     @Override
@@ -127,22 +135,27 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
         }
     }
 
-    private void loadImage(String keyWords,AsyncSimpleDraweeView imageView){
-        if(cancelBeforeTask(keyWords, imageView)){
-            SearchImageByKeyWordsTask task=new SearchImageByKeyWordsTask(imageView);
+    private void loadImage(String keyWords, AsyncSimpleDraweeView imageView) {
+
+
+        if (cancelBeforeTask(keyWords, imageView)) {
+            SearchImageByKeyWordsTask task = new SearchImageByKeyWordsTask(imageView);
             imageView.setTask(task);
+            Uri uri = Uri.parse("res:///" + R.drawable.loading);
+            imageView.setImageURI(uri);
             task.execute(keyWords);
+
         }
     }
 
-    private boolean cancelBeforeTask(String keyWords,AsyncSimpleDraweeView imageView){
-        SearchImageByKeyWordsTask task=imageView.getTask();
+    private boolean cancelBeforeTask(String keyWords, AsyncSimpleDraweeView imageView) {
+        SearchImageByKeyWordsTask task = imageView.getTask();
 
-        if(task != null){
-            String taskKeyWords=task.keyWords;
-            if(taskKeyWords != keyWords || TextUtils.isEmpty(taskKeyWords)){
+        if (task != null) {
+            String taskKeyWords = task.keyWords;
+            if (taskKeyWords != keyWords || TextUtils.isEmpty(taskKeyWords)) {
                 task.cancel(true);
-            }else{
+            } else {
                 return false;
             }
         }
@@ -169,20 +182,29 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
         @Override
         protected BingImageSearchResult doInBackground(String... params) {
 
+            keyWords=params[0];
             return dataHelper.syncGetImageUrl(params[0]);
         }
 
         @Override
         protected void onPostExecute(BingImageSearchResult result) {
-            if(isCancelled()){
-                result=null;
+            if (isCancelled()) {
+                result = null;
             }
 
-            if(imageViewWeakReference != null && result != null){
-                AsyncSimpleDraweeView imageView=imageViewWeakReference.get();
-                SearchImageByKeyWordsTask task=imageView.getTask();
-                if(this == task && imageView != null){
+            if (imageViewWeakReference != null && result != null) {
+                AsyncSimpleDraweeView imageView = imageViewWeakReference.get();
+                SearchImageByKeyWordsTask task = imageView.getTask();
+                if (this == task && imageView != null) {
                     imageView.setImageURI(result.getIndexUrl());
+
+                    for (Camp item : mList) {
+                        if (item.getBangumi().equals(keyWords)) {
+                            item.setImeUrl(result.getIndexUrl());
+                            break;
+                        }
+                    }
+
                 }
             }
         }

@@ -218,7 +218,6 @@ public class DataHelper {
                 return headers;
             }
         };
-
         mRequestQueue.add(request);
 
         try {
@@ -226,6 +225,10 @@ public class DataHelper {
             Gson gson=new Gson();
             result=gson.fromJson(str,BingImageSearchResult.class);
             L.i(TAG,result.getIndexUrl());
+            //设置搜索关键字keywords
+            result.setKeyWords(keyWords);
+            mDiskLruCacheHelper.writeBingImageSearchResult2Disk(StringUtils.encodeChinese
+                    (keyWords), result);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

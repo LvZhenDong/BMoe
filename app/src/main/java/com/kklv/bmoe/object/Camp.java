@@ -8,6 +8,16 @@ package com.kklv.bmoe.object;
  * created at 2016/6/1 16:31
  */
 public class Camp {
+    String imeUrl="";
+
+    public String getImeUrl() {
+        return imeUrl;
+    }
+
+    public void setImeUrl(String imeUrl) {
+        this.imeUrl = imeUrl;
+    }
+
     /**
      * 阵营名称
      */
