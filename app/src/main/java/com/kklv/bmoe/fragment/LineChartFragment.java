@@ -26,6 +26,7 @@ import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.constant.BMoe;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.DensityUtils;
+import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.StringUtils;
 import com.kklv.bmoe.utils.T;
@@ -40,6 +41,7 @@ import java.util.Map;
 
 public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack,
         DatePickerDialog.OnDateSetListener {
+    private static final java.lang.String TAG = "LineChartFragment";
     private LineChart mLineChart;
     private BaseChart mChart;
 
@@ -234,38 +236,30 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         initGroupRadioGroup();
     }
 
+    /**
+     * 添加有数据的日期
+     *
+     * @return
+     */
     private Calendar[] initSelectedDates() {
         int datesLength = BMoe.SELECTED_2015_10_DAYS.length + BMoe.SELECTED_2015_11_DAYS.length +
                 BMoe.SELECTED_2015_12_DAYS.length +
                 BMoe.SELECTED_2016_01_DAYS.length;
+
         Calendar[] dates = new Calendar[datesLength];
+
+        //已经添加了的日期个数
         int addedLength = 0;
-        for (int i = 0; i < BMoe.SELECTED_2015_10_DAYS.length; i++) {
-            Calendar selectedDate = Calendar.getInstance();
-            selectedDate.set(2015, 9, BMoe.SELECTED_2015_10_DAYS[i]);
-            dates[i + addedLength] = selectedDate;
-        }
-        addedLength += BMoe.SELECTED_2015_10_DAYS.length;
 
-        for (int i = 0; i < BMoe.SELECTED_2015_11_DAYS.length; i++) {
-            Calendar selectedDate = Calendar.getInstance();
-            selectedDate.set(2015, 10, BMoe.SELECTED_2015_11_DAYS[i]);
-            dates[i + addedLength] = selectedDate;
+        for (int month = 0; month < BMoe.SELECTED_DAYS.length; month++) {
+            for (int day = 0; day < BMoe.SELECTED_DAYS[month].length; day++) {
+                Calendar selectedDate = Calendar.getInstance();
+                selectedDate.set(2015, 9 + month, BMoe.SELECTED_DAYS[month][day]);
+                dates[day + addedLength] = selectedDate;
+            }
+            addedLength += BMoe.SELECTED_DAYS[month].length;
         }
-        addedLength += BMoe.SELECTED_2015_11_DAYS.length;
 
-        for (int i = 0; i < BMoe.SELECTED_2015_12_DAYS.length; i++) {
-            Calendar selectedDate = Calendar.getInstance();
-            selectedDate.set(2015, 11, BMoe.SELECTED_2015_12_DAYS[i]);
-            dates[i + addedLength] = selectedDate;
-        }
-        addedLength += BMoe.SELECTED_2015_12_DAYS.length;
-
-        for (int i = 0; i < BMoe.SELECTED_2016_01_DAYS.length; i++) {
-            Calendar selectedDate = Calendar.getInstance();
-            selectedDate.set(2016, 0, BMoe.SELECTED_2016_01_DAYS[i]);
-            dates[i + addedLength] = selectedDate;
-        }
         return dates;
     }
 

@@ -7,6 +7,8 @@ package com.kklv.bmoe.constant;
  * created at 2016/8/19 16:32
  */
 public class BMoe {
+
+
     /**
      * 2015年10月有数据的日期
      */
@@ -32,5 +34,6 @@ public class BMoe {
      * 2016年1月有数据的日期
      */
     public static final int[] SELECTED_2016_01_DAYS = {1, 2, 3, 9};
-
+    public static final int[][] SELECTED_DAYS={SELECTED_2015_10_DAYS,SELECTED_2015_11_DAYS,SELECTED_2015_12_DAYS,
+            SELECTED_2016_01_DAYS};
 }
