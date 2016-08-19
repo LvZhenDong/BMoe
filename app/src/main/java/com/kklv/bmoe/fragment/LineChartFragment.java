@@ -20,8 +20,10 @@ import android.widget.RadioGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
+import com.kklv.bmoe.constant.BMoe;
 import com.kklv.bmoe.object.RoleDailyCount;
 import com.kklv.bmoe.utils.DensityUtils;
 import com.kklv.bmoe.utils.ListUtils;
@@ -31,12 +33,13 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack,
-        DatePickerDialog.OnDateSetListener{
+        DatePickerDialog.OnDateSetListener {
     private LineChart mLineChart;
     private BaseChart mChart;
 
@@ -117,8 +120,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_line_chart, container, false);
 
         bindId(view);
@@ -157,11 +160,15 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                 String[] date = mParamsMap.get(RoleDailyCount.DATE).split("-");
 
                 //日期选择器
-                DatePickerDialog datePickerDialog=DatePickerDialog.newInstance(LineChartFragment.this,
-                        Integer.parseInt("20" + date[0]), Integer.parseInt(date[1]) - 1,
-                        Integer.parseInt(date[2]));
+                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance
+                        (LineChartFragment.this, Integer.parseInt("20" + date[0]), Integer
+                                .parseInt(date[1]) - 1, Integer.parseInt(date[2]));
                 datePickerDialog.vibrate(false);
-                datePickerDialog.show(getFragmentManager(),"Datepickerdialog");
+                datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
+                //设置日期选择器颜色
+                datePickerDialog.setAccentColor(((BaseActivity) getActivity()).mThemeColor);
+
+                datePickerDialog.setSelectableDays(initSelectedDates());
             }
         });
         mDatePickerET.addTextChangedListener(new TextWatcher() {
@@ -177,10 +184,12 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
 
             @Override
             public void afterTextChanged(Editable s) {
-                mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET.getText() + ""));
+                mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET
+                        .getText() + ""));
                 mProgressDialog.show();
                 mChart.getData(mParamsMap);
-                T.showShort(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() + ""));
+                T.showShort(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() +
+                        ""));
             }
         });
         mDatePickerET.setFocusable(false);
@@ -223,6 +232,41 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
         });
         initSexRadioGroup();
         initGroupRadioGroup();
+    }
+
+    private Calendar[] initSelectedDates() {
+        int datesLength = BMoe.SELECTED_2015_10_DAYS.length + BMoe.SELECTED_2015_11_DAYS.length +
+                BMoe.SELECTED_2015_12_DAYS.length +
+                BMoe.SELECTED_2016_01_DAYS.length;
+        Calendar[] dates = new Calendar[datesLength];
+        int addedLength = 0;
+        for (int i = 0; i < BMoe.SELECTED_2015_10_DAYS.length; i++) {
+            Calendar selectedDate = Calendar.getInstance();
+            selectedDate.set(2015, 9, BMoe.SELECTED_2015_10_DAYS[i]);
+            dates[i + addedLength] = selectedDate;
+        }
+        addedLength += BMoe.SELECTED_2015_10_DAYS.length;
+
+        for (int i = 0; i < BMoe.SELECTED_2015_11_DAYS.length; i++) {
+            Calendar selectedDate = Calendar.getInstance();
+            selectedDate.set(2015, 10, BMoe.SELECTED_2015_11_DAYS[i]);
+            dates[i + addedLength] = selectedDate;
+        }
+        addedLength += BMoe.SELECTED_2015_11_DAYS.length;
+
+        for (int i = 0; i < BMoe.SELECTED_2015_12_DAYS.length; i++) {
+            Calendar selectedDate = Calendar.getInstance();
+            selectedDate.set(2015, 11, BMoe.SELECTED_2015_12_DAYS[i]);
+            dates[i + addedLength] = selectedDate;
+        }
+        addedLength += BMoe.SELECTED_2015_12_DAYS.length;
+
+        for (int i = 0; i < BMoe.SELECTED_2016_01_DAYS.length; i++) {
+            Calendar selectedDate = Calendar.getInstance();
+            selectedDate.set(2016, 0, BMoe.SELECTED_2016_01_DAYS[i]);
+            dates[i + addedLength] = selectedDate;
+        }
+        return dates;
     }
 
     @Override
@@ -287,8 +331,8 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
                 if (!isAdded()) return;
                 RadioButton rb = (RadioButton) LayoutInflater.from(getActivity()).
                         inflate(R.layout.item_radio_button, null);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout
+                        .LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 int margin = DensityUtils.dip2px(getActivity(), 5);
                 params.setMargins(margin, margin, margin, margin);
                 rb.setText(item);
