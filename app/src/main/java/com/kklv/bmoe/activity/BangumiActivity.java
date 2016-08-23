@@ -33,6 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 角色数据表格
@@ -112,18 +113,19 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
 //        int rippleColorId = getResources().
 //                getIdentifier(mThemeColorName + "_trans", "color", getPackageName());
 //        mFloatingActionButton.setRippleColor(getResources().getColor(rippleColorId));
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mBingImageSearchResult != null) {
-                    showNext();
-                } else {
-                    //没有该动画的数据就去取一次
-                    mDataHelper.getImageUrl(mBangumi);
-                }
+    }
 
-            }
-        });
+    /**
+     * 切换图片
+     */
+    @OnClick(R.id.floating_action_button)
+    public void changeImage(){
+        if (mBingImageSearchResult != null) {
+            showNext();
+        } else {
+            //没有该动画的数据就去取一次
+            mDataHelper.getImageUrl(mBangumi);
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.kklv.bmoe.utils;
 
+import android.text.TextUtils;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -10,6 +12,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class StringUtils {
     public static String formatDateString(String date) {
+        if(TextUtils.isEmpty(date))return "";
         String[] value = date.substring(2).split("-");
         value[1] = addZero(value[1]);
         value[2] = addZero(value[2]);

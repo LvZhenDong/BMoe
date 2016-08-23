@@ -101,16 +101,6 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
         holder.mCampNameTV.setText(item.getBangumi());
         holder.mSucValueTV.setMessage(percentCamp.getPercentSuc() + "%");
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, BangumiActivity.class);
-                intent.putExtra(BangumiActivity.BANGUMI, mList.get(position).getBangumi());
-                mContext.startActivity(intent);
-            }
-        });
-
-        String url=item.getImeUrl();
         if (TextUtils.isEmpty(item.getImeUrl())) {
             loadImage(item.getBangumi(), holder.mSimpleDraweeView);
         } else {
@@ -125,7 +115,7 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
         return mPercentCampList.size();
     }
 
-    public static class CampViewHolder extends RecyclerView.ViewHolder {
+    public class CampViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.sdv_item_head)
         AsyncSimpleDraweeView mSimpleDraweeView;
         @BindView(R.id.tv_item_camp_name)
@@ -135,7 +125,17 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
 
         public CampViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, BangumiActivity.class);
+                    intent.putExtra(BangumiActivity.BANGUMI, mList.get(getAdapterPosition())
+                            .getBangumi());
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -186,7 +186,7 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
         @Override
         protected BingImageSearchResult doInBackground(String... params) {
 
-            keyWords=params[0];
+            keyWords = params[0];
             return dataHelper.syncGetImageUrl(params[0]);
         }
 

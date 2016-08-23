@@ -41,6 +41,9 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class LineChartFragment extends BaseFragment implements BaseChart.ChartCallBack,
         DatePickerDialog.OnDateSetListener {
@@ -83,29 +86,30 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
     private ProgressDialog mProgressDialog;
 
     private Map<String, String> mParamsMap = new HashMap<>();
+
+
     /**
-     * Sex的监听
+     * 切换萌、燃
+     * @param v
      */
-    private View.OnClickListener mMoeLightListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //TODO 感觉写的一点也不优雅
-            int id = v.getId();
-            if (id == checkedSexId) return;
-            switch (id) {
-                case R.id.rb_moe:
-                    mChart.showMoe(RoleDailyCount.SEX_MOE);
-                    break;
-                case R.id.rb_light:
-                    mChart.showMoe(RoleDailyCount.SEX_LIGHT);
-                    break;
-                case R.id.rb_moe_light:
-                    mChart.showMoe(RoleDailyCount.SEX_ALL);
-                    break;
-            }
-            checkedSexId = id;
+    @OnClick({R.id.rb_moe,R.id.rb_light,R.id.rb_moe_light})
+    public void showMoe(View v){
+        //TODO 感觉写的一点也不优雅
+        int id = v.getId();
+        if (id == checkedSexId) return;
+        switch (id) {
+            case R.id.rb_moe:
+                mChart.showMoe(RoleDailyCount.SEX_MOE);
+                break;
+            case R.id.rb_light:
+                mChart.showMoe(RoleDailyCount.SEX_LIGHT);
+                break;
+            case R.id.rb_moe_light:
+                mChart.showMoe(RoleDailyCount.SEX_ALL);
+                break;
         }
-    };
+        checkedSexId = id;
+    }
     /**
      * Group的监听
      */
@@ -119,19 +123,61 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
             checkedGroupRBId = id;
         }
     };
-    private View.OnClickListener mChartRankListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.ibtn_left:
-                    mChart.goLeftSplitLists();
-                    break;
-                case R.id.ibtn_right:
-                    mChart.goRightSplitLists();
-                    break;
-            }
+
+    /**
+     *下一组或者上一组 1-16、2-32。。。
+     * @param v
+     */
+    @OnClick({R.id.ibtn_right,R.id.ibtn_left})
+    public void goLeftOrRight(View v){
+        switch (v.getId()) {
+            case R.id.ibtn_left:
+                mChart.goLeftSplitLists();
+                break;
+            case R.id.ibtn_right:
+                mChart.goRightSplitLists();
+                break;
         }
-    };
+    }
+
+    /**
+     * 全屏
+     */
+    @OnClick(R.id.ibtn_full_screen)
+    public void goFullScreenActivity(){
+        Intent intent = new Intent(getActivity(), FullscreenActivity.class);
+        intent.putExtra(FullscreenActivity.KEY_ROLE_DAILY_LIST,
+                (ArrayList<RoleDailyCount>) mChart.getSplitList());
+        intent.putExtra(FullscreenActivity.KEY_CREATOR_TYPE, mChart.getCreatorType());
+        startActivity(intent);
+    }
+
+    /**
+     * 选择日期
+     */
+    @OnClick(R.id.et_date)
+    public void showDatePickerDialog(){
+        String[] date = mParamsMap.get(RoleDailyCount.DATE).split("-");
+
+        //日期选择器
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance
+                (LineChartFragment.this, Integer.parseInt("20" + date[0]), Integer
+                        .parseInt(date[1]) - 1, Integer.parseInt(date[2]));
+        datePickerDialog.vibrate(false);
+        datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
+        //设置日期选择器颜色
+        datePickerDialog.setAccentColor(((BaseActivity) getActivity()).mThemeColor);
+
+        datePickerDialog.setSelectableDays(initSelectedDates());
+    }
+
+    @OnTextChanged(value = R.id.et_date,callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void onTextChange(){
+        mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET
+                .getText() + ""));
+        mProgressDialog.show();
+        mChart.getData(mParamsMap);
+    }
 
     /**
      * 获取当天日期
@@ -164,58 +210,7 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
         String dateStr = getTodayDate();
         mDatePickerET.setText(dateStr);
         mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(dateStr));
-        mDatePickerET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] date = mParamsMap.get(RoleDailyCount.DATE).split("-");
-
-                //日期选择器
-                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance
-                        (LineChartFragment.this, Integer.parseInt("20" + date[0]), Integer
-                                .parseInt(date[1]) - 1, Integer.parseInt(date[2]));
-                datePickerDialog.vibrate(false);
-                datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
-                //设置日期选择器颜色
-                datePickerDialog.setAccentColor(((BaseActivity) getActivity()).mThemeColor);
-
-                datePickerDialog.setSelectableDays(initSelectedDates());
-            }
-        });
-        mDatePickerET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET
-                        .getText() + ""));
-                mProgressDialog.show();
-                mChart.getData(mParamsMap);
-                T.showShort(getActivity(), StringUtils.formatDateString(mDatePickerET.getText() +
-                        ""));
-            }
-        });
         mDatePickerET.setFocusable(false);
-
-        mFullScreenIBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-                intent.putExtra(FullscreenActivity.KEY_ROLE_DAILY_LIST,
-                        (ArrayList<RoleDailyCount>) mChart.getSplitList());
-                intent.putExtra(FullscreenActivity.KEY_CREATOR_TYPE, mChart.getCreatorType());
-                startActivity(intent);
-            }
-        });
-        mLeftIBtn.setOnClickListener(mChartRankListener);
-        mRightIBtn.setOnClickListener(mChartRankListener);
 
         mCreatorRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -240,7 +235,6 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
                 }
             }
         });
-        initSexRadioGroup();
         initGroupRadioGroup();
     }
 
@@ -275,12 +269,6 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         //设置选择的日期
         mDatePickerET.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-    }
-
-    private void initSexRadioGroup() {
-        mMoeRB.setOnClickListener(mMoeLightListener);
-        mLightRB.setOnClickListener(mMoeLightListener);
-        mMoeAndLightRB.setOnClickListener(mMoeLightListener);
     }
 
     private void initGroupRadioGroup() {

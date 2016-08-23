@@ -91,48 +91,6 @@ public class ThemeRecycleViewAdapter extends RecyclerView.Adapter<ThemeRecycleVi
             unCheckItem(holder, position);
         }
 
-        holder.itemView.setClickable(true);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (position == selectedRB) return;
-                int theme = 0;
-                switch (mThemeColors[position]) {
-                    case R.color.pink:
-                        theme = ThemeHelper.CARD_SAKURA;
-                        break;
-                    case R.color.purple:
-                        theme = ThemeHelper.CARD_HOPE;
-                        break;
-                    case R.color.blue:
-                        theme = ThemeHelper.CARD_STORM;
-                        break;
-                    case R.color.green:
-                        theme = ThemeHelper.CARD_WOOD;
-                        break;
-                    case R.color.yellow:
-                        theme = ThemeHelper.CARD_THUNDER;
-                        break;
-                    case R.color.orange:
-                        theme = ThemeHelper.CARD_SAND;
-                        break;
-                    case R.color.red:
-                        theme = ThemeHelper.CARD_FIREY;
-                        break;
-                }
-
-                setTheme(theme);
-                //更新主题颜色名称
-                themeColorName = mBaseActivity.mThemeColorName;
-
-                //更新被选中的item position
-                unCheckItem(holder, selectedRB);
-                notifyItemChanged(selectedRB);
-                checkItem(holder, position);
-                notifyItemChanged(position);
-                selectedRB = position;
-            }
-        });
     }
 
     /**
@@ -218,6 +176,51 @@ public class ThemeRecycleViewAdapter extends RecyclerView.Adapter<ThemeRecycleVi
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setClickable(true);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position == selectedRB) return;
+                    int theme = 0;
+                    switch (mThemeColors[position]) {
+                        case R.color.pink:
+                            theme = ThemeHelper.CARD_SAKURA;
+                            break;
+                        case R.color.purple:
+                            theme = ThemeHelper.CARD_HOPE;
+                            break;
+                        case R.color.blue:
+                            theme = ThemeHelper.CARD_STORM;
+                            break;
+                        case R.color.green:
+                            theme = ThemeHelper.CARD_WOOD;
+                            break;
+                        case R.color.yellow:
+                            theme = ThemeHelper.CARD_THUNDER;
+                            break;
+                        case R.color.orange:
+                            theme = ThemeHelper.CARD_SAND;
+                            break;
+                        case R.color.red:
+                            theme = ThemeHelper.CARD_FIREY;
+                            break;
+                    }
+
+                    setTheme(theme);
+                    //更新主题颜色名称
+                    themeColorName = mBaseActivity.mThemeColorName;
+
+                    //更新被选中的item position
+                    unCheckItem(MyViewHolder.this, selectedRB);
+                    notifyItemChanged(selectedRB);
+                    checkItem(MyViewHolder.this, position);
+                    notifyItemChanged(position);
+                    selectedRB = position;
+                }
+            });
         }
     }
 
