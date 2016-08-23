@@ -18,6 +18,9 @@ import com.kklv.bmoe.fragment.CampFragment;
 import com.kklv.bmoe.fragment.LineChartFragment;
 import com.kklv.bmoe.fragment.ThemeFragment;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
@@ -25,15 +28,18 @@ public class MainActivity extends BaseActivity {
     private static final int CAMP_FRAGMENT = 1;
     private static final int THEME_FRAGMENT = 2;
     int[] colors = new int[]{0, 0};
-    private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.nav_view)
+    NavigationView mNavigationView;
     private ActionBar mActionBar;
     private FragmentManager mFragmentManager;
     private LineChartFragment mLineChartFragment;
     private CampFragment mCampFragment;
     private ThemeFragment mThemeFragment;
-    private int[][] states = new int[][]{new int[]{-android.R.attr.state_checked},
-            new int[]{android.R.attr.state_checked}};
+    private int[][] states = new int[][]{new int[]{-android.R.attr.state_checked}, new
+            int[]{android.R.attr.state_checked}};
     /**
      * 当前显示的Fragment
      */
@@ -44,16 +50,11 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //注解
+        ButterKnife.bind(this);
         //TODO 自定义更新对话框
 //        PgyUpdateManager.register(this);
-        bindId();
         initView();
-
-    }
-
-    private void bindId() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
 
     }
 
@@ -98,7 +99,8 @@ public class MainActivity extends BaseActivity {
      * @param navigationView
      */
     private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView
+                .OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 if (!item.isChecked()) {
@@ -204,9 +206,10 @@ public class MainActivity extends BaseActivity {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
             return;
-        } else if(showingFragment != LINE_CHART_FRAGMENT){//回到主界面“曲线图”
+        } else if (showingFragment != LINE_CHART_FRAGMENT) {//回到主界面“曲线图”
             showFragment(LINE_CHART_FRAGMENT);
-            mNavigationView.setCheckedItem(R.id.nav_line_chart);//不会触发OnNavigationItemSelectedListener
+            mNavigationView.setCheckedItem(R.id.nav_line_chart);
+            //不会触发OnNavigationItemSelectedListener
             mActionBar.setTitle(R.string.line_chart);
             return;
         }
