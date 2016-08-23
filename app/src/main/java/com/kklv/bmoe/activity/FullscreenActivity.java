@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
@@ -14,6 +15,9 @@ import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.object.RoleDailyCount;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -23,21 +27,32 @@ public class FullscreenActivity extends AppCompatActivity {
     public static final String KEY_ROLE_DAILY_LIST = "roleDailyList";
     public static final String KEY_CREATOR_TYPE = "creatorType";
 
-    private LineChart mLineChart;
+    @BindView(R.id.fullscreen_content)
+    LineChart mContentView;
+    @BindView(R.id.fullscreen_content_controls)
+    View mControlsView;
+    @BindView(R.id.dummy_button)
+    Button mDummyBtn;
+
+
     private BaseChart mChart;
 
     private List<RoleDailyCount> mCampList;
 
-    private void bindId() {
-        mLineChart = (LineChart) findViewById(R.id.fullscreen_content);
-    }
 
     private void initView() {
-        int creatorType = getIntent().getIntExtra(KEY_CREATOR_TYPE, BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
-        mChart = new BaseChart(this, mLineChart, creatorType);
+        int creatorType = getIntent().getIntExtra(KEY_CREATOR_TYPE, BaseChart
+                .CREATOR_TOTAL_TICKETS_COUNT);
+        mChart = new BaseChart(this, mContentView, creatorType);
         mCampList = (List<RoleDailyCount>) getIntent().getSerializableExtra(KEY_ROLE_DAILY_LIST);
         mChart.setBasicList(mCampList);
         mChart.setData();
+
+
+        // Upon interacting with UI controls, delay any scheduled hide()
+        // operations to prevent the jarring behavior of controls going away
+        // while interacting with the UI.
+        mDummyBtn.setOnTouchListener(mDelayHideTouchListener);
     }
 
     /**
@@ -58,7 +73,7 @@ public class FullscreenActivity extends AppCompatActivity {
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
-    private View mContentView;
+
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -68,15 +83,13 @@ public class FullscreenActivity extends AppCompatActivity {
             // Note that some of these constants are new as of API 16 (Jelly Bean)
             // and API 19 (KitKat). It is safe to use them, as they are inlined
             // at compile-time and do nothing on earlier devices.
-            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE | View
+                    .SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View
+                    .SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
-    private View mControlsView;
+
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
@@ -117,8 +130,6 @@ public class FullscreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fullscreen);
 
         mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
 
         //TODO 寻找一种合适的方式来显示control Button
         // Set up the user interaction to manually show or hide the system UI.
@@ -129,12 +140,8 @@ public class FullscreenActivity extends AppCompatActivity {
 //            }
 //        });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
-        bindId();
+        ButterKnife.bind(this);
         initView();
     }
 
@@ -173,8 +180,8 @@ public class FullscreenActivity extends AppCompatActivity {
     @SuppressLint("InlinedApi")
     private void show() {
         // Show the system bar
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View
+                .SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mVisible = true;
 
         // Schedule a runnable to display UI elements after a delay

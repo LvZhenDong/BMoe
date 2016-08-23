@@ -39,23 +39,45 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LineChartFragment extends Fragment implements BaseChart.ChartCallBack,
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class LineChartFragment extends BaseFragment implements BaseChart.ChartCallBack,
         DatePickerDialog.OnDateSetListener {
     private static final java.lang.String TAG = "LineChartFragment";
-    private LineChart mLineChart;
-    private BaseChart mChart;
 
-    private EditText mDatePickerET;
-    private ImageButton mFullScreenIBtn, mLeftIBtn, mRightIBtn;
+    BaseChart mChart;
+
+    @BindView(R.id.lineChart)
+    LineChart mLineChart;
+    @BindView(R.id.et_date)
+    EditText mDatePickerET;
+    @BindView(R.id.ibtn_full_screen)
+    ImageButton mFullScreenIBtn;
+    @BindView(R.id.ibtn_left)
+    ImageButton mLeftIBtn;
+    @BindView(R.id.ibtn_right)
+    ImageButton mRightIBtn;
     //选择萌燃
-    private RadioButton mMoeRB, mLightRB, mMoeAndLightRB;
-    private int checkedSexId = R.id.rb_moe_light;
+    @BindView(R.id.rb_moe)
+    RadioButton mMoeRB;
+    @BindView(R.id.rb_light)
+    RadioButton mLightRB;
+    @BindView(R.id.rb_moe_light)
+    RadioButton mMoeAndLightRB;
     //选择分组
-    private RadioGroup mGroupRG;
-    private RadioButton mGroupAllRB;
-    private int checkedGroupRBId = R.id.rb_group_all;
+    @BindView(R.id.rg_group)
+    RadioGroup mGroupRG;
+    @BindView(R.id.rb_group_all)
+    RadioButton mGroupAllRB;
     //选择图表类型
-    private RadioGroup mCreatorRG;
+    @BindView(R.id.rg_creator)
+    RadioGroup mCreatorRG;
+
+    private int checkedSexId = R.id.rb_moe_light;
+
+    private int checkedGroupRBId = R.id.rb_group_all;
+
     private int checkedCreatorRBId = R.id.rb_total_tickets_count_creator;
 
     private ProgressDialog mProgressDialog;
@@ -126,24 +148,10 @@ public class LineChartFragment extends Fragment implements BaseChart.ChartCallBa
             savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_line_chart, container, false);
 
-        bindId(view);
+        mUnbinder = ButterKnife.bind(this, view);
         initView();
 //        mDatePickerET.setMessage("2015-12-12");  //自动化测试
         return view;
-    }
-
-    private void bindId(View view) {
-        mLineChart = (LineChart) view.findViewById(R.id.lineChart);
-        mDatePickerET = (EditText) view.findViewById(R.id.et_date);
-        mFullScreenIBtn = (ImageButton) view.findViewById(R.id.ibtn_full_screen);
-        mLeftIBtn = (ImageButton) view.findViewById(R.id.ibtn_left);
-        mRightIBtn = (ImageButton) view.findViewById(R.id.ibtn_right);
-        mMoeRB = (RadioButton) view.findViewById(R.id.rb_moe);
-        mLightRB = (RadioButton) view.findViewById(R.id.rb_light);
-        mMoeAndLightRB = (RadioButton) view.findViewById(R.id.rb_moe_light);
-        mGroupRG = (RadioGroup) view.findViewById(R.id.rg_group);
-        mGroupAllRB = (RadioButton) view.findViewById(R.id.rb_group_all);
-        mCreatorRG = (RadioGroup) view.findViewById(R.id.rg_creator);
     }
 
     private void initView() {

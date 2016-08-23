@@ -31,6 +31,9 @@ import com.kklv.bmoe.utils.T;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * 角色数据表格
  *
@@ -40,8 +43,14 @@ import java.util.List;
 public class BangumiActivity extends BaseActivity implements DataHelper.DataHelperCallBack {
     public static final String BANGUMI = "bangumi";
     private static final String TAG = "BangumiActivity";
+
+    @BindView(R.id.sdv_image)
     SimpleDraweeView mSimpleDraweeView;
+    @BindView(R.id.rv_bangumi)
     RecyclerView mRecyclerView;
+    @BindView(R.id.floating_action_button)
+    FloatingActionButton mFloatingActionButton;
+
     DataHelper mDataHelper;
     private int mTotalError;
     private String mBangumi;
@@ -66,14 +75,14 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         }
     };
     private BangumiRecycleViewAdapter mBangumiRecycleViewAdapter;
-    private FloatingActionButton mFloatingActionButton;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bangumi);
 
-        bindId();
+        ButterKnife.bind(this);
         getThemeColor();
         initView();
 
@@ -84,21 +93,15 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         mDataHelper.getCampRank(mBangumi);
     }
 
-    private void bindId() {
-        mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_image);
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_bangumi);
-        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
-    }
-
     private void initView() {
         mBangumi = getIntent().getStringExtra(BANGUMI);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = ButterKnife.findById(this,R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CollapsingToolbarLayout collapsingToolbarLayout =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+                ButterKnife.findById(this,R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mBangumi);
         //设置折叠时颜色
         collapsingToolbarLayout.setContentScrimResource(mThemeColorId);

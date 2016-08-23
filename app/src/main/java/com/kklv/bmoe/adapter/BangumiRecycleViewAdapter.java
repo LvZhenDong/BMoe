@@ -13,6 +13,9 @@ import com.kklv.bmoe.view.TagTextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * @author LvZhenDong
  *         created at 2016/7/13 16:53
@@ -86,21 +89,23 @@ public class BangumiRecycleViewAdapter extends
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TagTextView nameTV, dateTV, stageTV, countTV, rankTV, statTV;
+        @BindView(R.id.tv_item_role_name)
+        TagTextView nameTV;
+        @BindView(R.id.tv_item_role_date)
+        TagTextView dateTV;
+        @BindView(R.id.tv_item_role_stage)
+        TagTextView stageTV;
+        @BindView(R.id.tv_item_role_count)
+        TagTextView countTV;
+        @BindView(R.id.tv_item_role_rank)
+        TagTextView rankTV;
+        @BindView(R.id.tv_item_role_stat)
+        TagTextView statTV;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            bindId(itemView);
+            ButterKnife.bind(this,itemView);
 
-        }
-
-        private void bindId(View itemView) {
-            nameTV = (TagTextView) itemView.findViewById(R.id.tv_item_role_name);
-            dateTV = (TagTextView) itemView.findViewById(R.id.tv_item_role_date);
-            stageTV = (TagTextView) itemView.findViewById(R.id.tv_item_role_stage);
-            countTV = (TagTextView) itemView.findViewById(R.id.tv_item_role_count);
-            rankTV = (TagTextView) itemView.findViewById(R.id.tv_item_role_rank);
-            statTV = (TagTextView) itemView.findViewById(R.id.tv_item_role_stat);
         }
 
     }

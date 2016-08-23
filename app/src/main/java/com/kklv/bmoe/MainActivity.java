@@ -33,6 +33,7 @@ public class MainActivity extends BaseActivity {
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
+
     private ActionBar mActionBar;
     private FragmentManager mFragmentManager;
     private LineChartFragment mLineChartFragment;
@@ -60,7 +61,7 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         setNavItemColor();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = ButterKnife.findById(this,R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mActionBar = getSupportActionBar();

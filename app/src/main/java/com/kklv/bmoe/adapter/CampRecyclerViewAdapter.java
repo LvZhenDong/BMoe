@@ -28,6 +28,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * @author LvZhenDong
  *         created at 2016/8/8 16:36
@@ -123,15 +126,16 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
     }
 
     public static class CampViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.sdv_item_head)
         AsyncSimpleDraweeView mSimpleDraweeView;
+        @BindView(R.id.tv_item_camp_name)
         TextView mCampNameTV;
+        @BindView(R.id.tv_item_suc_percent_value)
         TagTextView mSucValueTV;
 
         public CampViewHolder(View itemView) {
             super(itemView);
-            mSimpleDraweeView = (AsyncSimpleDraweeView) itemView.findViewById(R.id.sdv_item_head);
-            mSucValueTV = (TagTextView) itemView.findViewById(R.id.tv_item_suc_percent_value);
-            mCampNameTV = (TextView) itemView.findViewById(R.id.tv_item_camp_name);
+            ButterKnife.bind(this,itemView);
         }
     }
 

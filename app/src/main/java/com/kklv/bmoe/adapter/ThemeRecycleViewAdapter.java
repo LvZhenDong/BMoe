@@ -18,22 +18,24 @@ import com.kklv.bmoe.utils.DensityUtils;
 import com.kklv.bmoe.utils.ThemeHelper;
 import com.kklv.bmoe.view.TintCircleView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * 主题选择列表adapter
  *
  * @author LvZhenDong
  *         created at 2016/7/27 16:09
  */
-public class ThemeRecycleViewAdapter extends
-        RecyclerView.Adapter<ThemeRecycleViewAdapter.MyViewHolder> {
+public class ThemeRecycleViewAdapter extends RecyclerView.Adapter<ThemeRecycleViewAdapter
+        .MyViewHolder> {
     private static final String TAG = "ThemeRecycleViewAdapter";
 
     /*要增加或者减少颜色需要改ThemeRecycleViewAdapter里的mThemeNames和mThemeColors、BMoeApplication
     、ThemeHelper、colors.xml*/
-    private static String[] mThemeNames = {"由乃粉", "荡漾紫", "智障蓝", "真琴绿",
-            "灰原褐", "奇迹橙", "夏娜红"};
-    private static int[] mThemeColors = {R.color.pink, R.color.purple, R.color.blue, R.color.green,
-            R.color.yellow, R.color.orange, R.color.red};
+    private static String[] mThemeNames = {"由乃粉", "荡漾紫", "智障蓝", "真琴绿", "灰原褐", "奇迹橙", "夏娜红"};
+    private static int[] mThemeColors = {R.color.pink, R.color.purple, R.color.blue, R.color
+            .green, R.color.yellow, R.color.orange, R.color.red};
     private int selectedRB = 0;
     private String themeColorName;
     private LayoutInflater mLayoutInflater;
@@ -147,7 +149,8 @@ public class ThemeRecycleViewAdapter extends
         holder.mUseTV.setText(mContext.getString(R.string.using));
 
         //设置shape的stroke颜色
-        GradientDrawable gradientDrawable = (GradientDrawable) holder.mUseTV.getBackground().mutate();
+        GradientDrawable gradientDrawable = (GradientDrawable) holder.mUseTV.getBackground()
+                .mutate();
         gradientDrawable.setStroke(DensityUtils.convertDpToIntPixel(mContext.getResources().
                 getDimension(R.dimen.rb_theme_width), mContext), checkedColor);
 
@@ -167,7 +170,8 @@ public class ThemeRecycleViewAdapter extends
         holder.mUseTV.setText(mContext.getString(R.string.use));
 
         //设置shape的stroke颜色
-        GradientDrawable gradientDrawable = (GradientDrawable) holder.mUseTV.getBackground().mutate();
+        GradientDrawable gradientDrawable = (GradientDrawable) holder.mUseTV.getBackground()
+                .mutate();
         gradientDrawable.setStroke(DensityUtils.convertDpToIntPixel(mContext.getResources().
                 getDimension(R.dimen.rb_theme_width), mContext), unCheckedColor);
 
@@ -188,31 +192,32 @@ public class ThemeRecycleViewAdapter extends
         if (ThemeHelper.getTheme(mContext) != theme) {
             ThemeHelper.setTheme(mContext, theme);
             ThemeUtils.refreshUI(mContext, new ThemeUtils.ExtraRefreshable() {
-                        @Override
-                        public void refreshGlobal(Activity activity) {
-                            MainActivity mainActivity = (MainActivity) activity;
-                            mainActivity.getThemeColor();
-                            mainActivity.setNavItemColor();
-                        }
+                @Override
+                public void refreshGlobal(Activity activity) {
+                    MainActivity mainActivity = (MainActivity) activity;
+                    mainActivity.getThemeColor();
+                    mainActivity.setNavItemColor();
+                }
 
-                        @Override
-                        public void refreshSpecificView(View view) {
+                @Override
+                public void refreshSpecificView(View view) {
 
-                        }
-                    }
-            );
+                }
+            });
         }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView mNameTV, mUseTV;
+        @BindView(R.id.tv_item_theme_name)
+        TextView mNameTV;
+        @BindView(R.id.tv_item_theme_use)
+        TextView mUseTV;
+        @BindView(R.id.tcv_checked)
         TintCircleView mTintCircleView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            mNameTV = (TextView) itemView.findViewById(R.id.tv_item_theme_name);
-            mUseTV = (TextView) itemView.findViewById(R.id.tv_item_theme_use);
-            mTintCircleView = (TintCircleView) itemView.findViewById(R.id.tcv_checked);
+            ButterKnife.bind(this, itemView);
         }
     }
 

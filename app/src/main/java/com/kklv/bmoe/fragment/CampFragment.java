@@ -22,27 +22,34 @@ import com.kklv.bmoe.utils.T;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * 阵营信息
  *
  * @author LvZhenDong
- * created at 2016/6/13 10:08
+ *         created at 2016/6/13 10:08
  */
-public class CampFragment extends Fragment implements DataHelper.DataHelperCallBack {
+public class CampFragment extends BaseFragment implements DataHelper.DataHelperCallBack {
     private static final String TAG = "CampFragment";
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView mCampRV;
+
+    @BindView(R.id.srl_camp)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.rv_camp)
+    RecyclerView mCampRV;
+
     private CampRecyclerViewAdapter mCampRecyclerViewAdapter;
     private List<Camp> mList;
 
     private DataHelper mDataHelper;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camp, container, false);
+        mUnbinder = ButterKnife.bind(this, view);
 
-        bindId(view);
         initView();
         getData();
 
@@ -50,17 +57,13 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
          * 触发SwipeRefreshLayout
          */
         mSwipeRefreshLayout.post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 mSwipeRefreshLayout.setRefreshing(true);
             }
         });
 
         return view;
-    }
-
-    private void bindId(View view) {
-        mCampRV = (RecyclerView) view.findViewById(R.id.rv_camp);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_camp);
     }
 
     private void initView() {
@@ -76,7 +79,7 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
     }
 
     private void getData() {
-        mSwipeRefreshLayout.setColorSchemeColors(((MainActivity)getActivity()).mThemeColor);
+        mSwipeRefreshLayout.setColorSchemeColors(((MainActivity) getActivity()).mThemeColor);
         mDataHelper.getAllCamps();
     }
 
@@ -92,7 +95,8 @@ public class CampFragment extends Fragment implements DataHelper.DataHelperCallB
             if (mCampRecyclerViewAdapter == null) {
                 mCampRecyclerViewAdapter = new CampRecyclerViewAdapter(getActivity(), mList);
                 mCampRV.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                mCampRV.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
+//                mCampRV.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper
+// .VERTICAL));
                 mCampRV.setAdapter(mCampRecyclerViewAdapter);
             } else {
                 mCampRecyclerViewAdapter.setData(mList);
