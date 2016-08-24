@@ -28,6 +28,7 @@ import com.kklv.bmoe.object.RoleInfo;
 import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.T;
+import com.kklv.bmoe.utils.ThemeHelper;
 
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
         setContentView(R.layout.activity_bangumi);
 
         ButterKnife.bind(this);
-        getThemeColor();
+//        getThemeColor();
         initView();
 
         mDataHelper = new DataHelper(this);
@@ -105,7 +106,7 @@ public class BangumiActivity extends BaseActivity implements DataHelper.DataHelp
                 ButterKnife.findById(this,R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mBangumi);
         //设置折叠时颜色
-        collapsingToolbarLayout.setContentScrimResource(mThemeColorId);
+        collapsingToolbarLayout.setContentScrimColor(ThemeHelper.getThemePrimaryColor(this));
 
         //设置FloatingActionButton的颜色
 //        mFloatingActionButton.

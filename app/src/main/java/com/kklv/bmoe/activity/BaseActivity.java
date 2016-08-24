@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.kklv.bmoe.BMoeApplication;
 import com.kklv.bmoe.R;
+import com.kklv.bmoe.utils.ThemeHelper;
 import com.pgyersdk.crash.PgyCrashManager;
 
 /**
@@ -16,18 +17,6 @@ import com.pgyersdk.crash.PgyCrashManager;
  *         created at 2016/6/12 17:24
  */
 public class BaseActivity extends AppCompatActivity {
-    /**
-     * 主题颜色id
-     */
-    public int mThemeColorId = R.color.pink;
-    /**
-     * 主题颜色
-     */
-    public int mThemeColor= 0xfb7299;
-    /**
-     * 主题颜色名称
-     */
-    public String mThemeColorName = "pink";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +24,6 @@ public class BaseActivity extends AppCompatActivity {
 
         PgyCrashManager.register(this);
         setStatusBar();
-        getThemeColor();
     }
 
     private void setStatusBar() {
@@ -48,10 +36,4 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void getThemeColor() {
-        BMoeApplication bMoeApplication = (BMoeApplication) getApplication();
-        mThemeColorId = bMoeApplication.getThemeColor(this);
-        mThemeColorName = bMoeApplication.getTheme(this);
-        mThemeColor=getResources().getColor(mThemeColorId);
-    }
 }

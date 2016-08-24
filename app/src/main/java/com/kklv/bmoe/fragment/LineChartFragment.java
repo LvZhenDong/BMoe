@@ -30,6 +30,7 @@ import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.StringUtils;
 import com.kklv.bmoe.utils.T;
+import com.kklv.bmoe.utils.ThemeHelper;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
@@ -166,7 +167,7 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
         datePickerDialog.vibrate(false);
         datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
         //设置日期选择器颜色
-        datePickerDialog.setAccentColor(((BaseActivity) getActivity()).mThemeColor);
+        datePickerDialog.setAccentColor(ThemeHelper.getThemePrimaryColor(getActivity()));
 
         datePickerDialog.setSelectableDays(initSelectedDates());
     }

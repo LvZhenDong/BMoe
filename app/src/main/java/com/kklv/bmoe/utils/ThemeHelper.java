@@ -24,7 +24,7 @@ import android.content.SharedPreferences;
  * 主题切换工具类
  *
  * @author LvZhenDong
- * created at 2016/7/27 11:50
+ *         created at 2016/7/27 11:50
  */
 public class ThemeHelper {
     public static final int CARD_SAKURA = 0x1;
@@ -41,9 +41,7 @@ public class ThemeHelper {
     }
 
     public static void setTheme(Context context, int themeId) {
-        getSharePreference(context).edit()
-                .putInt(CURRENT_THEME, themeId)
-                .commit();
+        getSharePreference(context).edit().putInt(CURRENT_THEME, themeId).commit();
     }
 
     public static int getTheme(Context context) {
@@ -74,7 +72,43 @@ public class ThemeHelper {
         return "THE RETURN";
     }
 
-//    public static int getThemePrimaryColor(Context context){
-//
-//    }
+    /**
+     * 获得当前主题的primary color
+     * @param context
+     * @return
+     */
+    public static int getThemePrimaryColor(Context context) {
+        int colorId=context.getResources().getIdentifier(getColorXmlName(context), "color", context
+                .getPackageName());
+        return context.getResources().getColor(colorId);
+
+    }
+
+    /**
+     * 获得当前主题的primary color id
+     * @param context
+     * @return
+     */
+    public static int getThemePrimaryColorId(Context context){
+        return context.getResources().getIdentifier(getColorXmlName(context), "color", context
+                .getPackageName());
+    }
+
+    public static String getColorXmlName(Context context) {
+        if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_STORM) {
+            return "blue";
+        } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_HOPE) {
+            return "purple";
+        } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_WOOD) {
+            return "green";
+        } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_THUNDER) {
+            return "yellow";
+        } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_SAND) {
+            return "orange";
+        } else if (ThemeHelper.getTheme(context) == ThemeHelper.CARD_FIREY) {
+            return "red";
+        } else {
+            return "pink";
+        }
+    }
 }

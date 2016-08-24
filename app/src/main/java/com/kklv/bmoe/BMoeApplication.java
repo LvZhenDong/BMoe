@@ -109,7 +109,4 @@ public class BMoeApplication extends Application implements ThemeUtils.switchCol
         return -1;
     }
 
-    public int getThemeColor(Context context) {
-        return getThemeColorId(context, R.color.theme_color_primary, getTheme(context));
-    }
 }

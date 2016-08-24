@@ -17,6 +17,7 @@ import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.fragment.CampFragment;
 import com.kklv.bmoe.fragment.LineChartFragment;
 import com.kklv.bmoe.fragment.ThemeFragment;
+import com.kklv.bmoe.utils.ThemeHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +79,7 @@ public class MainActivity extends BaseActivity {
      */
     public void setNavItemColor() {
         colors[0] = getResources().getColor(R.color.text_primary_color);
-        colors[1] = getResources().getColor(mThemeColorId);
+        colors[1] = ThemeHelper.getThemePrimaryColor(this);
         ColorStateList csl = new ColorStateList(states, colors);
         mNavigationView.setItemTextColor(csl);
         mNavigationView.setItemIconTintList(csl);

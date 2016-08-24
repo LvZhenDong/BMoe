@@ -19,6 +19,7 @@ import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.T;
+import com.kklv.bmoe.utils.ThemeHelper;
 
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class CampFragment extends BaseFragment implements DataHelper.DataHelperC
     }
 
     private void getData() {
-        mSwipeRefreshLayout.setColorSchemeColors(((MainActivity) getActivity()).mThemeColor);
+        mSwipeRefreshLayout.setColorSchemeColors(ThemeHelper.getThemePrimaryColor(getActivity()));
         mDataHelper.getAllCamps();
     }
 

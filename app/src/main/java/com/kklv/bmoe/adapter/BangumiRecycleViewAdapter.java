@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.object.RoleInfo;
+import com.kklv.bmoe.utils.ThemeHelper;
 import com.kklv.bmoe.view.TagTextView;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class BangumiRecycleViewAdapter extends
 
 
         holder.statTV.setMessageColor(getStatTextColor(roleInfo.getStat()));
-        holder.nameTV.setMessageColor(((BaseActivity) mContext).mThemeColor);
+        holder.nameTV.setMessageColor(ThemeHelper.getThemePrimaryColor(mContext));
 
         holder.nameTV.setMessage(roleInfo.getName());
         holder.dateTV.setMessage(roleInfo.getDate());

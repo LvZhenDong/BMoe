@@ -37,7 +37,6 @@ public class ThemeRecycleViewAdapter extends RecyclerView.Adapter<ThemeRecycleVi
     private static int[] mThemeColors = {R.color.pink, R.color.purple, R.color.blue, R.color
             .green, R.color.yellow, R.color.orange, R.color.red};
     private int selectedRB = 0;
-    private String themeColorName;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
     private BaseActivity mBaseActivity;
@@ -53,7 +52,7 @@ public class ThemeRecycleViewAdapter extends RecyclerView.Adapter<ThemeRecycleVi
      * 根据现在的主题设置第几条item被选中
      */
     private void initRadioButton() {
-        int colorId = mBaseActivity.mThemeColorId;
+        int colorId = ThemeHelper.getThemePrimaryColorId(mContext);
         if (colorId == R.color.theme_color_primary) {
             selectedRB = 0;
             return;
@@ -65,8 +64,6 @@ public class ThemeRecycleViewAdapter extends RecyclerView.Adapter<ThemeRecycleVi
             }
         }
 
-        //得到主题颜色名称
-        themeColorName = mBaseActivity.mThemeColorName;
     }
 
     @Override
@@ -153,7 +150,6 @@ public class ThemeRecycleViewAdapter extends RecyclerView.Adapter<ThemeRecycleVi
                 @Override
                 public void refreshGlobal(Activity activity) {
                     MainActivity mainActivity = (MainActivity) activity;
-                    mainActivity.getThemeColor();
                     mainActivity.setNavItemColor();
                 }
 
@@ -210,8 +206,6 @@ public class ThemeRecycleViewAdapter extends RecyclerView.Adapter<ThemeRecycleVi
                     }
 
                     setTheme(theme);
-                    //更新主题颜色名称
-                    themeColorName = mBaseActivity.mThemeColorName;
 
                     //更新被选中的item position
                     unCheckItem(MyViewHolder.this, selectedRB);
