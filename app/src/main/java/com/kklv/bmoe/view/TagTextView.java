@@ -60,10 +60,14 @@ public class TagTextView extends TextView {
     /**
      * 要在setTextWithTag()前执行才能生效
      *
-     * @param textColor
+     * @param messageColor
      */
-    public void setMessageColor(int textColor) {
-        mMessageColor = textColor;
+    public void setMessageColor(int messageColor) {
+        mMessageColor = messageColor;
+    }
+
+    public void setMessageColorId(int messageColorId){
+        mMessageColor=getResources().getColor(messageColorId);
     }
 
     @Override

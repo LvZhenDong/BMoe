@@ -11,16 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.kklv.bmoe.R;
 import com.kklv.bmoe.activity.BangumiActivity;
 import com.kklv.bmoe.data.DataHelper;
-import com.kklv.bmoe.diskLruCache.DiskLruCacheHelper;
 import com.kklv.bmoe.object.BingImageSearchResult;
 import com.kklv.bmoe.object.Camp;
 import com.kklv.bmoe.object.PercentCamp;
-import com.kklv.bmoe.utils.L;
-import com.kklv.bmoe.utils.ListUtils;
+import com.kklv.bmoe.utils.ThemeHelper;
 import com.kklv.bmoe.view.AsyncSimpleDraweeView;
 import com.kklv.bmoe.view.TagTextView;
 
@@ -99,7 +96,14 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
         Camp item = mList.get(position);
 
         holder.mCampNameTV.setText(item.getBangumi());
-        holder.mSucValueTV.setMessage(percentCamp.getPercentSuc() + "%");
+        holder.mSucPercentTV.setMessage(percentCamp.getPercentSuc() + "%");
+        holder.mWaitPercentTV.setMessage(percentCamp.getPercentWait()+"%");
+        holder.mFailPercentTV.setMessage(percentCamp.getPercentFail()+"%");
+
+        holder.mTotalCountTV.setMessage(item.getTotal()+"");
+        holder.mSucCountTV.setMessage(item.getSuc()+"");
+        holder.mWaitCountTV.setMessage(item.getWait()+"");
+        holder.mFailCountTV.setMessage(item.getFail()+"");
 
         if (TextUtils.isEmpty(item.getImeUrl())) {
             loadImage(item.getBangumi(), holder.mSimpleDraweeView);
@@ -120,12 +124,32 @@ public class CampRecyclerViewAdapter extends RecyclerView.Adapter<CampRecyclerVi
         AsyncSimpleDraweeView mSimpleDraweeView;
         @BindView(R.id.tv_item_camp_name)
         TextView mCampNameTV;
-        @BindView(R.id.tv_item_suc_percent_value)
-        TagTextView mSucValueTV;
+        @BindView(R.id.tv_item_suc_percent)
+        TagTextView mSucPercentTV;
+        @BindView(R.id.tv_item_wait_percent)
+        TagTextView mWaitPercentTV;
+        @BindView(R.id.tv_item_fail_percent)
+        TagTextView mFailPercentTV;
+        @BindView(R.id.tv_item_total_count)
+        TagTextView mTotalCountTV;
+        @BindView(R.id.tv_item_suc_count)
+        TagTextView mSucCountTV;
+        @BindView(R.id.tv_item_wait_count)
+        TagTextView mWaitCountTV;
+        @BindView(R.id.tv_item_fail_count)
+        TagTextView mFailCountTV;
 
         public CampViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            mSucPercentTV.setMessageColorId(R.color.colorAccent);
+            mWaitPercentTV.setMessageColorId(R.color.text_secondary_color);
+            mFailPercentTV.setMessageColorId(R.color.text_disabled_color);
+
+            mSucCountTV.setMessageColorId(R.color.colorAccent);
+            mWaitCountTV.setMessageColorId(R.color.text_secondary_color);
+            mFailCountTV.setMessageColorId(R.color.text_disabled_color);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
