@@ -12,11 +12,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
@@ -75,14 +77,12 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
     @BindView(R.id.rb_group_all)
     RadioButton mGroupAllRB;
     //选择图表类型
-    @BindView(R.id.rg_creator)
-    RadioGroup mCreatorRG;
+    @BindView(R.id.spinner_creator)
+    Spinner mCreatorSpinner;
 
     private int checkedSexId = R.id.rb_moe_light;
 
     private int checkedGroupRBId = R.id.rb_group_all;
-
-    private int checkedCreatorRBId = R.id.rb_total_tickets_count_creator;
 
     private ProgressDialog mProgressDialog;
 
@@ -213,29 +213,32 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
         mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(dateStr));
         mDatePickerET.setFocusable(false);
 
-        mCreatorRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        //在Spinner里选择图表类型
+        mCreatorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId != checkedCreatorRBId) {
-                    checkedCreatorRBId = checkedId;
-
-                    switch (checkedId) {
-                        case R.id.rb_total_tickets_count_creator:
-                            mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
-                            break;
-                        case R.id.rb_one_hour_tickets_count_creator:
-                            mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_COUNT);
-                            break;
-                        case R.id.rb_one_hour_tickets_percent_creator:
-                            mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_PERCENT);
-                            break;
-                        case R.id.rb_total_tickets_percent_creator:
-                            mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_PERCENT);
-                            break;
-                    }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
+                        break;
+                    case 1:
+                        mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_COUNT);
+                        break;
+                    case 2:
+                        mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_PERCENT);
+                        break;
+                    case 3:
+                        mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_PERCENT);
+                        break;
                 }
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
+
         initGroupRadioGroup();
     }
 

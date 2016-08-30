@@ -90,35 +90,15 @@
                 android:text="@string/all"/>
         </RadioGroup>
 
-        <RadioGroup
-            android:id="@+id/rg_creator"
+        <Spinner
+            android:id="@+id/spinner_creator"
+            android:layout_below="@id/ibtn_full_screen"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/ibtn_full_screen"
-            android:orientation="horizontal">
+            android:gravity="right"
 
-            <RadioButton
-                android:id="@+id/rb_total_tickets_count_creator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"/>
-
-            <RadioButton
-                android:id="@+id/rb_one_hour_tickets_count_creator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <RadioButton
-                android:id="@+id/rb_one_hour_tickets_percent_creator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <RadioButton
-                android:id="@+id/rb_total_tickets_percent_creator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RadioGroup>
+            android:entries="@array/creator"></Spinner>
 
     </RelativeLayout>
 
