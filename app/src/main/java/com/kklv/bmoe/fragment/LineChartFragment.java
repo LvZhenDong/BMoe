@@ -225,10 +225,10 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
                         mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_COUNT);
                         break;
                     case 2:
-                        mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_PERCENT);
+                        mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_PERCENT);
                         break;
                     case 3:
-                        mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_PERCENT);
+                        mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_PERCENT);
                         break;
                 }
             }
