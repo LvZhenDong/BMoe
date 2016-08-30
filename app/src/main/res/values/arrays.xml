@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="creator">
+        <item>总得票数</item>
+        <item>每小时得票数</item>
+        <item>总得票率</item>
+        <item>每小时得票率</item>
+    </string-array>
+</resources>

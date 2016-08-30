@@ -74,32 +74,23 @@
                 android:text="@string/total"/>
         </RadioGroup>
 
-        <RadioGroup
-            android:id="@+id/rg_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <RadioButton
-                android:id="@+id/rb_group_all"
-                style="@style/SexRadioButton"
-                android:checked="true"
-                android:text="@string/all"/>
-        </RadioGroup>
-
         <Spinner
             android:id="@+id/spinner_creator"
-            android:layout_below="@id/ibtn_full_screen"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/ibtn_full_screen"
+            android:entries="@array/creator"
+            android:padding="5dp"/>
 
-            android:entries="@array/creator"></Spinner>
-
+        <Spinner
+            android:id="@+id/spinner_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/spinner_creator"
+            android:layout_below="@id/spinner_creator"
+            android:padding="5dp"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 </LinearLayout>

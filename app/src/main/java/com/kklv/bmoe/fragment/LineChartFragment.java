@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -72,17 +73,13 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
     @BindView(R.id.rb_moe_light)
     RadioButton mMoeAndLightRB;
     //选择分组
-    @BindView(R.id.rg_group)
-    RadioGroup mGroupRG;
-    @BindView(R.id.rb_group_all)
-    RadioButton mGroupAllRB;
+    @BindView(R.id.spinner_group)
+    Spinner mGroupSpinner;
     //选择图表类型
     @BindView(R.id.spinner_creator)
     Spinner mCreatorSpinner;
 
     private int checkedSexId = R.id.rb_moe_light;
-
-    private int checkedGroupRBId = R.id.rb_group_all;
 
     private ProgressDialog mProgressDialog;
 
@@ -91,10 +88,11 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
 
     /**
      * 切换萌、燃
+     *
      * @param v
      */
-    @OnClick({R.id.rb_moe,R.id.rb_light,R.id.rb_moe_light})
-    public void showMoe(View v){
+    @OnClick({R.id.rb_moe, R.id.rb_light, R.id.rb_moe_light})
+    public void showMoe(View v) {
         //TODO 感觉写的一点也不优雅
         int id = v.getId();
         if (id == checkedSexId) return;
@@ -111,26 +109,14 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
         }
         checkedSexId = id;
     }
-    /**
-     * Group的监听
-     */
-    private View.OnClickListener mGroupListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            if (id == checkedGroupRBId) return;
-            RadioButton rb = (RadioButton) v;
-            mChart.showGroup(rb.getText() + "");
-            checkedGroupRBId = id;
-        }
-    };
 
     /**
-     *下一组或者上一组 1-16、2-32。。。
+     * 下一组或者上一组 1-16、2-32。。。
+     *
      * @param v
      */
-    @OnClick({R.id.ibtn_right,R.id.ibtn_left})
-    public void goLeftOrRight(View v){
+    @OnClick({R.id.ibtn_right, R.id.ibtn_left})
+    public void goLeftOrRight(View v) {
         switch (v.getId()) {
             case R.id.ibtn_left:
                 mChart.goLeftSplitLists();
@@ -145,10 +131,10 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
      * 全屏
      */
     @OnClick(R.id.ibtn_full_screen)
-    public void goFullScreenActivity(){
+    public void goFullScreenActivity() {
         Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-        intent.putExtra(FullscreenActivity.KEY_ROLE_DAILY_LIST,
-                (ArrayList<RoleDailyCount>) mChart.getSplitList());
+        intent.putExtra(FullscreenActivity.KEY_ROLE_DAILY_LIST, (ArrayList<RoleDailyCount>)
+                mChart.getSplitList());
         intent.putExtra(FullscreenActivity.KEY_CREATOR_TYPE, mChart.getCreatorType());
         startActivity(intent);
     }
@@ -157,13 +143,13 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
      * 选择日期
      */
     @OnClick(R.id.et_date)
-    public void showDatePickerDialog(){
+    public void showDatePickerDialog() {
         String[] date = mParamsMap.get(RoleDailyCount.DATE).split("-");
 
         //日期选择器
-        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance
-                (LineChartFragment.this, Integer.parseInt("20" + date[0]), Integer
-                        .parseInt(date[1]) - 1, Integer.parseInt(date[2]));
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(LineChartFragment.this,
+                Integer.parseInt("20" + date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt
+                        (date[2]));
         datePickerDialog.vibrate(false);
         datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
         //设置日期选择器颜色
@@ -172,10 +158,10 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
         datePickerDialog.setSelectableDays(initSelectedDates());
     }
 
-    @OnTextChanged(value = R.id.et_date,callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
-    public void onTextChange(){
-        mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET
-                .getText() + ""));
+    @OnTextChanged(value = R.id.et_date, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void onTextChange() {
+        mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(mDatePickerET.getText()
+                + ""));
         mProgressDialog.show();
         mChart.getData(mParamsMap);
     }
@@ -217,7 +203,7 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
         mCreatorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 0:
                         mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
                         break;
@@ -239,7 +225,6 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
             }
         });
 
-        initGroupRadioGroup();
     }
 
     /**
@@ -275,10 +260,6 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
         mDatePickerET.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
     }
 
-    private void initGroupRadioGroup() {
-        mGroupAllRB.setOnClickListener(mGroupListener);
-    }
-
     private void initProgressDialog() {
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -302,8 +283,6 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
     public void resetRG() {
         mMoeAndLightRB.setChecked(true);
         checkedSexId = R.id.rb_moe_light;
-        mGroupAllRB.setChecked(true);
-        checkedGroupRBId = R.id.rb_group_all;
     }
 
     @Override
@@ -312,31 +291,31 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
     }
 
     @Override
-    public void showGroup(List<String> list) {
-        //删除除第一个以外的RadioButton
-        if (mGroupRG.getChildCount() > 1) {
-            mGroupRG.removeViews(1, mGroupRG.getChildCount() - 1);
-        }
-
-        //生成RadioButton
+    public void showGroup(final List<String> list) {
+        //生成GroupSpinner
         if (!ListUtils.isEmpty(list)) {
-            mGroupRG.setVisibility(View.VISIBLE);
-            for (String item : list) {
-                if (!isAdded()) return;
-                RadioButton rb = (RadioButton) LayoutInflater.from(getActivity()).
-                        inflate(R.layout.item_radio_button, null);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout
-                        .LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                int margin = DensityUtils.dip2px(getActivity(), 5);
-                params.setMargins(margin, margin, margin, margin);
-                rb.setText(item);
-                rb.setOnClickListener(mGroupListener);
-                mGroupRG.addView(rb);
-                rb.setLayoutParams(params);
-            }
 
+            //大于1组的时候才加上"全部"
+            if (list.size() > 1) list.add(0, getString(R.string.all));
+            mGroupSpinner.setVisibility(View.VISIBLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout
+                    .simple_spinner_item, list);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mGroupSpinner.setAdapter(adapter);
+            mGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long
+                        id) {
+                    mChart.showGroup(list.get(position));
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
         } else {
-            mGroupRG.setVisibility(View.GONE);
+            mGroupSpinner.setVisibility(View.GONE);
         }
     }
 
