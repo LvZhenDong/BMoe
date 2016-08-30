@@ -203,20 +203,7 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
         mCreatorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_COUNT);
-                        break;
-                    case 1:
-                        mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_COUNT);
-                        break;
-                    case 2:
-                        mChart.setChartTypeAndShow(BaseChart.CREATOR_TOTAL_TICKETS_PERCENT);
-                        break;
-                    case 3:
-                        mChart.setChartTypeAndShow(BaseChart.CREATOR_ONE_HOUR_TICKETS_PERCENT);
-                        break;
-                }
+                mChart.setChartTypeAndShow(position);
             }
 
             @Override

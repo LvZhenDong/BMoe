@@ -40,13 +40,13 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
      */
     public static final int CREATOR_ONE_HOUR_TICKETS_COUNT = 1;
     /**
-     * 每小时得票率
-     */
-    public static final int CREATOR_ONE_HOUR_TICKETS_PERCENT = 2;
-    /**
      * 总得票率
      */
-    public static final int CREATOR_TOTAL_TICKETS_PERCENT = 3;
+    public static final int CREATOR_TOTAL_TICKETS_PERCENT = 2;
+    /**
+     * 每小时得票率
+     */
+    public static final int CREATOR_ONE_HOUR_TICKETS_PERCENT = 3;
 
     private LineDataSetCreator mLineDataSetCreator;
     private int mCreatorType = CREATOR_TOTAL_TICKETS_COUNT;
@@ -116,11 +116,11 @@ public class BaseChart implements DataHelper.DataHelperCallBack {
             case CREATOR_ONE_HOUR_TICKETS_COUNT:
                 mLineDataSetCreator = new OneHourTicketsCountSetCreator();
                 break;
-            case CREATOR_ONE_HOUR_TICKETS_PERCENT:
-                mLineDataSetCreator = new OneHourTicketsPercentSetCreator();
-                break;
             case CREATOR_TOTAL_TICKETS_PERCENT:
                 mLineDataSetCreator = new TotalTicketsPercentSetCreator();
+                break;
+            case CREATOR_ONE_HOUR_TICKETS_PERCENT:
+                mLineDataSetCreator = new OneHourTicketsPercentSetCreator();
                 break;
         }
     }
