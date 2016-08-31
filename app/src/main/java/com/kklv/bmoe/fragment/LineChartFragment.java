@@ -1,14 +1,11 @@
 package com.kklv.bmoe.fragment;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +13,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.kklv.bmoe.R;
-import com.kklv.bmoe.activity.BaseActivity;
 import com.kklv.bmoe.activity.FullscreenActivity;
 import com.kklv.bmoe.chart.BaseChart;
 import com.kklv.bmoe.constant.BMoe;
 import com.kklv.bmoe.object.RoleDailyCount;
-import com.kklv.bmoe.utils.DensityUtils;
-import com.kklv.bmoe.utils.L;
 import com.kklv.bmoe.utils.ListUtils;
 import com.kklv.bmoe.utils.StringUtils;
-import com.kklv.bmoe.utils.T;
 import com.kklv.bmoe.utils.ThemeHelper;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -45,7 +36,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
@@ -199,6 +189,18 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
         mParamsMap.put(RoleDailyCount.DATE, StringUtils.formatDateString(dateStr));
         mDatePickerET.setFocusable(false);
 
+        initCreatorSpinner();
+    }
+
+    /**
+     * 设置creator spinner
+     */
+    private void initCreatorSpinner(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R
+                .layout.item_spinner, getResources().getStringArray(R.array.creator));
+        adapter.setDropDownViewResource(R.layout.item_drop_down_spinner);
+        mCreatorSpinner.setAdapter(adapter);
+
         //在Spinner里选择图表类型
         mCreatorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -211,7 +213,6 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
 
             }
         });
-
     }
 
     /**
@@ -284,11 +285,12 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
 
             //大于1组的时候才加上"全部"
             if (list.size() > 1) list.add(0, getString(R.string.all));
-            mGroupSpinner.setVisibility(View.VISIBLE);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout
-                    .simple_spinner_item, list);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mGroupSpinner.setAdapter(adapter);
+
+
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), R
+                    .layout.item_spinner, list);
+            spinnerAdapter.setDropDownViewResource(R.layout.item_drop_down_spinner);
+            mGroupSpinner.setAdapter(spinnerAdapter);
             mGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long
@@ -301,6 +303,7 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
 
                 }
             });
+            mGroupSpinner.setVisibility(View.VISIBLE);
         } else {
             mGroupSpinner.setVisibility(View.GONE);
         }

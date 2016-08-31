@@ -80,7 +80,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/ibtn_full_screen"
-            android:entries="@array/creator"
             android:padding="5dp"/>
 
         <Spinner
