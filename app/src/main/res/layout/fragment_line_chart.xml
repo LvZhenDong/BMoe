@@ -16,21 +16,36 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_margin="10dp"
         android:layout_weight="1">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_creator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/spinner_creator"
+            android:padding="5dp"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/et_date"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
 
         <ImageButton
             android:id="@+id/ibtn_left"
             style="@style/RoundButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_below="@id/et_date"
+            android:layout_alignParentBottom="true"
             android:src="@drawable/ic_keyboard_arrow_left_white_48dp"/>
 
         <ImageButton
@@ -42,11 +57,14 @@
             android:layout_toRightOf="@id/ibtn_left"
             android:src="@drawable/ic_keyboard_arrow_right_white_48dp"/>
 
+
+
         <ImageButton
             android:id="@+id/ibtn_full_screen"
             style="@style/RectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_zoom_out_map_white_48dp"/>
 
@@ -54,7 +72,8 @@
             android:id="@+id/rg_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/et_date"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
             <RadioButton
@@ -74,22 +93,7 @@
                 android:text="@string/total"/>
         </RadioGroup>
 
-        <Spinner
-            android:id="@+id/spinner_creator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/ibtn_full_screen"
-            android:padding="5dp"/>
 
-        <Spinner
-            android:id="@+id/spinner_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/spinner_creator"
-            android:layout_below="@id/spinner_creator"
-            android:padding="5dp"
-            android:visibility="gone"/>
     </RelativeLayout>
 
 </LinearLayout>

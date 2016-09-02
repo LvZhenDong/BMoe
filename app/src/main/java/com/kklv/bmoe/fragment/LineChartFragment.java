@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,10 +65,10 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
     RadioButton mMoeAndLightRB;
     //选择分组
     @BindView(R.id.spinner_group)
-    Spinner mGroupSpinner;
+    AppCompatSpinner mGroupSpinner;
     //选择图表类型
     @BindView(R.id.spinner_creator)
-    Spinner mCreatorSpinner;
+    AppCompatSpinner mCreatorSpinner;
 
     private int checkedSexId = R.id.rb_moe_light;
 
@@ -285,7 +286,6 @@ public class LineChartFragment extends BaseFragment implements BaseChart.ChartCa
 
             //大于1组的时候才加上"全部"
             if (list.size() > 1) list.add(0, getString(R.string.all));
-
 
             ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), R
                     .layout.item_spinner, list);
